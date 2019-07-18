@@ -1,0 +1,8 @@
+﻿namespace S1xxViewer.Types.Interfaces
+{
+    public interface ITextContent : IComplexType
+    {
+        string CategoryOfText { get; set; }
+        IInformation Information { get; set; }
+    }
+}

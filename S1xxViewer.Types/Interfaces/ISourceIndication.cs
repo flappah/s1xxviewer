@@ -1,0 +1,15 @@
+﻿using System;
+using System.Xml;
+
+namespace S1xxViewer.Types.Interfaces
+{
+    public interface ISourceIndication : IComplexType
+    {
+        string CategoryOfAuthority { get; set; }
+        string Country { get; set; }
+        InternationalString[] FeatureName { get; set; }
+        DateTime ReportedDate { get; set; }
+        string Source { get; set; }
+        string SourceType { get; set; }
+    }
+}
