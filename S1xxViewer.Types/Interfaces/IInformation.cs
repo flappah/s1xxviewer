@@ -8,6 +8,6 @@ namespace S1xxViewer.Types.Interfaces
         string FileLocator { get; set; }
         string Headline { get; set; }
         string Language { get; set; }
-        InternationalString Text { get; set; }
+        string Text { get; set; }
     }
 }

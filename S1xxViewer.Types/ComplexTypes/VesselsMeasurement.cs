@@ -25,9 +25,39 @@ namespace S1xxViewer.Types.ComplexTypes
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="mgr"></param>
+        /// <returns></returns>
         public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            throw new System.NotImplementedException();
+            var comparisonOperatorNode = node.FirstChild.SelectSingleNode("comparisonOperator", mgr);
+            if (comparisonOperatorNode != null && comparisonOperatorNode.HasChildNodes)
+            {
+                ComparisonOperator = comparisonOperatorNode.FirstChild.InnerText;
+            }
+
+            var vesselsCharacteristicsNode = node.FirstChild.SelectSingleNode("vesselsCharacteristics", mgr);
+            if (vesselsCharacteristicsNode != null && vesselsCharacteristicsNode.HasChildNodes)
+            {
+                VesselsCharacteristics = vesselsCharacteristicsNode.FirstChild.InnerText;
+            }
+
+            var vesselsCharacteristicsValueNode = node.FirstChild.SelectSingleNode("vesselsCharacteristicsValue", mgr);
+            if (vesselsCharacteristicsValueNode != null && vesselsCharacteristicsValueNode.HasChildNodes)
+            {
+                VesselsCharacteristicsValue = vesselsCharacteristicsValueNode.FirstChild.InnerText;
+            }
+
+            var vesselsCharacteristicsUnitNode = node.FirstChild.SelectSingleNode("vesselsCharacteristicsUnit", mgr);
+            if (vesselsCharacteristicsUnitNode != null && vesselsCharacteristicsUnitNode.HasChildNodes)
+            {
+                VesselsCharacteristicsUnit = vesselsCharacteristicsUnitNode.FirstChild.InnerText;
+            }
+            
+            return this;
         }
     }
 }

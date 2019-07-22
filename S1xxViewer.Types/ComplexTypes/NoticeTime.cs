@@ -1,5 +1,4 @@
 ﻿using S1xxViewer.Types.Interfaces;
-using System;
 using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
@@ -30,7 +29,24 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            throw new NotImplementedException();
+            var noticeTimeHoursNode = node.FirstChild.SelectSingleNode("noticeTimeHours");
+            if (noticeTimeHoursNode != null && noticeTimeHoursNode.HasChildNodes)
+            {
+                int noticeTimeHours;
+                if (!int.TryParse(noticeTimeHoursNode.FirstChild.InnerText, out noticeTimeHours))
+                {
+                    noticeTimeHours = 0;
+                }
+                NoticeTimeHours = noticeTimeHours;
+
+                var noticeTimeTextNode = node.FirstChild.SelectSingleNode("noticeTimeText", mgr);
+                if (noticeTimeTextNode != null && noticeTimeTextNode.HasChildNodes)
+                {
+                    NoticeTimeText = noticeTimeTextNode.FirstChild.InnerText;
+                }
+            }
+
+            return this;
         }
     }
 }

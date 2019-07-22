@@ -9,7 +9,7 @@ namespace S1xxViewer.Types.ComplexTypes
         public string FileLocator { get; set; }
         public string Headline { get; set; }
         public string Language { get; set; }
-        public InternationalString Text { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
         /// 
@@ -23,7 +23,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 FileLocator = FileLocator,
                 Headline = Headline,
                 Language = Language,
-                Text = new InternationalString(Text.Value, Text.Language)
+                Text = Text
             };
         }
 
@@ -35,7 +35,35 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public virtual IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            throw new System.NotImplementedException();
+            var fileDescriptionNode = node.FirstChild.SelectSingleNode("fileDescription", mgr);
+            if (fileDescriptionNode != null && fileDescriptionNode.HasChildNodes)
+            {
+                FileDescription = fileDescriptionNode.FirstChild.InnerText;
+            }
+
+            var fileLocatorNode = node.FirstChild.SelectSingleNode("fileLocator", mgr);
+            if (fileLocatorNode != null && fileLocatorNode.HasChildNodes)
+            {
+                FileLocator = fileLocatorNode.FirstChild.InnerText;
+            }
+            var headlineNode = node.FirstChild.SelectSingleNode("headline", mgr);
+            if (headlineNode != null && headlineNode.HasChildNodes)
+            {
+                Headline = headlineNode.FirstChild.InnerText;
+            }
+
+            var languageNode = node.FirstChild.SelectSingleNode("language", mgr);
+            if (languageNode != null && languageNode.HasChildNodes)
+            {
+                Language = languageNode.FirstChild.InnerText;
+            }
+            var textNode = node.FirstChild.SelectSingleNode("text", mgr);
+            if (textNode != null && textNode.HasChildNodes)
+            {
+                Text = textNode.FirstChild.InnerText;
+            }
+
+            return this;
         }
     }
 }

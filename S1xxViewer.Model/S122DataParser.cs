@@ -35,6 +35,7 @@ namespace S1xxViewer.Model
             nsmgr.AddNamespace("gml", "http://www.opengis.net/gml/3.2");
             nsmgr.AddNamespace("S122", "http://www.iho.int/S122/gml/1.0");
             nsmgr.AddNamespace("s100", "http://www.iho.int/s100gml/1.0");
+            nsmgr.AddNamespace("xlink", "http://www.w3.org/1999/xlink");
 
             // retrieve boundingbox
             var boundingBoxNodes = xmlDocument.GetElementsByTagName("gml:boundedBy");
@@ -45,8 +46,17 @@ namespace S1xxViewer.Model
             
             // retrieve imembers
             XmlNodeList imemberNodes = xmlDocument.GetElementsByTagName("imember");
-            // TODO: Read informationfeatures and link 'm up to geofeatures
-            dataPackage.InformationFeatures = new IInformationFeature[0];
+            var informationFeatures = new List<IInformationFeature>();
+
+            foreach (XmlNode imemberNode in imemberNodes)
+            {
+                var feature = _featureFactory.FromXml(imemberNode, nsmgr).DeepClone();
+                var informationFeature = feature as IInformationFeature;
+                if (informationFeature != null)
+                {
+                    informationFeatures.Add(informationFeature);
+                }
+            }
 
             // retrieve members
             var geoFeatures = new List<IGeoFeature>();
@@ -82,10 +92,16 @@ namespace S1xxViewer.Model
                     }
                 }
             }
+
             //TODO: Restore links to informationfeatures
+            foreach(var geoFeature in geoFeatures)
+            {
+
+            }
 
             dataPackage.GeoFeatures = geoFeatures.ToArray();
             dataPackage.MetaFeatures = metaFeatures.ToArray();
+            dataPackage.InformationFeatures = informationFeatures.ToArray();
             return dataPackage;
         }
     }

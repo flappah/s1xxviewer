@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
+using S1xxViewer.Types.Links;
 
 namespace S1xxViewer.Types.Features
 {
@@ -142,6 +143,19 @@ namespace S1xxViewer.Types.Features
                     Information = new Information();
                     Information.FromXml(informationNode.FirstChild, mgr);
                 }
+            }
+
+            var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
+            if (linkNodes != null && linkNodes.Count > 0)
+            {
+                var links = new List<Link>();
+                foreach (XmlNode linkNode in linkNodes)
+                {
+                    var newLink = new Link();
+                    newLink.FromXml(linkNode, mgr);
+                    links.Add(newLink);
+                }
+                Links = links.ToArray();
             }
 
             return this;

@@ -20,13 +20,13 @@ namespace S1xxViewer.Types.Features
         {
             return new VesselTrafficServiceArea
             {
-                CategoryOfVesselTrafficService = CategoryOfVesselTrafficService,
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
                     : Array.ConvertAll(FeatureName, fn => new InternationalString(fn.Value, fn.Language)),
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
                     : FixedDateRange.DeepClone() as IDateRange,
+                Id = Id,
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
@@ -36,6 +36,7 @@ namespace S1xxViewer.Types.Features
                 TextContent = TextContent == null
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                CategoryOfVesselTrafficService = CategoryOfVesselTrafficService,                
                 Links = Links == null
                     ? new[] { new Link() }
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -113,7 +114,18 @@ namespace S1xxViewer.Types.Features
                 CategoryOfVesselTrafficService = categoryOfVesselTrafficService.FirstChild.InnerText;
             }
 
-            //TODO: resolve links
+            var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
+            if (linkNodes != null && linkNodes.Count > 0)
+            {
+                var links = new List<Link>();
+                foreach (XmlNode linkNode in linkNodes)
+                {
+                    var newLink = new Link();
+                    newLink.FromXml(linkNode, mgr);
+                    links.Add(newLink);
+                }
+                Links = links.ToArray();
+            }
 
             return this;
         }

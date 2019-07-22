@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using S1xxViewer.Types.Interfaces;
 using S1xxViewer.Types.ComplexTypes;
 using System.Xml;
+using System.Globalization;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
@@ -27,9 +28,37 @@ namespace S1xxViewer.Types.ComplexTypes
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="mgr"></param>
+        /// <returns></returns>
         public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            throw new NotImplementedException();
+            var uncertaintyFixedNode = node.FirstChild.SelectSingleNode("uncertaintyFixed", mgr);
+            if (uncertaintyFixedNode != null && uncertaintyFixedNode.HasChildNodes)
+            {
+                double uncertainty;
+                if (!double.TryParse(uncertaintyFixedNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out uncertainty))
+                {
+                    uncertainty = 0.0;
+                }
+                UncertaintyFixed = uncertainty;
+            }
+
+            var uncertaintyVariableNode = node.FirstChild.SelectSingleNode("uncertaintyVariable", mgr);
+            if (uncertaintyVariableNode != null && uncertaintyVariableNode.HasChildNodes)
+            {
+                double uncertainty;
+                if (!double.TryParse(uncertaintyVariableNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out uncertainty))
+                {
+                    uncertainty = 0.0;
+                }
+                UncertaintyVariable = uncertainty;
+            }
+
+            return this;
         }
     }
 }

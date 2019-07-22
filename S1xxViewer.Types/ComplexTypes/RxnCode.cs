@@ -21,9 +21,27 @@ namespace S1xxViewer.Types.ComplexTypes
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="mgr"></param>
+        /// <returns></returns>
         public virtual IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            throw new System.NotImplementedException();
+            var categoryOfRxnNode = node.FirstChild.SelectSingleNode("categoryOfRxn", mgr);
+            if (categoryOfRxnNode != null && categoryOfRxnNode.HasChildNodes)
+            {
+                CategoryOfRxn = categoryOfRxnNode.FirstChild.InnerText;
+            }
+
+            var actionOrActivityNode = node.FirstChild.SelectSingleNode("actionOrActivity");
+            if (actionOrActivityNode != null && actionOrActivityNode.HasChildNodes)
+            {
+                ActionOrActivity = actionOrActivityNode.FirstChild.InnerText;
+            }
+
+            return this;
         }
     }
 }

@@ -141,7 +141,18 @@ namespace S1xxViewer.Types.Features
                 Restriction = restrictions.ToArray();
             }
 
-            //TODO: resolve links
+            var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
+            if (linkNodes != null && linkNodes.Count > 0)
+            {
+                var links = new List<Link>();
+                foreach (XmlNode linkNode in linkNodes)
+                {
+                    var newLink = new Link();
+                    newLink.FromXml(linkNode, mgr);
+                    links.Add(newLink);
+                }
+                Links = links.ToArray();
+            }
 
             return this;
         }

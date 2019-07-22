@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using S1xxViewer.Types.Interfaces;
 using System.Xml;
-using S1xxViewer.Types.Interfaces;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
@@ -44,6 +39,48 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
+            var applicationProfileNode = node.FirstChild.SelectSingleNode("applicationProfile", mgr);
+            if (applicationProfileNode != null && applicationProfileNode.HasChildNodes)
+            {
+                ApplicationProfile = applicationProfileNode.FirstChild.InnerText;
+            }
+
+            var linkageNode = node.FirstChild.SelectSingleNode("linkage", mgr);
+            if (linkageNode != null && linkageNode.HasChildNodes)
+            {
+                Linkage = linkageNode.FirstChild.InnerText;
+            }
+
+            var nameOfResourceNode = node.FirstChild.SelectSingleNode("nameOfResource", mgr);
+            if (nameOfResourceNode != null && nameOfResourceNode.HasChildNodes)
+            {
+                NameOfResource = nameOfResourceNode.FirstChild.InnerText;
+            }
+
+            var onlineDescriptionNode = node.FirstChild.SelectSingleNode("onlineDescription", mgr);
+            if (onlineDescriptionNode != null && onlineDescriptionNode.HasChildNodes)
+            {
+                OnlineDescription = onlineDescriptionNode.FirstChild.InnerText;
+            }
+
+            var onlineFunctionNode = node.FirstChild.SelectSingleNode("onlineFunction", mgr);
+            if (onlineFunctionNode != null && onlineFunctionNode.HasChildNodes)
+            {
+                OnlineFunction = onlineFunctionNode.FirstChild.InnerText;
+            }
+
+            var protocolNode = node.FirstChild.SelectSingleNode("protocol", mgr);
+            if (protocolNode != null && protocolNode.HasChildNodes)
+            {
+                Protocol = protocolNode.FirstChild.InnerText;
+            }
+
+            var protocolRequestNode = node.FirstChild.SelectSingleNode("protocolRequest", mgr);
+            if (protocolRequestNode != null && protocolRequestNode.HasChildNodes)
+            {
+                ProtocolRequest = protocolRequestNode.FirstChild.InnerText;
+            }
+
             return this;
         }
     }

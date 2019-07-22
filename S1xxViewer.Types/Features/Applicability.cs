@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using S1xxViewer.Types.ComplexTypes;
 using S1xxViewer.Types.Interfaces;
-using S1xxViewer.Types.ComplexTypes;
 using S1xxViewer.Types.Links;
+using System;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
@@ -17,6 +14,7 @@ namespace S1xxViewer.Types.Features
         public string[] CategoryOfDangerousOrHazardousCargo { get; set; }
         public string CategoryOfVessel { get; set; }
         public string CategoryOfVesselRegistry { get; set; }
+        public IInformation[] Information { get; set; }
         public string LogicalConnectives { get; set; }
         public int ThicknessOfIceCapability { get; set; }
         public IVesselsMeasurement[] VesselsMeasurements { get; set; }
@@ -52,6 +50,9 @@ namespace S1xxViewer.Types.Features
                     : Array.ConvertAll(CategoryOfDangerousOrHazardousCargo, s => s),
                 CategoryOfVessel = CategoryOfVessel,
                 CategoryOfVesselRegistry = CategoryOfVesselRegistry,
+                Information = Information == null
+                    ? new Information[0]
+                    : Array.ConvertAll(Information, i => i.DeepClone() as IInformation),
                 LogicalConnectives = LogicalConnectives,
                 ThicknessOfIceCapability = ThicknessOfIceCapability,
                 VesselsMeasurements = VesselsMeasurements == null
@@ -66,7 +67,181 @@ namespace S1xxViewer.Types.Features
 
         public override IFeature FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            throw new NotImplementedException();
+            if (node != null && node.HasChildNodes)
+            {
+                if (node.FirstChild.Attributes.Count > 0)
+                {
+                    Id = node.FirstChild.Attributes["gml:id"].InnerText;
+                }
+            }
+
+            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
+            if (featureNameNodes != null && featureNameNodes.Count > 0)
+            {
+                var featureNames = new List<InternationalString>();
+                foreach (XmlNode featureNameNode in featureNameNodes)
+                {
+                    var language = featureNameNode.SelectSingleNode("language", mgr)?.InnerText ?? "";
+                    var name = featureNameNode.SelectSingleNode("name", mgr)?.InnerText ?? "";
+                    featureNames.Add(new InternationalString(name, language));
+                }
+                FeatureName = featureNames.ToArray();
+            }
+
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode.FirstChild, mgr);
+            }
+
+            var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
+            if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
+            {
+                var dateRanges = new List<DateRange>();
+                foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
+                {
+                    var newDateRange = new DateRange();
+                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    dateRanges.Add(newDateRange);
+                }
+                PeriodicDateRange = dateRanges.ToArray();
+            }
+
+            var sourceIndicationNodes = node.FirstChild.SelectNodes("sourceIndication", mgr);
+            if (sourceIndicationNodes != null && sourceIndicationNodes.Count > 0)
+            {
+                var sourceIndications = new List<SourceIndication>();
+                foreach (XmlNode sourceIndicationNode in sourceIndicationNodes)
+                {
+                    if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
+                    {
+                        var sourceIndication = new SourceIndication();
+                        sourceIndication.FromXml(sourceIndicationNode.FirstChild, mgr);
+                        sourceIndications.Add(sourceIndication);
+                    }
+                }
+                SourceIndication = sourceIndications.ToArray();
+            }
+
+            var informationNodes = node.FirstChild.SelectNodes("information", mgr);
+            if (informationNodes != null && informationNodes.Count > 0)
+            {
+                var informations = new List<Information>();
+                foreach (XmlNode informationNode in informationNodes)
+                {
+                    var newInformation = new Information();
+                    newInformation.FromXml(informationNode.FirstChild, mgr);
+                    informations.Add(newInformation);
+                }
+                Information = informations.ToArray();
+            }
+
+            var ballastNode = node.FirstChild.SelectSingleNode("ballast", mgr);
+            if (ballastNode != null && ballastNode.HasChildNodes)
+            {
+                bool ballast;
+                if (!bool.TryParse(ballastNode.FirstChild.InnerText, out ballast))
+                {
+                    ballast = false;
+                }
+                Ballast = ballast;
+            }
+
+            var categoryOfCargoNodes = node.FirstChild.SelectNodes("categoryOfCargo", mgr);
+            if (categoryOfCargoNodes != null && categoryOfCargoNodes.Count > 0)
+            {
+                var categoriesOfCargo = new List<string>();
+                foreach(XmlNode categoryOfCargoNode in categoryOfCargoNodes)
+                {
+                    if (categoryOfCargoNode != null && categoryOfCargoNode.HasChildNodes)
+                    {
+                        categoriesOfCargo.Add(categoryOfCargoNode.InnerText);
+                    }
+                }
+                CategoryOfCargo = categoriesOfCargo.ToArray();
+            }
+
+            var categoryOfDangerousOrHazardousCargoNodes = node.FirstChild.SelectNodes("categoryOfDangerousOrHazardousCargo");
+            if (categoryOfDangerousOrHazardousCargoNodes != null && categoryOfDangerousOrHazardousCargoNodes.Count > 0)
+            {
+                var categoriesOfCargo = new List<string>();
+                foreach (XmlNode categoryOfCargoNode in categoryOfCargoNodes)
+                {
+                    if (categoryOfCargoNode != null && categoryOfCargoNode.HasChildNodes)
+                    {
+                        categoriesOfCargo.Add(categoryOfCargoNode.InnerText);
+                    }
+                }
+                CategoryOfDangerousOrHazardousCargo = categoriesOfCargo.ToArray();
+            }
+
+            var categoryOfVesselNode = node.FirstChild.SelectSingleNode("categoryOfVessel", mgr);
+            if (categoryOfVesselNode != null && categoryOfVesselNode.HasChildNodes)
+            {
+                CategoryOfVessel = categoryOfVesselNode.FirstChild.InnerText;
+            }
+
+            var categoryOfVesselRegistryNode = node.FirstChild.SelectSingleNode("categoryOfVesselRegistry", mgr);
+            if (categoryOfVesselRegistryNode != null && categoryOfVesselRegistryNode.HasChildNodes)
+            {
+                CategoryOfVesselRegistry = categoryOfVesselRegistryNode.FirstChild.InnerText;
+            }
+            
+            var logicalConnectivesNode = node.FirstChild.SelectSingleNode("logicalConnectives", mgr);
+            if (logicalConnectivesNode != null && logicalConnectivesNode.HasChildNodes)
+            {
+                LogicalConnectives = logicalConnectivesNode.FirstChild.InnerText;
+            }
+
+            var thicknessOfIceCapabilityNode = node.FirstChild.SelectSingleNode("thicknessOfIceCapability", mgr);
+            if (thicknessOfIceCapabilityNode != null && thicknessOfIceCapabilityNode.HasChildNodes)
+            {
+                int thicknessOfIceCapability;
+                if (!int.TryParse(thicknessOfIceCapabilityNode.FirstChild.InnerText, out thicknessOfIceCapability))
+                {
+                    thicknessOfIceCapability = 0;
+                }
+                ThicknessOfIceCapability = thicknessOfIceCapability;
+            }
+
+            var vesselsMeasurementsNodes = node.FirstChild.SelectNodes("vesselsMeasurements", mgr);
+            if (vesselsMeasurementsNodes != null && vesselsMeasurementsNodes.Count > 0)
+            {
+                var measurements = new List<VesselsMeasurement>();
+                foreach(XmlNode vesselsMeasurementsNode in vesselsMeasurementsNodes)
+                {
+                    if (vesselsMeasurementsNode != null && vesselsMeasurementsNode.HasChildNodes)
+                    {
+                        var newMeasurement = new VesselsMeasurement();
+                        newMeasurement.FromXml(vesselsMeasurementsNode.FirstChild, mgr);
+                        measurements.Add(newMeasurement);
+                    }
+                }
+
+                VesselsMeasurements = measurements.ToArray();
+            }
+
+            var vesselPerformanceNode = node.FirstChild.SelectSingleNode("vesselPerformance", mgr);
+            if (vesselPerformanceNode != null && vesselPerformanceNode.HasChildNodes)
+            {
+                VesselPerformance = vesselPerformanceNode.FirstChild.InnerText;
+            }
+
+            var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
+            if (linkNodes != null && linkNodes.Count > 0)
+            {
+                var links = new List<Link>();
+                foreach (XmlNode linkNode in linkNodes)
+                {
+                    var newLink = new Link();
+                    newLink.FromXml(linkNode, mgr);
+                    links.Add(newLink);
+                }
+                Links = links.ToArray();
+            }
+
+            return this;
         }
     }
 }

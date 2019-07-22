@@ -53,7 +53,7 @@
     <Compile Include="ComplexTypes\ContactAddress.cs" />
     <Compile Include="ComplexTypes\FrequencyPair.cs" />
     <Compile Include="ComplexTypes\HorizontalPositionalUncertainty.cs" />
-    <Compile Include="ComplexTypes\ISurveyDateRange.cs" />
+    <Compile Include="Interfaces\ISurveyDateRange.cs" />
     <Compile Include="ComplexTypes\SurveyDateRange.cs" />
     <Compile Include="Interfaces\IHorizontalPositionalUncertainty.cs" />
     <Compile Include="Interfaces\IRestrictions.cs" />

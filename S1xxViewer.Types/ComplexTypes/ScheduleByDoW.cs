@@ -1,10 +1,7 @@
-﻿using System;
+﻿using S1xxViewer.Types.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using S1xxViewer.Types.Interfaces;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
@@ -28,9 +25,37 @@ namespace S1xxViewer.Types.ComplexTypes
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="mgr"></param>
+        /// <returns></returns>
         public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            throw new NotImplementedException();
+            var categoryOfScheduleNode = node.FirstChild.SelectSingleNode("categoryOfSchedule", mgr);
+            if (categoryOfScheduleNode != null && categoryOfScheduleNode.HasChildNodes)
+            {
+                CategoryOfSchedule = categoryOfScheduleNode.FirstChild.InnerText;
+            }
+
+            var tmIntervalsByDoWNodes = node.FirstChild.SelectNodes("tmIntervalsByDoW", mgr);
+            if (tmIntervalsByDoWNodes != null && tmIntervalsByDoWNodes.Count > 0)
+            {
+                var intervals = new List<TmIntervalsByDoW>();
+                foreach(XmlNode tmIntervalsByDoWNode in tmIntervalsByDoWNodes)
+                {
+                    if (tmIntervalsByDoWNode != null && tmIntervalsByDoWNode.HasChildNodes)
+                    {
+                        var newInterval = new TmIntervalsByDoW();
+                        newInterval.FromXml(tmIntervalsByDoWNode.FirstChild, mgr);
+                        intervals.Add(newInterval);
+                    }
+                }
+                TmIntervalsByDoW = intervals.ToArray();
+            }
+
+            return this;
         }
     }
 }
