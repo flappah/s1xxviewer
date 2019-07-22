@@ -42,32 +42,50 @@ namespace S1xxViewer.Model
             {
                 dataPackage.BoundingBox = _geometryBuilderFactory.FromXml(boundingBoxNodes[0], nsmgr);
             }
-
-            dataPackage.MetaFeatures = new IMetaFeature[0];
-
+            
             // retrieve imembers
             XmlNodeList imemberNodes = xmlDocument.GetElementsByTagName("imember");
+            // TODO: Read informationfeatures and link 'm up to geofeatures
             dataPackage.InformationFeatures = new IInformationFeature[0];
 
             // retrieve members
-            var features = new List<IGeoFeature>();
+            var geoFeatures = new List<IGeoFeature>();
+            var metaFeatures = new List<IMetaFeature>();
             XmlNodeList memberNodes = xmlDocument.GetElementsByTagName("member");
             foreach (XmlNode memberNode in memberNodes)
             {
-                var feature = _featureFactory.FromXml(memberNode, nsmgr).DeepClone() as IGeoFeature;
-                if (feature != null && memberNode.HasChildNodes)
+                var feature = _featureFactory.FromXml(memberNode, nsmgr).DeepClone();
+
+                var geoFeature = feature as IGeoFeature;
+                if (geoFeature != null && memberNode.HasChildNodes)
                 {
                     var geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
                     if (geometryOfMemberNode != null && geometryOfMemberNode.HasChildNodes)
                     {
-                        feature.Geometry = _geometryBuilderFactory.FromXml(geometryOfMemberNode.ChildNodes[0], nsmgr);
+                        geoFeature.Geometry = _geometryBuilderFactory.FromXml(geometryOfMemberNode.ChildNodes[0], nsmgr);
                     }
 
-                    features.Add(feature);
+                    geoFeatures.Add(geoFeature);
+                }
+                else
+                {
+                    var metaFeature = feature as IMetaFeature;
+                    if (metaFeature != null && memberNode.HasChildNodes)
+                    {
+                        var geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
+                        if (geometryOfMemberNode != null && geometryOfMemberNode.HasChildNodes)
+                        {
+                            metaFeature.Geometry = _geometryBuilderFactory.FromXml(geometryOfMemberNode.ChildNodes[0], nsmgr);
+                        }
+
+                        metaFeatures.Add(metaFeature);
+                    }
                 }
             }
+            //TODO: Restore links to informationfeatures
 
-            dataPackage.GeoFeatures = features.ToArray();
+            dataPackage.GeoFeatures = geoFeatures.ToArray();
+            dataPackage.MetaFeatures = metaFeatures.ToArray();
             return dataPackage;
         }
     }

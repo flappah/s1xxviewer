@@ -1,13 +1,19 @@
-﻿using S1xxViewer.Types.Interfaces;
-using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
+using S1xxViewer.Types.Interfaces;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using S1xxViewer.Types.ComplexTypes;
+using S1xxViewer.Types.Links;
 
 namespace S1xxViewer.Types.Features
 {
-    public class DataCoverage : GeoFeatureBase, IDataCoverage
+    public class DataCoverage : MetaFeatureBase, IDataCoverage
     {
         public IFeatureObjectIdentifier FeatureObjectIdentifier { get; set; }
         public int MaximumDisplayScale { get; set; }
@@ -27,7 +33,10 @@ namespace S1xxViewer.Types.Features
                 MaximumDisplayScale = MaximumDisplayScale,
                 MinimumDisplayScale = MinimumDisplayScale,
                 Geometry = Geometry,
-                Id = Id
+                Id = Id,
+                Links = Links == null
+                    ? new[] { new Link() }
+                    : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
 

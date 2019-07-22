@@ -2,6 +2,7 @@
 using S1xxViewer.Types.Interfaces;
 using S1xxViewer.Types.Links;
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace S1xxViewer.Types.Features
@@ -10,11 +11,6 @@ namespace S1xxViewer.Types.Features
     {
         // data
         public string CategoryOfVesselTrafficService { get; set; }
-        public InternationalString FeatureName { get; set; }
-        public IPeriodicDateRange PeriodicDateRange { get; set; }
-
-        // linkages
-        public ILink[] Links { get; set; }
 
         /// <summary>
         /// 
@@ -26,11 +22,20 @@ namespace S1xxViewer.Types.Features
             {
                 CategoryOfVesselTrafficService = CategoryOfVesselTrafficService,
                 FeatureName = FeatureName == null
-                    ? new InternationalString("")
-                    : FeatureName,
+                    ? new[] { new InternationalString("") }
+                    : Array.ConvertAll(FeatureName, fn => new InternationalString(fn.Value, fn.Language)),
+                FixedDateRange = FixedDateRange == null
+                    ? new DateRange()
+                    : FixedDateRange.DeepClone() as IDateRange,
                 PeriodicDateRange = PeriodicDateRange == null
-                    ? new PeriodicDateRange()
-                    : PeriodicDateRange.DeepClone() as IPeriodicDateRange,
+                    ? new DateRange()
+                    : PeriodicDateRange.DeepClone() as IDateRange,
+                SourceIndication = SourceIndication == null
+                    ? new SourceIndication()
+                    : SourceIndication.DeepClone() as ISourceIndication,
+                TextContent = TextContent == null
+                    ? new TextContent()
+                    : TextContent.DeepClone() as ITextContent,
                 Links = Links == null
                     ? new[] { new Link() }
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -53,25 +58,30 @@ namespace S1xxViewer.Types.Features
                 }
             }
 
+            var periodicDateRangeNode = node.FirstChild.SelectSingleNode("periodicDateRange", mgr);
+            if (periodicDateRangeNode != null && periodicDateRangeNode.HasChildNodes)
+            {
+                PeriodicDateRange = new DateRange();
+                PeriodicDateRange.FromXml(periodicDateRangeNode, mgr);
+            }
+
+            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
+            if (featureNameNodes != null && featureNameNodes.Count > 0)
+            {
+                var featureNames = new List<InternationalString>();
+                foreach (XmlNode featureNameNode in featureNameNodes)
+                {
+                    var language = featureNameNode.SelectSingleNode("language", mgr)?.InnerText ?? "";
+                    var name = featureNameNode.SelectSingleNode("name", mgr)?.InnerText ?? "";
+                    featureNames.Add(new InternationalString(name, language));
+                }
+                FeatureName = featureNames.ToArray();
+            }
+
             var categoryOfVesselTrafficService = node.FirstChild.SelectSingleNode("categoryOfVesselTrafficService", mgr);
             if (categoryOfVesselTrafficService != null)
             {
                 CategoryOfVesselTrafficService = categoryOfVesselTrafficService.FirstChild.InnerText;
-            }
-
-            var featureNameNode = node.FirstChild.SelectSingleNode("featureName", mgr);
-            if (featureNameNode != null && featureNameNode.HasChildNodes)
-            {
-                var language = featureNameNode.SelectSingleNode("language", mgr)?.InnerText ?? "";
-                var name = featureNameNode.SelectSingleNode("name", mgr)?.InnerText ?? "";
-                FeatureName = new InternationalString(name, language);
-            }
-
-            var periodicDateRangeNode = node.FirstChild.SelectSingleNode("periodicDateRange", mgr);
-            if (periodicDateRangeNode != null && periodicDateRangeNode.HasChildNodes)
-            {
-                PeriodicDateRange = new PeriodicDateRange();
-                PeriodicDateRange.FromXml(periodicDateRangeNode, mgr);
             }
 
             //TODO: resolve links

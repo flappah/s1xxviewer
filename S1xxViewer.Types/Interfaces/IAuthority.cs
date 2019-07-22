@@ -1,9 +1,10 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IAuthority : IInformationFeature
+    public interface IAuthority : IInformationFeature, IS122Feature
     {
         string CategoryOfAuthority { get; set; }
-        IContactDetails[] ContactDetails { get; set; }
-        InternationalString[] FeatureName { get; set; }
+        ITextContent TextContent { get; set; }
+
+        ILink[] Links { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using S1xxViewer.Types.Interfaces;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class OnlineResources : IOnlineResources
+    public class OnlineResource : IOnlineResource
     {
         public string Linkage { get; set; }
         public string NameOfResource { get; set; }
@@ -20,7 +20,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public IComplexType DeepClone()
         {
-            return new OnlineResources
+            return new OnlineResource
             {
                 Linkage = Linkage,
                 NameOfResource = NameOfResource,

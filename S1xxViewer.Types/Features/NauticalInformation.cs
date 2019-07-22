@@ -14,7 +14,7 @@ namespace S1xxViewer.Types.Features
 {
     public class NauticalInformation : InformationFeatureBase, INauticalInformation
     {
-        public IPeriodicDateRange PeriodicDataRange { get; set; }
+        public IDateRange PeriodicDataRange { get; set; }
         public string CategoryOfAuthority { get; set; }
         public ITextContent TextContent { get; set; }
 
@@ -27,8 +27,8 @@ namespace S1xxViewer.Types.Features
             return new NauticalInformation
             {
                 PeriodicDataRange = PeriodicDataRange == null 
-                    ? new PeriodicDateRange()
-                    : PeriodicDataRange.DeepClone() as IPeriodicDateRange,
+                    ? new DateRange()
+                    : PeriodicDataRange.DeepClone() as IDateRange,
                 CategoryOfAuthority = CategoryOfAuthority,
                 TextContent = TextContent == null 
                     ? new TextContent()

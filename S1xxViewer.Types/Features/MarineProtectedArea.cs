@@ -12,15 +12,9 @@ namespace S1xxViewer.Types.Features
         // data
         public string CategoryOfMarineProtectedArea { get; set; }
         public string[] CategoryOfRestrictedArea { get; set; }
-        public InternationalString FeatureName { get; set; }
         public string Jurisdiction { get; set; }
-        public IPeriodicDateRange PeriodicDateRange { get; set; }
         public string[] Restriction { get; set; }
-        public ISourceIndication SourceIndication { get; set; }
         public string Status { get; set; }
-
-        // linkages
-        public ILink[] Links { get; set; }
 
         /// <summary>
         /// 
@@ -30,23 +24,29 @@ namespace S1xxViewer.Types.Features
         {
             return new MarineProtectedArea
             {
+                FeatureName = FeatureName == null
+                    ? new[] { new InternationalString("") }
+                    : Array.ConvertAll(FeatureName, fn => new InternationalString(fn.Value, fn.Language)),
+                FixedDateRange = FixedDateRange == null
+                    ? new DateRange()
+                    : FixedDateRange.DeepClone() as IDateRange,
+                Id = Id,
+                PeriodicDateRange = PeriodicDateRange == null
+                    ? new DateRange()
+                    : PeriodicDateRange.DeepClone() as IDateRange,
+                SourceIndication = SourceIndication == null
+                    ? new SourceIndication()
+                    : SourceIndication.DeepClone() as ISourceIndication,
+                TextContent = TextContent == null
+                    ? new TextContent()
+                    : TextContent.DeepClone() as ITextContent,
+                Geometry = Geometry,
                 CategoryOfMarineProtectedArea = CategoryOfMarineProtectedArea ?? "",
                 CategoryOfRestrictedArea = CategoryOfRestrictedArea == null
                     ? new string[0]
                     : Array.ConvertAll(CategoryOfRestrictedArea, s => s),
-                FeatureName = FeatureName == null
-                    ? new InternationalString("")
-                    : FeatureName,
                 Jurisdiction = Jurisdiction ?? "",
-                PeriodicDateRange = PeriodicDateRange == null
-                    ? new PeriodicDateRange()
-                    : PeriodicDateRange.DeepClone() as IPeriodicDateRange,
-                SourceIndication = SourceIndication == null
-                    ? new SourceIndication()
-                    : SourceIndication.DeepClone() as ISourceIndication,
                 Status = Status ?? "",
-                Geometry = Geometry,
-                Id = Id,
                 Links = Links == null
                     ? new[] { new Link() }
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -71,16 +71,21 @@ namespace S1xxViewer.Types.Features
             var periodicDateRangeNode = node.FirstChild.SelectSingleNode("periodicDateRange", mgr);
             if (periodicDateRangeNode != null && periodicDateRangeNode.HasChildNodes)
             {
-                PeriodicDateRange = new PeriodicDateRange();
+                PeriodicDateRange = new DateRange();
                 PeriodicDateRange.FromXml(periodicDateRangeNode, mgr);
             }
 
-            var featureNameNode = node.FirstChild.SelectSingleNode("featureName", mgr);
-            if (featureNameNode != null && featureNameNode.HasChildNodes)
+            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
+            if (featureNameNodes != null && featureNameNodes.Count > 0)
             {
-                var language = featureNameNode.SelectSingleNode("language", mgr)?.InnerText ?? "";
-                var name = featureNameNode.SelectSingleNode("name", mgr)?.InnerText ?? "";
-                FeatureName = new InternationalString(name, language);
+                var featureNames = new List<InternationalString>();
+                foreach (XmlNode featureNameNode in featureNameNodes)
+                {
+                    var language = featureNameNode.SelectSingleNode("language", mgr)?.InnerText ?? "";
+                    var name = featureNameNode.SelectSingleNode("name", mgr)?.InnerText ?? "";
+                    featureNames.Add(new InternationalString(name, language));
+                }
+                FeatureName = featureNames.ToArray();
             }
 
             var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);

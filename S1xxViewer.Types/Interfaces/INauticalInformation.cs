@@ -3,7 +3,7 @@
     public interface INauticalInformation : IInformationFeature
     {
         string CategoryOfAuthority { get; set; }
-        IPeriodicDateRange PeriodicDataRange { get; set; }
+        IDateRange PeriodicDataRange { get; set; }
         ITextContent TextContent { get; set; }
 
     }

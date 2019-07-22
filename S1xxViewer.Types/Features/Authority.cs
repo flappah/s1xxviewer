@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using S1xxViewer.Types.ComplexTypes;
+using S1xxViewer.Types.Links;
 
 namespace S1xxViewer.Types.Features
 {
@@ -16,8 +17,7 @@ namespace S1xxViewer.Types.Features
     public class Authority : InformationFeatureBase, IAuthority
     {
         public string CategoryOfAuthority { get; set; }
-        public InternationalString[] FeatureName { get; set; }
-        public IContactDetails[] ContactDetails { get; set; }
+        public ITextContent TextContent { get; set; }
 
         /// <summary>
         /// 
@@ -27,14 +27,24 @@ namespace S1xxViewer.Types.Features
         {
             return new Authority
             {
-                FeatureName = FeatureName == null 
-                    ? new[] { new InternationalString("") } 
+                FeatureName = FeatureName == null
+                    ? new[] { new InternationalString("") }
                     : Array.ConvertAll(FeatureName, fn => new InternationalString(fn.Value, fn.Language)),
+                FixedDateRange = FixedDateRange == null
+                    ? new DateRange()
+                    : FixedDateRange.DeepClone() as IDateRange,
+                Id = Id,
+                PeriodicDateRange = PeriodicDateRange == null
+                    ? new DateRange()
+                    : PeriodicDateRange.DeepClone() as IDateRange,
+                SourceIndication = SourceIndication == null
+                    ? new SourceIndication()
+                    : SourceIndication.DeepClone() as ISourceIndication,
                 CategoryOfAuthority = CategoryOfAuthority ?? "",
-                ContactDetails = ContactDetails == null 
-                    ? new[] { new ContactDetails() } 
-                    : Array.ConvertAll(ContactDetails, cd => cd.DeepClone() as IContactDetails),
-                Id = Id ?? ""
+                TextContent = TextContent == null ? null : TextContent.DeepClone() as ITextContent,
+                Links = Links == null
+                    ? new[] { new Link() }
+                    : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
 

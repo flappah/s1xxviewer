@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class PeriodicDateRange : IPeriodicDateRange
+    public class DateRange : IDateRange
     {
         public string StartMonthDay { get; set; }
         public string EndMonthDay { get; set; }
@@ -14,7 +14,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public virtual IComplexType DeepClone()
         {
-            return new PeriodicDateRange
+            return new DateRange
             {
                 StartMonthDay = StartMonthDay,
                 EndMonthDay = EndMonthDay

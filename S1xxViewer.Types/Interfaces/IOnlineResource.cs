@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IOnlineResources : IComplexType
+    public interface IOnlineResource : IComplexType
     {
         string Linkage { get; set; }
         string NameOfResource { get; set; }

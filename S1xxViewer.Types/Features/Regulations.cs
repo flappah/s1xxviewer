@@ -15,8 +15,8 @@ namespace S1xxViewer.Types.Features
     public class Regulations : InformationFeatureBase, IRegulations
     {
         public string CategoryOfAuthority { get; set; }
-        public IOnlineResources OnlineResources { get; set; }
-        public IPeriodicDateRange PeriodicDateRange { get; set; }
+        public IOnlineResource OnlineResources { get; set; }
+        public IDateRange PeriodicDateRange { get; set; }
         public IRxnCode[] RxnCode { get; set; }
         public ITextContent TextContent { get; set; }
 
@@ -30,11 +30,11 @@ namespace S1xxViewer.Types.Features
             {
                 CategoryOfAuthority = CategoryOfAuthority ?? "",
                 OnlineResources = OnlineResources == null 
-                    ? new OnlineResources()
-                    : OnlineResources.DeepClone() as IOnlineResources,
+                    ? new OnlineResource()
+                    : OnlineResources.DeepClone() as IOnlineResource,
                 PeriodicDateRange = PeriodicDateRange == null
-                    ? new PeriodicDateRange()
-                    : PeriodicDateRange.DeepClone() as IPeriodicDateRange,
+                    ? new DateRange()
+                    : PeriodicDateRange.DeepClone() as IDateRange,
                 RxnCode = RxnCode == null
                     ? new[] { new RxnCode() }
                     : Array.ConvertAll(RxnCode, r => r.DeepClone() as IRxnCode),

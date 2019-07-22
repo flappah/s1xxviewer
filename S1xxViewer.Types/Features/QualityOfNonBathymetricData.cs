@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using S1xxViewer.Types.ComplexTypes;
 using S1xxViewer.Types.Interfaces;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using S1xxViewer.Types.ComplexTypes;
+using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class QualityOfNonBathymetricData : GeoFeatureBase, IQualityOfNonBathymetricData
+    public class QualityOfNonBathymetricData : MetaFeatureBase, IQualityOfNonBathymetricData
     {
         public string CategoryOfTemporalVariation { get; set; }
         public string DataAssessment { get; set; }

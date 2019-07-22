@@ -50,6 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComplexTypes\ContactAddress.cs" />
+    <Compile Include="ComplexTypes\FrequencyPair.cs" />
+    <Compile Include="Interfaces\IRadioCommunications.cs" />
+    <Compile Include="ComplexTypes\RadioCommunications.cs" />
+    <Compile Include="Interfaces\IScheduleByDoW.cs" />
+    <Compile Include="Interfaces\ITmIntervalsByDoW.cs" />
+    <Compile Include="ComplexTypes\ScheduleByDoW.cs" />
+    <Compile Include="ComplexTypes\TmIntervalsByDoW.cs" />
+    <Compile Include="Interfaces\IFrequencyPair.cs" />
+    <Compile Include="Interfaces\IContactAddress.cs" />
     <Compile Include="Features\ContactDetails.cs" />
     <Compile Include="Interfaces\IVesselTrafficServiceArea.cs" />
     <Compile Include="Features\VesselTrafficServiceArea.cs" />
@@ -68,8 +78,8 @@
     <Compile Include="Interfaces\IRecommendations.cs" />
     <Compile Include="Features\Recommendations.cs" />
     <Compile Include="Features\ShipReport.cs" />
-    <Compile Include="Interfaces\IOnlineResources.cs" />
-    <Compile Include="ComplexTypes\OnlineResources.cs" />
+    <Compile Include="Interfaces\IOnlineResource.cs" />
+    <Compile Include="ComplexTypes\OnlineResource.cs" />
     <Compile Include="Interfaces\IRegulations.cs" />
     <Compile Include="Features\Regulations.cs" />
     <Compile Include="Interfaces\IComplexType.cs" />
@@ -104,13 +114,13 @@
     <Compile Include="Interfaces\IS122Feature.cs" />
     <Compile Include="Interfaces\ISourceIndication.cs" />
     <Compile Include="Interfaces\ITelecommunications.cs" />
-    <Compile Include="Interfaces\IPeriodicDateRange.cs" />
+    <Compile Include="Interfaces\IDateRange.cs" />
     <Compile Include="InternationalString.cs" />
     <Compile Include="Interfaces\ITextContent.cs" />
     <Compile Include="Interfaces\IRxnCode.cs" />
     <Compile Include="Links\Link.cs" />
     <Compile Include="MetaFeatureBase.cs" />
-    <Compile Include="ComplexTypes\PeriodicDateRange.cs" />
+    <Compile Include="ComplexTypes\DateRange.cs" />
     <Compile Include="ComplexTypes\RxnCode.cs" />
     <Compile Include="S1xxDataPackage.cs" />
     <Compile Include="Enumerations.cs" />

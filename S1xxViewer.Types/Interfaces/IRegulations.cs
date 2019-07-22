@@ -5,8 +5,8 @@ namespace S1xxViewer.Types.Interfaces
     public interface IRegulations
     {
         string CategoryOfAuthority { get; set; }
-        IOnlineResources OnlineResources { get; set; }
-        IPeriodicDateRange PeriodicDateRange { get; set; }
+        IOnlineResource OnlineResources { get; set; }
+        IDateRange PeriodicDateRange { get; set; }
         IRxnCode[] RxnCode { get; set; }
         ITextContent TextContent { get; set; }
 

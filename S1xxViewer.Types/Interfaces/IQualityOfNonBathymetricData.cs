@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IQualityOfNonBathymetricData : IGeoFeature
+    public interface IQualityOfNonBathymetricData : IMetaFeature, IS122Feature
     {
         string CategoryOfTemporalVariation { get; set; }
         string DataAssessment { get; set; }

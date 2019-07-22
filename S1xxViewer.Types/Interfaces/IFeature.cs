@@ -6,6 +6,8 @@ namespace S1xxViewer.Types.Interfaces
     {
         string Id { get; set; }
 
+        ILink[] Links { get; set; }
+
         IFeature DeepClone();
         IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
     }

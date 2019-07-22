@@ -28,7 +28,10 @@ namespace S1xxViewer.Types.Features
                 ImoFormatForReporting = ImoFormatForReporting,
                 NoticeTime = NoticeTime == null
                     ? new NoticeTime()
-                    : NoticeTime.DeepClone() as INoticeTime
+                    : NoticeTime.DeepClone() as INoticeTime,
+                TextContent = TextContent == null
+                    ? new TextContent()
+                    : TextContent.DeepClone() as ITextContent
             };
         }
 

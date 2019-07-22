@@ -1,16 +1,16 @@
-﻿using S1xxViewer.Types.Interfaces;
+﻿using S1xxViewer.Types.ComplexTypes;
+using S1xxViewer.Types.Interfaces;
+using S1xxViewer.Types.Links;
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using S1xxViewer.Types.ComplexTypes;
 
 namespace S1xxViewer.Types.Features
 {
     [Serializable]
     public class RestrictedAreaNavigational : GeoFeatureBase, IRestrictedAreaNavigational
     {
-        public string CategoryOfRestrictedArea { get; set; }
-        public InternationalString[] FeatureName { get; set; }
+        public string[] CategoryOfRestrictedArea { get; set; }
         public string[] Restriction { get; set; }
 
         /// <summary>
@@ -21,13 +21,30 @@ namespace S1xxViewer.Types.Features
         {
             return new RestrictedAreaNavigational
             {
+                CategoryOfRestrictedArea = CategoryOfRestrictedArea == null
+                    ? new string[0]
+                    : Array.ConvertAll(CategoryOfRestrictedArea, s => s),
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
                     : Array.ConvertAll(FeatureName, fn => new InternationalString(fn.Value, fn.Language)),
-                CategoryOfRestrictedArea = CategoryOfRestrictedArea ?? "",
+                FixedDateRange = FixedDateRange == null
+                    ? new DateRange()
+                    : FixedDateRange.DeepClone() as IDateRange,
+                Id = Id ?? "",
+                PeriodicDateRange = PeriodicDateRange == null
+                    ? new DateRange()
+                    : PeriodicDateRange.DeepClone() as IDateRange,
                 Restriction = Restriction == null ? new string[0] : Array.ConvertAll(Restriction, s => s),
+                SourceIndication = SourceIndication == null
+                    ? new SourceIndication()
+                    : SourceIndication.DeepClone() as ISourceIndication,
+                TextContent = TextContent == null
+                    ? new TextContent()
+                    : TextContent.DeepClone() as ITextContent,
                 Geometry = Geometry,
-                Id = Id ?? ""
+                Links = Links == null
+                    ? new[] { new Link() }
+                    : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
 
@@ -47,6 +64,13 @@ namespace S1xxViewer.Types.Features
                 }
             }
 
+            var periodicDateRangeNode = node.FirstChild.SelectSingleNode("periodicDateRange", mgr);
+            if (periodicDateRangeNode != null && periodicDateRangeNode.HasChildNodes)
+            {
+                PeriodicDateRange = new DateRange();
+                PeriodicDateRange.FromXml(periodicDateRangeNode, mgr);
+            }
+
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
             if (featureNameNodes != null && featureNameNodes.Count > 0)
             {
@@ -60,10 +84,25 @@ namespace S1xxViewer.Types.Features
                 FeatureName = featureNames.ToArray();
             }
 
-            var categoryOfRestrictedAreaNode = node.FirstChild.SelectSingleNode("categoryOfRestrictedArea", mgr);
-            if (categoryOfRestrictedAreaNode != null)
+            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            if (sourceIndication != null && sourceIndication.HasChildNodes)
             {
-                CategoryOfRestrictedArea = categoryOfRestrictedAreaNode.FirstChild.InnerText;
+                SourceIndication = new SourceIndication();
+                SourceIndication.FromXml(sourceIndication, mgr);
+            }
+
+            var categoryOfRestrictedAreaNodes = node.FirstChild.SelectNodes("categoryOfRestrictedArea", mgr);
+            if (categoryOfRestrictedAreaNodes != null && categoryOfRestrictedAreaNodes.Count > 0)
+            {
+                var categories = new List<string>();
+                foreach (XmlNode categoryOfRestrictedAreaNode in categoryOfRestrictedAreaNodes)
+                {
+                    if (categoryOfRestrictedAreaNode != null && categoryOfRestrictedAreaNode.HasChildNodes)
+                    {
+                        categories.Add(categoryOfRestrictedAreaNode.FirstChild.InnerText);
+                    }
+                }
+                CategoryOfRestrictedArea = categories.ToArray();
             }
 
             var restrictionNodes = node.FirstChild.SelectNodes("restriction", mgr);
