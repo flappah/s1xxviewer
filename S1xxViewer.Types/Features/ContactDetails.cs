@@ -69,7 +69,7 @@ namespace S1xxViewer.Types.Features
                     ? new Telecommunications[0]
                     : Array.ConvertAll(Telecommunications, t => t.DeepClone() as ITelecommunications),
                 Links = Links == null
-                    ? new[] { new Link() }
+                    ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }

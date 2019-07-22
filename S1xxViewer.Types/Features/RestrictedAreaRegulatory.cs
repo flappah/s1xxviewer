@@ -43,7 +43,7 @@ namespace S1xxViewer.Types.Features
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
                 Links = Links == null
-                    ? new[] { new Link() }
+                    ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }

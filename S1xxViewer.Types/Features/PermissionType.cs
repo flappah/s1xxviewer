@@ -34,7 +34,7 @@ namespace S1xxViewer.Types.Features
                     : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
                 CategoryOfRelationShip = CategoryOfRelationShip,
                 Links = Links == null
-                    ? new[] { new Link() }
+                    ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }

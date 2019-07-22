@@ -35,7 +35,7 @@ namespace S1xxViewer.Types.Features
                 Geometry = Geometry,
                 Id = Id,
                 Links = Links == null
-                    ? new[] { new Link() }
+                    ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }

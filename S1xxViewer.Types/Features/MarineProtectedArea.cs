@@ -48,7 +48,7 @@ namespace S1xxViewer.Types.Features
                 Jurisdiction = Jurisdiction ?? "",
                 Status = Status ?? "",
                 Links = Links == null
-                    ? new[] { new Link() }
+                    ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }

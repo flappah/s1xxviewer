@@ -60,7 +60,7 @@ namespace S1xxViewer.Types.Features
                     : Array.ConvertAll(VesselsMeasurements, v => v.DeepClone() as IVesselsMeasurement),
                 VesselPerformance = VesselPerformance,
                 Links = Links == null
-                    ? new[] { new Link() }
+                    ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }

@@ -8,6 +8,7 @@ namespace S1xxViewer.Types.Links
         public string Href { get; set; }
         public string ArcRole { get; set; }
         public string Name { get; set; }
+        public string Offset { get; set; }
 
         /// <summary>
         /// Clones the object
@@ -19,7 +20,8 @@ namespace S1xxViewer.Types.Links
             {
                 Href = Href,
                 ArcRole = ArcRole,
-                Name = Name
+                Name = Name, 
+                Offset = Offset
             };
         }
 

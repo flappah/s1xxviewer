@@ -48,7 +48,10 @@ namespace S1xxViewer.Types.Features
                     ? new SurveyDateRange()
                     : SurveyDateRange.DeepClone() as ISurveyDateRange,
                 Geometry = Geometry,
-                Id = Id
+                Id = Id,
+                Links = Links == null
+                    ? new Link[0]
+                    : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
 

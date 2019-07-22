@@ -3,6 +3,7 @@ using S1xxViewer.Types;
 using S1xxViewer.Types.Interfaces;
 using System.Collections.Generic;
 using System.Xml;
+using System;
 
 namespace S1xxViewer.Model
 {
@@ -93,10 +94,125 @@ namespace S1xxViewer.Model
                 }
             }
 
-            //TODO: Restore links to informationfeatures
-            foreach(var geoFeature in geoFeatures)
+            // Populate links between features
+            foreach(IFeature geoFeature in geoFeatures)
             {
+                foreach(ILink link in geoFeature.Links)
+                {
+                    int foundInfoFeatureIndex = 
+                        informationFeatures.FindIndex(ftr => 
+                            !String.IsNullOrEmpty(ftr.Id) &&
+                            ftr.Id.Contains(link.Href.Replace("#", "")));                    
 
+                    if (foundInfoFeatureIndex != -1)
+                    {
+                        link.Offset = $"I_{foundInfoFeatureIndex}";
+                    }
+                    else
+                    {
+                        int foundMetaFeatureIndex =
+                            metaFeatures.FindIndex(ftr =>
+                                !String.IsNullOrEmpty(ftr.Id) &&
+                                ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                        if (foundMetaFeatureIndex != -1)
+                        {
+                            link.Offset = $"M_{foundMetaFeatureIndex}";
+                        }
+                        else
+                        {
+                            int foundGeoFeatureIndex =
+                                geoFeatures.FindIndex(ftr =>
+                                    !String.IsNullOrEmpty(ftr.Id) &&
+                                    ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                            if (foundGeoFeatureIndex != -1)
+                            {
+                                link.Offset = $"G_{foundGeoFeatureIndex}";
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (IFeature metaFeature in metaFeatures)
+            {
+                foreach (ILink link in metaFeature.Links)
+                {
+                    int foundInfoFeatureIndex =
+                        informationFeatures.FindIndex(ftr =>
+                            !String.IsNullOrEmpty(ftr.Id) &&
+                            ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                    if (foundInfoFeatureIndex != -1)
+                    {
+                        link.Offset = $"I_{foundInfoFeatureIndex}";
+                    }
+                    else
+                    {
+                        int foundMetaFeatureIndex =
+                            metaFeatures.FindIndex(ftr =>
+                                !String.IsNullOrEmpty(ftr.Id) &&
+                                ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                        if (foundMetaFeatureIndex != -1)
+                        {
+                            link.Offset = $"M_{foundMetaFeatureIndex}";
+                        }
+                        else
+                        {
+                            int foundGeoFeatureIndex =
+                                geoFeatures.FindIndex(ftr =>
+                                    !String.IsNullOrEmpty(ftr.Id) &&
+                                    ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                            if (foundGeoFeatureIndex != -1)
+                            {
+                                link.Offset = $"G_{foundGeoFeatureIndex}";
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (IFeature infoFeature in informationFeatures)
+            {
+                foreach (ILink link in infoFeature.Links)
+                {
+                    int foundInfoFeatureIndex =
+                        informationFeatures.FindIndex(ftr =>
+                            !String.IsNullOrEmpty(ftr.Id) &&
+                            ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                    if (foundInfoFeatureIndex != -1)
+                    {
+                        link.Offset = $"I_{foundInfoFeatureIndex}";
+                    }
+                    else
+                    {
+                        int foundMetaFeatureIndex =
+                            metaFeatures.FindIndex(ftr =>
+                                !String.IsNullOrEmpty(ftr.Id) &&
+                                ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                        if (foundMetaFeatureIndex != -1)
+                        {
+                            link.Offset = $"M_{foundMetaFeatureIndex}";
+                        }
+                        else
+                        {
+                            int foundGeoFeatureIndex =
+                                geoFeatures.FindIndex(ftr =>
+                                    !String.IsNullOrEmpty(ftr.Id) &&
+                                    ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                            if (foundGeoFeatureIndex != -1)
+                            {
+                                link.Offset = $"G_{foundGeoFeatureIndex}";
+                            }
+                        }
+                    }
+                }
             }
 
             dataPackage.GeoFeatures = geoFeatures.ToArray();

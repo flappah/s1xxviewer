@@ -22,6 +22,19 @@ namespace S1xxViewer.Types.Features
         {
             return new ShipReport
             {
+                FeatureName = FeatureName == null
+                    ? new[] { new InternationalString("") }
+                    : Array.ConvertAll(FeatureName, fn => new InternationalString(fn.Value, fn.Language)),
+                FixedDateRange = FixedDateRange == null
+                    ? new DateRange()
+                    : FixedDateRange.DeepClone() as IDateRange,
+                Id = Id,
+                PeriodicDateRange = PeriodicDateRange == null
+                    ? new DateRange[0]
+                    : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
+                SourceIndication = SourceIndication == null
+                    ? new SourceIndication[0]
+                    : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
                 CategoryOfShipReport = CategoryOfShipReport == null
                     ? new string[0]
                     : Array.ConvertAll(CategoryOfShipReport, s => s),
@@ -31,7 +44,10 @@ namespace S1xxViewer.Types.Features
                     : Array.ConvertAll(NoticeTime, nt => nt.DeepClone() as INoticeTime),
                 TextContent = TextContent == null
                     ? new TextContent()
-                    : TextContent.DeepClone() as ITextContent
+                    : TextContent.DeepClone() as ITextContent,
+                Links = Links == null
+                    ? new Link[0]
+                    : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
 

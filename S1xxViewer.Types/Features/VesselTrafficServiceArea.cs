@@ -36,9 +36,9 @@ namespace S1xxViewer.Types.Features
                 TextContent = TextContent == null
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
-                CategoryOfVesselTrafficService = CategoryOfVesselTrafficService,                
+                CategoryOfVesselTrafficService = CategoryOfVesselTrafficService,
                 Links = Links == null
-                    ? new[] { new Link() }
+                    ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }

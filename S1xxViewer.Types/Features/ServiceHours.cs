@@ -40,7 +40,7 @@ namespace S1xxViewer.Types.Features
                     ? new Information[0]
                     : Array.ConvertAll(Information, i => i.DeepClone() as IInformation),
                 Links = Links == null
-                    ? new[] { new Link() }
+                    ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
