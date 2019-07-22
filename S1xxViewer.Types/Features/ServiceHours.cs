@@ -7,20 +7,12 @@ using System.Xml;
 using S1xxViewer.Types.Interfaces;
 using S1xxViewer.Types.ComplexTypes;
 using S1xxViewer.Types.Links;
-
 namespace S1xxViewer.Types.Features
 {
-    public class Applicability : InformationFeatureBase, IApplicability
+    public class ServiceHours : InformationFeatureBase, IServiceHours
     {
-        public bool Ballast { get; set; }
-        public string[] CategoryOfCargo { get; set; }
-        public string[] CategoryOfDangerousOrHazardousCargo { get; set; }
-        public string CategoryOfVessel { get; set; }
-        public string CategoryOfVesselRegistry { get; set; }
-        public string LogicalConnectives { get; set; }
-        public int ThicknessOfIceCapability { get; set; }
-        public IVesselsMeasurement[] VesselsMeasurements { get; set; }
-        public string VesselPerformance { get; set; }
+        public IScheduleByDoW ScheduleByDoW { get; set; }
+        public IInformation Information { get; set; }
 
         /// <summary>
         /// 
@@ -28,7 +20,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new Applicability
+            return new ServiceHours
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -43,21 +35,12 @@ namespace S1xxViewer.Types.Features
                 SourceIndication = SourceIndication == null
                     ? new SourceIndication[0]
                     : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
-                Ballast = Ballast,
-                CategoryOfCargo = CategoryOfCargo == null 
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfCargo, s => s),
-                CategoryOfDangerousOrHazardousCargo = CategoryOfDangerousOrHazardousCargo == null
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfDangerousOrHazardousCargo, s => s),
-                CategoryOfVessel = CategoryOfVessel,
-                CategoryOfVesselRegistry = CategoryOfVesselRegistry,
-                LogicalConnectives = LogicalConnectives,
-                ThicknessOfIceCapability = ThicknessOfIceCapability,
-                VesselsMeasurements = VesselsMeasurements == null
-                    ? new VesselsMeasurement[0]
-                    : Array.ConvertAll(VesselsMeasurements, v => v.DeepClone() as IVesselsMeasurement),
-                VesselPerformance = VesselPerformance,
+                ScheduleByDoW = ScheduleByDoW == null 
+                    ? new ScheduleByDoW()
+                    : ScheduleByDoW.DeepClone() as IScheduleByDoW,
+                Information = Information == null 
+                    ? new Information ()
+                    : Information.DeepClone() as IInformation,
                 Links = Links == null
                     ? new[] { new Link() }
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)

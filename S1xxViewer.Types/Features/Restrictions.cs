@@ -12,7 +12,7 @@ using S1xxViewer.Types.ComplexTypes;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Regulations : InformationFeatureBase, IRegulations
+    public class Restrictions : InformationFeatureBase, IRestrictions
     {
         public string CategoryOfAuthority { get; set; }
         public string[] Graphic { get; set; }
@@ -46,7 +46,7 @@ namespace S1xxViewer.Types.Features
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
-                SourceIndication = SourceIndication == null     
+                SourceIndication = SourceIndication == null
                     ? new SourceIndication[0]
                     : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication)
             };

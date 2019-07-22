@@ -5,7 +5,10 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class Information : IInformation
     {
+        public string FileDescription { get; set; }
+        public string FileLocator { get; set; }
         public string Headline { get; set; }
+        public string Language { get; set; }
         public InternationalString Text { get; set; }
 
         /// <summary>
@@ -16,7 +19,10 @@ namespace S1xxViewer.Types.ComplexTypes
         {
             return new Information
             {
+                FileDescription = FileDescription,
+                FileLocator = FileLocator,
                 Headline = Headline,
+                Language = Language,
                 Text = new InternationalString(Text.Value, Text.Language)
             };
         }

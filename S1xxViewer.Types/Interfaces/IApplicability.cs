@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IApplicability : IInformationFeature
+    public interface IApplicability : IInformationFeature, IS122Feature
     {
         bool Ballast { get; set; }
         string[] CategoryOfCargo { get; set; }
@@ -11,7 +11,5 @@
         int ThicknessOfIceCapability { get; set; }
         IVesselsMeasurement[] VesselsMeasurements { get; set; }
         string VesselPerformance { get; set; }
-
-        ILink[] Links { get; set; }
     }
 }

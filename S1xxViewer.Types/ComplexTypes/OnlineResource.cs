@@ -10,9 +10,13 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class OnlineResource : IOnlineResource
     {
+        public string ApplicationProfile { get; set; }
         public string Linkage { get; set; }
         public string NameOfResource { get; set; }
         public string OnlineDescription { get; set; }
+        public string OnlineFunction { get; set; }
+        public string Protocol { get; set; }
+        public string ProtocolRequest { get; set; }
 
         /// <summary>
         /// 
@@ -22,9 +26,13 @@ namespace S1xxViewer.Types.ComplexTypes
         {
             return new OnlineResource
             {
+                ApplicationProfile = ApplicationProfile,
                 Linkage = Linkage,
                 NameOfResource = NameOfResource,
-                OnlineDescription = OnlineDescription
+                OnlineDescription = OnlineDescription,
+                OnlineFunction = OnlineFunction,
+                Protocol = Protocol,
+                ProtocolRequest  = ProtocolRequest
             };
         }
 

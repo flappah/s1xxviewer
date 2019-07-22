@@ -52,6 +52,16 @@
   <ItemGroup>
     <Compile Include="ComplexTypes\ContactAddress.cs" />
     <Compile Include="ComplexTypes\FrequencyPair.cs" />
+    <Compile Include="ComplexTypes\HorizontalPositionalUncertainty.cs" />
+    <Compile Include="ComplexTypes\ISurveyDateRange.cs" />
+    <Compile Include="ComplexTypes\SurveyDateRange.cs" />
+    <Compile Include="Interfaces\IHorizontalPositionalUncertainty.cs" />
+    <Compile Include="Interfaces\IRestrictions.cs" />
+    <Compile Include="Features\Restrictions.cs" />
+    <Compile Include="Interfaces\INonStandardWorkingDay.cs" />
+    <Compile Include="Interfaces\IServiceHours.cs" />
+    <Compile Include="Features\NonStandardWorkingDay.cs" />
+    <Compile Include="Features\ServiceHours.cs" />
     <Compile Include="Interfaces\IRadioCommunications.cs" />
     <Compile Include="ComplexTypes\RadioCommunications.cs" />
     <Compile Include="Interfaces\IScheduleByDoW.cs" />

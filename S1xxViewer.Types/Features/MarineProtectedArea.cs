@@ -32,14 +32,14 @@ namespace S1xxViewer.Types.Features
                     : FixedDateRange.DeepClone() as IDateRange,
                 Id = Id,
                 PeriodicDateRange = PeriodicDateRange == null
-                    ? new DateRange()
-                    : PeriodicDateRange.DeepClone() as IDateRange,
+                    ? new DateRange[0]
+                    : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
                 SourceIndication = SourceIndication == null
                     ? new SourceIndication()
                     : SourceIndication.DeepClone() as ISourceIndication,
                 TextContent = TextContent == null
-                    ? new TextContent()
-                    : TextContent.DeepClone() as ITextContent,
+                    ? new TextContent[0]
+                    : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
                 CategoryOfMarineProtectedArea = CategoryOfMarineProtectedArea ?? "",
                 CategoryOfRestrictedArea = CategoryOfRestrictedArea == null
@@ -68,11 +68,17 @@ namespace S1xxViewer.Types.Features
                 }
             }
 
-            var periodicDateRangeNode = node.FirstChild.SelectSingleNode("periodicDateRange", mgr);
-            if (periodicDateRangeNode != null && periodicDateRangeNode.HasChildNodes)
+            var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
+            if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
             {
-                PeriodicDateRange = new DateRange();
-                PeriodicDateRange.FromXml(periodicDateRangeNode, mgr);
+                var dateRanges = new List<DateRange>();
+                foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
+                {
+                    var newDateRange = new DateRange();
+                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    dateRanges.Add(newDateRange);
+                }
+                PeriodicDateRange = dateRanges.ToArray();
             }
 
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
@@ -93,6 +99,22 @@ namespace S1xxViewer.Types.Features
             {
                 SourceIndication = new SourceIndication();
                 SourceIndication.FromXml(sourceIndication, mgr);
+            }
+
+            var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
+            if (textContentNodes != null && textContentNodes.Count > 0)
+            {
+                var textContents = new List<TextContent>();
+                foreach (XmlNode textContentNode in textContentNodes)
+                {
+                    if (textContentNode != null && textContentNode.HasChildNodes)
+                    {
+                        var content = new TextContent();
+                        content.FromXml(textContentNode.FirstChild, mgr);
+                        textContents.Add(content);
+                    }
+                }
+                TextContent = textContents.ToArray();
             }
 
             var categoryOfMarineProtectedAreaNode = node.FirstChild.SelectSingleNode("categoryOfMarineProtectedArea", mgr);

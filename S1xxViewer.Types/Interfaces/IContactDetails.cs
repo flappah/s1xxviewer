@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IContactDetails : IInformationFeature
+    public interface IContactDetails : IInformationFeature, IS122Feature
     {
         string CallName { get; set; }
         string CallSign { get; set; }

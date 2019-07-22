@@ -35,11 +35,11 @@ namespace S1xxViewer.Types.Features
                     : FixedDateRange.DeepClone() as IDateRange,
                 Id = Id,
                 PeriodicDateRange = PeriodicDateRange == null
-                    ? new DateRange()
-                    : PeriodicDateRange.DeepClone() as IDateRange,
+                    ? new DateRange[0]
+                    : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
                 SourceIndication = SourceIndication == null
-                    ? new SourceIndication()
-                    : SourceIndication.DeepClone() as ISourceIndication,
+                    ? new SourceIndication[0]
+                    : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
                 CategoryOfAuthority = CategoryOfAuthority ?? "",
                 TextContent = TextContent == null ? null : TextContent.DeepClone() as ITextContent,
                 Links = Links == null

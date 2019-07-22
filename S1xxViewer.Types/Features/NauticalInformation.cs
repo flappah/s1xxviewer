@@ -14,9 +14,10 @@ namespace S1xxViewer.Types.Features
 {
     public class NauticalInformation : InformationFeatureBase, INauticalInformation
     {
-        public IDateRange PeriodicDataRange { get; set; }
         public string CategoryOfAuthority { get; set; }
-        public ITextContent TextContent { get; set; }
+        public string[] Graphic { get; set; }
+        public IRxnCode[] RxnCode { get; set; }
+        public ITextContent[] TextContent { get; set; }
 
         /// <summary>
         /// 
@@ -26,13 +27,28 @@ namespace S1xxViewer.Types.Features
         {
             return new NauticalInformation
             {
-                PeriodicDataRange = PeriodicDataRange == null 
+                CategoryOfAuthority = CategoryOfAuthority ?? "",
+                Graphic = Graphic == null
+                    ? new string[0]
+                    : Array.ConvertAll(Graphic, g => g),
+                RxnCode = RxnCode == null
+                    ? new RxnCode[0]
+                    : Array.ConvertAll(RxnCode, r => r.DeepClone() as IRxnCode),
+                TextContent = TextContent == null
+                    ? new TextContent[0]
+                    : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                FeatureName = FeatureName == null
+                    ? new InternationalString[0]
+                    : Array.ConvertAll(FeatureName, s => s),
+                FixedDateRange = FixedDateRange == null
                     ? new DateRange()
-                    : PeriodicDataRange.DeepClone() as IDateRange,
-                CategoryOfAuthority = CategoryOfAuthority,
-                TextContent = TextContent == null 
-                    ? new TextContent()
-                    : TextContent.DeepClone() as ITextContent
+                    : FixedDateRange.DeepClone() as IDateRange,
+                PeriodicDateRange = PeriodicDateRange == null
+                    ? new DateRange[0]
+                    : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
+                SourceIndication = SourceIndication == null
+                    ? new SourceIndication[0]
+                    : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication)
             };
         }
 

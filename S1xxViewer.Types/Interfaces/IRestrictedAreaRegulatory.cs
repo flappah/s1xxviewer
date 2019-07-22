@@ -3,7 +3,6 @@
     public interface IRestrictedAreaRegulatory : IGeoFeature
     {
         string[] CategoryOfRestrictedArea { get; set; }
-        InternationalString[] FeatureName { get; set; }
         string[] Restriction { get; set; }
     }
 }
