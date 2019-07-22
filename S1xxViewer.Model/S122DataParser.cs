@@ -97,128 +97,70 @@ namespace S1xxViewer.Model
             // Populate links between features
             foreach(IFeature geoFeature in geoFeatures)
             {
-                foreach(ILink link in geoFeature.Links)
-                {
-                    int foundInfoFeatureIndex = 
-                        informationFeatures.FindIndex(ftr => 
-                            !String.IsNullOrEmpty(ftr.Id) &&
-                            ftr.Id.Contains(link.Href.Replace("#", "")));                    
-
-                    if (foundInfoFeatureIndex != -1)
-                    {
-                        link.Offset = $"I_{foundInfoFeatureIndex}";
-                    }
-                    else
-                    {
-                        int foundMetaFeatureIndex =
-                            metaFeatures.FindIndex(ftr =>
-                                !String.IsNullOrEmpty(ftr.Id) &&
-                                ftr.Id.Contains(link.Href.Replace("#", "")));
-
-                        if (foundMetaFeatureIndex != -1)
-                        {
-                            link.Offset = $"M_{foundMetaFeatureIndex}";
-                        }
-                        else
-                        {
-                            int foundGeoFeatureIndex =
-                                geoFeatures.FindIndex(ftr =>
-                                    !String.IsNullOrEmpty(ftr.Id) &&
-                                    ftr.Id.Contains(link.Href.Replace("#", "")));
-
-                            if (foundGeoFeatureIndex != -1)
-                            {
-                                link.Offset = $"G_{foundGeoFeatureIndex}";
-                            }
-                        }
-                    }
-                }
+                ResolveLinks(geoFeature.Links, informationFeatures, metaFeatures, geoFeatures);
             }
 
             foreach (IFeature metaFeature in metaFeatures)
             {
-                foreach (ILink link in metaFeature.Links)
-                {
-                    int foundInfoFeatureIndex =
-                        informationFeatures.FindIndex(ftr =>
-                            !String.IsNullOrEmpty(ftr.Id) &&
-                            ftr.Id.Contains(link.Href.Replace("#", "")));
-
-                    if (foundInfoFeatureIndex != -1)
-                    {
-                        link.Offset = $"I_{foundInfoFeatureIndex}";
-                    }
-                    else
-                    {
-                        int foundMetaFeatureIndex =
-                            metaFeatures.FindIndex(ftr =>
-                                !String.IsNullOrEmpty(ftr.Id) &&
-                                ftr.Id.Contains(link.Href.Replace("#", "")));
-
-                        if (foundMetaFeatureIndex != -1)
-                        {
-                            link.Offset = $"M_{foundMetaFeatureIndex}";
-                        }
-                        else
-                        {
-                            int foundGeoFeatureIndex =
-                                geoFeatures.FindIndex(ftr =>
-                                    !String.IsNullOrEmpty(ftr.Id) &&
-                                    ftr.Id.Contains(link.Href.Replace("#", "")));
-
-                            if (foundGeoFeatureIndex != -1)
-                            {
-                                link.Offset = $"G_{foundGeoFeatureIndex}";
-                            }
-                        }
-                    }
-                }
+                ResolveLinks(metaFeature.Links, informationFeatures, metaFeatures, geoFeatures);
             }
 
             foreach (IFeature infoFeature in informationFeatures)
             {
-                foreach (ILink link in infoFeature.Links)
-                {
-                    int foundInfoFeatureIndex =
-                        informationFeatures.FindIndex(ftr =>
-                            !String.IsNullOrEmpty(ftr.Id) &&
-                            ftr.Id.Contains(link.Href.Replace("#", "")));
-
-                    if (foundInfoFeatureIndex != -1)
-                    {
-                        link.Offset = $"I_{foundInfoFeatureIndex}";
-                    }
-                    else
-                    {
-                        int foundMetaFeatureIndex =
-                            metaFeatures.FindIndex(ftr =>
-                                !String.IsNullOrEmpty(ftr.Id) &&
-                                ftr.Id.Contains(link.Href.Replace("#", "")));
-
-                        if (foundMetaFeatureIndex != -1)
-                        {
-                            link.Offset = $"M_{foundMetaFeatureIndex}";
-                        }
-                        else
-                        {
-                            int foundGeoFeatureIndex =
-                                geoFeatures.FindIndex(ftr =>
-                                    !String.IsNullOrEmpty(ftr.Id) &&
-                                    ftr.Id.Contains(link.Href.Replace("#", "")));
-
-                            if (foundGeoFeatureIndex != -1)
-                            {
-                                link.Offset = $"G_{foundGeoFeatureIndex}";
-                            }
-                        }
-                    }
-                }
+                ResolveLinks(infoFeature.Links, informationFeatures, metaFeatures, geoFeatures);
             }
 
             dataPackage.GeoFeatures = geoFeatures.ToArray();
             dataPackage.MetaFeatures = metaFeatures.ToArray();
             dataPackage.InformationFeatures = informationFeatures.ToArray();
             return dataPackage;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="links"></param>
+        /// <param name="informationFeatures"></param>
+        /// <param name="metaFeatures"></param>
+        /// <param name="geoFeatures"></param>
+        private void ResolveLinks(ILink[] links, List<IInformationFeature> informationFeatures, List<IMetaFeature> metaFeatures, List<IGeoFeature> geoFeatures)
+        {
+            foreach (ILink link in links)
+            {
+                int foundInfoFeatureIndex =
+                    informationFeatures.FindIndex(ftr =>
+                        !String.IsNullOrEmpty(ftr.Id) &&
+                        ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                if (foundInfoFeatureIndex != -1)
+                {
+                    link.Offset = $"I_{foundInfoFeatureIndex}";
+                }
+                else
+                {
+                    int foundMetaFeatureIndex =
+                        metaFeatures.FindIndex(ftr =>
+                            !String.IsNullOrEmpty(ftr.Id) &&
+                            ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                    if (foundMetaFeatureIndex != -1)
+                    {
+                        link.Offset = $"M_{foundMetaFeatureIndex}";
+                    }
+                    else
+                    {
+                        int foundGeoFeatureIndex =
+                            geoFeatures.FindIndex(ftr =>
+                                !String.IsNullOrEmpty(ftr.Id) &&
+                                ftr.Id.Contains(link.Href.Replace("#", "")));
+
+                        if (foundGeoFeatureIndex != -1)
+                        {
+                            link.Offset = $"G_{foundGeoFeatureIndex}";
+                        }
+                    }
+                }
+            }
         }
     }
 }
