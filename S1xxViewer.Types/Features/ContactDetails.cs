@@ -13,7 +13,7 @@ using S1xxViewer.Types.Links;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ContactDetails : InformationFeatureBase, IContactDetails
+    public class ContactDetails : InformationFeatureBase, IContactDetails, IS122Feature
     {
         public string CallName { get; set; }
         public string CallSign { get; set; }

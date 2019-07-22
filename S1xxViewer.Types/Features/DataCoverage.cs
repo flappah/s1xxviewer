@@ -13,7 +13,7 @@ using S1xxViewer.Types.Links;
 
 namespace S1xxViewer.Types.Features
 {
-    public class DataCoverage : MetaFeatureBase, IDataCoverage
+    public class DataCoverage : MetaFeatureBase, IDataCoverage, IS122Feature
     {
         public IFeatureObjectIdentifier FeatureObjectIdentifier { get; set; }
         public int MaximumDisplayScale { get; set; }

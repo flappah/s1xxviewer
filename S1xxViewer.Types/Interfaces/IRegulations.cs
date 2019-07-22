@@ -2,7 +2,7 @@
 
 namespace S1xxViewer.Types.Interfaces
 {
-    public interface IRegulations : IInformationFeature, IS122Feature
+    public interface IRegulations : IInformationFeature
     {
         string CategoryOfAuthority { get; set; }
         string[] Graphic { get; set; }

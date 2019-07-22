@@ -10,7 +10,7 @@ using S1xxViewer.Types.Links;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Applicability : InformationFeatureBase, IApplicability
+    public class Applicability : InformationFeatureBase, IApplicability, IS122Feature
     {
         public bool Ballast { get; set; }
         public string[] CategoryOfCargo { get; set; }

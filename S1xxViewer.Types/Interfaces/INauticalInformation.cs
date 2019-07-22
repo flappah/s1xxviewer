@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface INauticalInformation : IInformationFeature, IS122Feature
+    public interface INauticalInformation : IInformationFeature
     {
         string CategoryOfAuthority { get; set; }
         string[] Graphic { get; set; }

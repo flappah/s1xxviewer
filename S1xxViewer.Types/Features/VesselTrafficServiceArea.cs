@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class VesselTrafficServiceArea : GeoFeatureBase, IVesselTrafficServiceArea
+    public class VesselTrafficServiceArea : GeoFeatureBase, IVesselTrafficServiceArea, IS122Feature
     {
         // data
         public string CategoryOfVesselTrafficService { get; set; }

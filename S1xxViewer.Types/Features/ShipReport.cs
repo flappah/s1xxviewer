@@ -9,7 +9,7 @@ using S1xxViewer.Types.ComplexTypes;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ShipReport : InformationFeatureBase, IShipReport
+    public class ShipReport : InformationFeatureBase, IShipReport, IS122Feature
     {
         public string CategoryOfShipReport { get; set; }
         public bool ImoFormatForReporting { get; set; }

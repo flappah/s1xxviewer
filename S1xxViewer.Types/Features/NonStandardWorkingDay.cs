@@ -10,7 +10,7 @@ using S1xxViewer.Types.Links;
 
 namespace S1xxViewer.Types.Features
 {
-    public class NonStandardWorkingDay : InformationFeatureBase, INonStandardWorkingDay
+    public class NonStandardWorkingDay : InformationFeatureBase, INonStandardWorkingDay, IS122Feature
     {
         public DateTime DateFixed { get; set; }
         public string DateVariable { get; set; }

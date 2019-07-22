@@ -2,7 +2,7 @@
 
 namespace S1xxViewer.Types.Interfaces
 {
-    public interface IMarineProtectedArea : IGeoFeature, IS122Feature
+    public interface IMarineProtectedArea : IGeoFeature
     {
         string CategoryOfMarineProtectedArea { get; set; }
         string[] CategoryOfRestrictedArea { get; set; }

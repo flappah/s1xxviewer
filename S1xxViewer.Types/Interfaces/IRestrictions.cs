@@ -3,7 +3,7 @@ using S1xxViewer.Types.Interfaces;
 
 namespace S1xxViewer.Types.Interfaces
 {
-    public interface IRestrictions : IInformationFeature, IS122Feature
+    public interface IRestrictions : IInformationFeature
     {
         string CategoryOfAuthority { get; set; }
         string[] Graphic { get; set; }

@@ -8,7 +8,7 @@ using S1xxViewer.Types.Interfaces;
 
 namespace S1xxViewer.Types.Features
 {
-    public class InclusionType : InformationFeatureBase, IInclusionType
+    public class InclusionType : InformationFeatureBase, IInclusionType, IS122Feature
     {
         public string Membership { get; set; }
 

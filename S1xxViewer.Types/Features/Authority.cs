@@ -14,7 +14,7 @@ using S1xxViewer.Types.Links;
 namespace S1xxViewer.Types.Features
 {
     [Serializable]
-    public class Authority : InformationFeatureBase, IAuthority
+    public class Authority : InformationFeatureBase, IAuthority, IS122Feature
     {
         public string CategoryOfAuthority { get; set; }
         public ITextContent TextContent { get; set; }

@@ -12,7 +12,7 @@ using S1xxViewer.Types.ComplexTypes;
 
 namespace S1xxViewer.Types.Features
 {
-    public class NauticalInformation : InformationFeatureBase, INauticalInformation
+    public class NauticalInformation : InformationFeatureBase, INauticalInformation, IS122Feature
     {
         public string CategoryOfAuthority { get; set; }
         public string[] Graphic { get; set; }

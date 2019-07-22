@@ -12,7 +12,7 @@ using S1xxViewer.Types.ComplexTypes;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Regulations : InformationFeatureBase, IRegulations
+    public class Regulations : InformationFeatureBase, IRegulations, IS122Feature
     {
         public string CategoryOfAuthority { get; set; }
         public string[] Graphic { get; set; }

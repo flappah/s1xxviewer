@@ -9,7 +9,7 @@ using S1xxViewer.Types.ComplexTypes;
 using S1xxViewer.Types.Links;
 namespace S1xxViewer.Types.Features
 {
-    public class ServiceHours : InformationFeatureBase, IServiceHours
+    public class ServiceHours : InformationFeatureBase, IServiceHours, IS122Feature
     {
         public IScheduleByDoW ScheduleByDoW { get; set; }
         public IInformation Information { get; set; }

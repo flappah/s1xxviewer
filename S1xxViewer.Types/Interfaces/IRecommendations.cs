@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IRecommendations : IInformationFeature, IS122Feature
+    public interface IRecommendations : IInformationFeature
     {
         string CategoryOfAuthority { get; set; }
         string[] Graphic { get; set; }

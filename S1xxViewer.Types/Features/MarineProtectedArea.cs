@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class MarineProtectedArea : GeoFeatureBase, IMarineProtectedArea
+    public class MarineProtectedArea : GeoFeatureBase, IMarineProtectedArea, IS122Feature
     {
         // data
         public string CategoryOfMarineProtectedArea { get; set; }

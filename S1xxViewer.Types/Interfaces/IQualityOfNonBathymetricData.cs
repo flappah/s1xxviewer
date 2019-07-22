@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IQualityOfNonBathymetricData : IMetaFeature, IS122Feature
+    public interface IQualityOfNonBathymetricData : IMetaFeature
     {
         double[] HorizontalDistanceUncertainty { get; set; }
         IHorizontalPositionalUncertainty HorizontalPositionalUncertainty { get; set; }

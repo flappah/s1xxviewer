@@ -8,7 +8,7 @@ using S1xxViewer.Types.Interfaces;
 
 namespace S1xxViewer.Types.Features
 {
-    public class PermissionType : InformationFeatureBase, IPermissionType
+    public class PermissionType : InformationFeatureBase, IPermissionType, IS122Feature
     {
         public string CategoryOfRelationShip { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace S1xxViewer.Types.Interfaces
 {
-    public interface IServiceHours : IInformationFeature, IS122Feature
+    public interface IServiceHours : IInformationFeature
     {
         IScheduleByDoW ScheduleByDoW { get; set; }
         IInformation Information { get; set; }

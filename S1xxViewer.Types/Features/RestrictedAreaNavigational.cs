@@ -8,7 +8,7 @@ using System.Xml;
 namespace S1xxViewer.Types.Features
 {
     [Serializable]
-    public class RestrictedAreaNavigational : GeoFeatureBase, IRestrictedAreaNavigational
+    public class RestrictedAreaNavigational : GeoFeatureBase, IRestrictedAreaNavigational, IS122Feature
     {
         public string[] CategoryOfRestrictedArea { get; set; }
         public string[] Restriction { get; set; }

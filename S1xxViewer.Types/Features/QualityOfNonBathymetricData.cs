@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace S1xxViewer.Types.Features
 {
-    public class QualityOfNonBathymetricData : MetaFeatureBase, IQualityOfNonBathymetricData
+    public class QualityOfNonBathymetricData : MetaFeatureBase, IQualityOfNonBathymetricData, IS122Feature
     {
         public string CategoryOfTemporalVariation { get; set; }
         public string DataAssessment { get; set; }

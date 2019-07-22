@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IShipReport : IInformationFeature, IS122Feature
+    public interface IShipReport : IInformationFeature
     {
         string CategoryOfShipReport { get; set; }
         bool ImoFormatForReporting { get; set; }
