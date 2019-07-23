@@ -106,7 +106,7 @@ namespace S1xxViewer.Model.Geometry
                                         y = 0.0;
                                     }
 
-                                    interiorMapPoints.Add(new MapPoint(x, y));
+                                    interiorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
                                 }
                             }
                         }

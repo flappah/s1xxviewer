@@ -7,11 +7,9 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    [Serializable]
-    public class Authority : InformationFeatureBase, IAuthority, IS122Feature
+    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
     {
-        public string CategoryOfAuthority { get; set; }
-        public ITextContent TextContent { get; set; }
+        public string[] CategoryOfGMDSSArea { get; set; }
 
         /// <summary>
         /// 
@@ -19,7 +17,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new Authority
+            return new GMDSSArea
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -32,10 +30,14 @@ namespace S1xxViewer.Types.Features
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
                 SourceIndication = SourceIndication == null
-                    ? new SourceIndication[0]
-                    : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
-                CategoryOfAuthority = CategoryOfAuthority ?? "",
-                TextContent = TextContent == null ? null : TextContent.DeepClone() as ITextContent,
+                    ? new SourceIndication()
+                    : SourceIndication.DeepClone() as ISourceIndication,
+                TextContent = TextContent == null
+                    ? new TextContent[0]
+                    : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                    ? new string[0]
+                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -58,26 +60,6 @@ namespace S1xxViewer.Types.Features
                 }
             }
 
-            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
-            if (featureNameNodes != null && featureNameNodes.Count > 0)
-            {
-                var featureNames = new List<InternationalString>();
-                foreach (XmlNode featureNameNode in featureNameNodes)
-                {
-                    var language = featureNameNode.SelectSingleNode("language", mgr)?.InnerText ?? "";
-                    var name = featureNameNode.SelectSingleNode("name", mgr)?.InnerText ?? "";
-                    featureNames.Add(new InternationalString(name, language));
-                }
-                FeatureName = featureNames.ToArray();
-            }
-
-            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
-            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
-            {
-                FixedDateRange = new DateRange();
-                FixedDateRange.FromXml(fixedDateRangeNode.FirstChild, mgr);
-            }
-
             var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
             if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
             {
@@ -91,33 +73,55 @@ namespace S1xxViewer.Types.Features
                 PeriodicDateRange = dateRanges.ToArray();
             }
 
-            var sourceIndicationNodes = node.FirstChild.SelectNodes("sourceIndication", mgr);
-            if (sourceIndicationNodes != null && sourceIndicationNodes.Count > 0)
+            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
+            if (featureNameNodes != null && featureNameNodes.Count > 0)
             {
-                var sourceIndications = new List<SourceIndication>();
-                foreach(XmlNode sourceIndicationNode in sourceIndicationNodes)
+                var featureNames = new List<InternationalString>();
+                foreach (XmlNode featureNameNode in featureNameNodes)
                 {
-                    if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
-                    {
-                        var sourceIndication = new SourceIndication();
-                        sourceIndication.FromXml(sourceIndicationNode.FirstChild, mgr);
-                        sourceIndications.Add(sourceIndication);
-                    }
+                    var language = featureNameNode.SelectSingleNode("language", mgr)?.InnerText ?? "";
+                    var name = featureNameNode.SelectSingleNode("name", mgr)?.InnerText ?? "";
+                    featureNames.Add(new InternationalString(name, language));
                 }
-                SourceIndication = sourceIndications.ToArray();
-            }
-            
-            var categoryOfAuthorityNode = node.FirstChild.SelectSingleNode("categoryOfAuthority", mgr);
-            if (categoryOfAuthorityNode != null && categoryOfAuthorityNode.HasChildNodes)
-            {
-                CategoryOfAuthority = categoryOfAuthorityNode.FirstChild.InnerText;
+                FeatureName = featureNames.ToArray();
             }
 
-            var textContentNode = node.FirstChild.SelectSingleNode("textContent", mgr);
-            if (textContentNode != null && textContentNode.HasChildNodes)
+            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            if (sourceIndication != null && sourceIndication.HasChildNodes)
             {
-                TextContent = new TextContent();
-                TextContent.FromXml(textContentNode.FirstChild, mgr);
+                SourceIndication = new SourceIndication();
+                SourceIndication.FromXml(sourceIndication, mgr);
+            }
+
+            var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
+            if (textContentNodes != null && textContentNodes.Count > 0)
+            {
+                var textContents = new List<TextContent>();
+                foreach (XmlNode textContentNode in textContentNodes)
+                {
+                    if (textContentNode != null && textContentNode.HasChildNodes)
+                    {
+                        var content = new TextContent();
+                        content.FromXml(textContentNode.FirstChild, mgr);
+                        textContents.Add(content);
+                    }
+                }
+                TextContent = textContents.ToArray();
+            }
+
+            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
+            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            {
+                var categories = new List<string>();
+                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
+                {
+                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
+                    {
+                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
+                        categories.Add(category);
+                    }
+                }
+                CategoryOfGMDSSArea = categories.ToArray();
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

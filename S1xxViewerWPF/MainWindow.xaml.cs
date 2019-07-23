@@ -70,25 +70,44 @@ namespace S1xxViewerWPF
         private async void CreateFeatureCollection (IS1xxDataPackage dataPackage)
         {
             List<Field> polyFields = new List<Field>();
-            Field idField = new Field(FieldType.Text, "FeatureId", "Id", 50);
-            polyFields.Add(idField);
+            Field idField1 = new Field(FieldType.Text, "FeatureId", "Id", 50);
+            polyFields.Add(idField1);
+
+            List<Field> pointFields = new List<Field>();
+            Field idField2 = new Field(FieldType.Text, "FeatureId", "Id", 50);
+            pointFields.Add(idField2);
 
             FeatureCollectionTable polysTable = new FeatureCollectionTable(polyFields, GeometryType.Polygon, SpatialReferences.Wgs84);
             polysTable.Renderer = CreateRenderer(GeometryType.Polygon);
+
+            FeatureCollectionTable pointTable = new FeatureCollectionTable(pointFields, GeometryType.Point, SpatialReferences.Wgs84);
+            pointTable.Renderer = CreateRenderer(GeometryType.Point);
 
             FeatureCollection featuresCollection = new FeatureCollection();
             foreach (IFeature feature in dataPackage.GeoFeatures)
             {
                 if (feature is IGeoFeature)
                 {
-                    Feature polyFeature = polysTable.CreateFeature();
-                    polyFeature.SetAttributeValue(idField, feature.Id);
-                    polyFeature.Geometry = ((IGeoFeature)feature).Geometry;
+                    if (((IGeoFeature)feature).Geometry is MapPoint)
+                    {
+                        Feature pointFeature = pointTable.CreateFeature();
+                        pointFeature.SetAttributeValue(idField2, feature.Id);
+                        pointFeature.Geometry = ((IGeoFeature)feature).Geometry;
 
-                    await polysTable.AddFeatureAsync(polyFeature);
+                        await pointTable.AddFeatureAsync(pointFeature);
+                    }
+                    else
+                    {
+                        Feature polyFeature = polysTable.CreateFeature();
+                        polyFeature.SetAttributeValue(idField1, feature.Id);
+                        polyFeature.Geometry = ((IGeoFeature)feature).Geometry;
+
+                        await polysTable.AddFeatureAsync(polyFeature);
+                    }
                 }
             }
 
+            featuresCollection.Tables.Add(pointTable);
             featuresCollection.Tables.Add(polysTable);
             FeatureCollectionLayer collectionLayer = new FeatureCollectionLayer(featuresCollection);
 
@@ -109,7 +128,7 @@ namespace S1xxViewerWPF
                 case GeometryType.Point:
                 case GeometryType.Multipoint:
                     // Create a marker symbol
-                    sym = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle.Triangle, System.Drawing.Color.Red, 18);
+                    sym = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle.X, System.Drawing.Color.Red, 10);
 
                     break;
                 case GeometryType.Polyline:

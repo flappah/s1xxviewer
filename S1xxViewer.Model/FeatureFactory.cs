@@ -24,9 +24,12 @@ namespace S1xxViewer.Model
 
                 var locatedFeature =
                     Features.ToList().Find(tp => tp.GetType().Name.Contains(featureTypeString));
-                locatedFeature.FromXml(node, mgr);
 
-                return locatedFeature;
+                if (locatedFeature != null)
+                {
+                    locatedFeature.FromXml(node, mgr);
+                    return locatedFeature;
+                }
             }
 
             return null;

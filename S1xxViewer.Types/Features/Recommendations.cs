@@ -10,7 +10,7 @@ namespace S1xxViewer.Types.Features
     public class Recommendations : InformationFeatureBase, IRecommendations, IS122Feature
     {
         public string CategoryOfAuthority { get; set; }
-        public string[] Graphic { get; set; }
+        public IGraphic[] Graphic { get; set; }
         public IRxnCode[] RxnCode { get; set; }
         public ITextContent[] TextContent { get; set; }
 
@@ -20,7 +20,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new Regulations
+            return new Recommendations
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -37,8 +37,8 @@ namespace S1xxViewer.Types.Features
                     : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
                 CategoryOfAuthority = CategoryOfAuthority ?? "",
                 Graphic = Graphic == null
-                    ? new string[0]
-                    : Array.ConvertAll(Graphic, g => g),
+                    ? new Graphic[0]
+                    : Array.ConvertAll(Graphic, g => g.DeepClone() as IGraphic),
                 RxnCode = RxnCode == null
                     ? new RxnCode[0]
                     : Array.ConvertAll(RxnCode, r => r.DeepClone() as IRxnCode),
@@ -125,12 +125,14 @@ namespace S1xxViewer.Types.Features
             var graphicNodes = node.FirstChild.SelectNodes("graphic", mgr);
             if (graphicNodes != null && graphicNodes.Count > 0)
             {
-                var graphics = new List<string>();
+                var graphics = new List<Graphic>();
                 foreach (XmlNode graphicNode in graphicNodes)
                 {
                     if (graphicNode != null && graphicNode.HasChildNodes)
                     {
-                        graphics.Add(graphicNode.FirstChild.InnerText);
+                        var newGraphic = new Graphic();
+                        newGraphic.FromXml(graphicNode.FirstChild, mgr);
+                        graphics.Add(newGraphic);
                     }
                 }
                 Graphic = graphics.ToArray();
