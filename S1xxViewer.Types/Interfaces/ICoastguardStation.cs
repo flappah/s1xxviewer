@@ -7,8 +7,5 @@ namespace S1xxViewer.Types.Interfaces
         string[] CommunicationsChannel { get; set; }
         bool IsMRCC { get; set; }
         string[] Status { get; set; }
-
-        IFeature DeepClone();
-        IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
     }
 }

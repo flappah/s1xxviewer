@@ -107,8 +107,14 @@ namespace S1xxViewerWPF
                 }
             }
 
-            featuresCollection.Tables.Add(pointTable);
-            featuresCollection.Tables.Add(polysTable);
+            if (pointTable.Count() > 0)
+            {
+                featuresCollection.Tables.Add(pointTable);
+            }
+            if (polysTable.Count() > 0)
+            {
+                featuresCollection.Tables.Add(polysTable);
+            }
             FeatureCollectionLayer collectionLayer = new FeatureCollectionLayer(featuresCollection);
 
             // When the layer loads, zoom the map view to the extent of the feature collection
