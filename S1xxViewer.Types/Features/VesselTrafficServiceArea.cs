@@ -90,11 +90,11 @@ namespace S1xxViewer.Types.Features
                 FeatureName = featureNames.ToArray();
             }
 
-            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
-            if (sourceIndication != null && sourceIndication.HasChildNodes)
+            var sourceIndicationNode = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
             {
                 SourceIndication = new SourceIndication();
-                SourceIndication.FromXml(sourceIndication, mgr);
+                SourceIndication.FromXml(sourceIndicationNode, mgr);
             }
 
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
@@ -114,7 +114,7 @@ namespace S1xxViewer.Types.Features
             }
 
             var categoryOfVesselTrafficServiceNode = node.FirstChild.SelectSingleNode("categoryOfVesselTrafficService", mgr);
-            if (categoryOfVesselTrafficServiceNode != null)
+            if (categoryOfVesselTrafficServiceNode != null && categoryOfVesselTrafficServiceNode.HasChildNodes)
             {
                 CategoryOfVesselTrafficService = categoryOfVesselTrafficServiceNode.FirstChild.InnerText;
             }
@@ -126,7 +126,7 @@ namespace S1xxViewer.Types.Features
             }
 
             var requirementsForMaintenanceOfListeningWatchNode = node.FirstChild.SelectSingleNode("requirementsForMaintenanceOfListeningWatch", mgr);
-            if (requirementsForMaintenanceOfListeningWatchNode != null)
+            if (requirementsForMaintenanceOfListeningWatchNode != null && requirementsForMaintenanceOfListeningWatchNode.HasChildNodes)
             {
                 RequirementsForMaintenanceOfListeningWatch = requirementsForMaintenanceOfListeningWatchNode.FirstChild.InnerText;
             }
