@@ -54,9 +54,11 @@
     <Compile Include="DataPackageParser.cs" />
     <Compile Include="DataParserBase.cs" />
     <Compile Include="FeatureFactory.cs" />
+    <Compile Include="Geometry\CurveBuilder.cs" />
     <Compile Include="Geometry\EnvelopeBuilder.cs" />
     <Compile Include="Geometry\GeometryBuilderFactory.cs" />
     <Compile Include="Geometry\GeometryBuilderBase.cs" />
+    <Compile Include="Interfaces\ICurveBuilder.cs" />
     <Compile Include="Interfaces\IPointBuilder.cs" />
     <Compile Include="Geometry\PointBuilder.cs" />
     <Compile Include="Interfaces\IDataParser.cs" />

@@ -77,8 +77,15 @@ namespace S1xxViewerWPF
             Field idField2 = new Field(FieldType.Text, "FeatureId", "Id", 50);
             pointFields.Add(idField2);
 
+            List<Field> lineFields = new List<Field>();
+            Field idField3 = new Field(FieldType.Text, "FeatureId", "Id", 50);
+            lineFields.Add(idField3);
+
             FeatureCollectionTable polysTable = new FeatureCollectionTable(polyFields, GeometryType.Polygon, SpatialReferences.Wgs84);
             polysTable.Renderer = CreateRenderer(GeometryType.Polygon);
+
+            FeatureCollectionTable linesTable = new FeatureCollectionTable(lineFields, GeometryType.Polyline, SpatialReferences.Wgs84);
+            linesTable.Renderer = CreateRenderer(GeometryType.Polyline);
 
             FeatureCollectionTable pointTable = new FeatureCollectionTable(pointFields, GeometryType.Point, SpatialReferences.Wgs84);
             pointTable.Renderer = CreateRenderer(GeometryType.Point);
@@ -88,7 +95,7 @@ namespace S1xxViewerWPF
             {
                 if (feature is IGeoFeature)
                 {
-                    if (((IGeoFeature)feature).Geometry is MapPoint)
+                    if (((IGeoFeature)feature).Geometry is Esri.ArcGISRuntime.Geometry.MapPoint)
                     {
                         Feature pointFeature = pointTable.CreateFeature();
                         pointFeature.SetAttributeValue(idField2, feature.Id);
@@ -96,8 +103,16 @@ namespace S1xxViewerWPF
 
                         await pointTable.AddFeatureAsync(pointFeature);
                     }
-                    else
+                    else if (((IGeoFeature)feature).Geometry is Esri.ArcGISRuntime.Geometry.Polyline)
                     {
+                        Feature lineFeature = linesTable.CreateFeature();
+                        lineFeature.SetAttributeValue(idField3, feature.Id);                        
+                        lineFeature.Geometry = ((IGeoFeature)feature).Geometry;
+
+                        await linesTable.AddFeatureAsync(lineFeature);
+                    }
+                    else
+                    { 
                         Feature polyFeature = polysTable.CreateFeature();
                         polyFeature.SetAttributeValue(idField1, feature.Id);
                         polyFeature.Geometry = ((IGeoFeature)feature).Geometry;
@@ -115,10 +130,21 @@ namespace S1xxViewerWPF
             {
                 featuresCollection.Tables.Add(polysTable);
             }
+            if (linesTable.Count() > 0)
+            {
+                featuresCollection.Tables.Add(linesTable);
+            }
             FeatureCollectionLayer collectionLayer = new FeatureCollectionLayer(featuresCollection);
 
             // When the layer loads, zoom the map view to the extent of the feature collection
-            collectionLayer.Loaded += (s, e) => Dispatcher.Invoke(() => { MyMapView.SetViewpointAsync(new Viewpoint(collectionLayer.FullExtent)); });
+            collectionLayer.Loaded += (s, e) => Dispatcher.Invoke(() => 
+            {
+                try
+                {
+                    MyMapView.SetViewpointAsync(new Viewpoint(collectionLayer.FullExtent));
+                }
+                catch(Exception) { }
+            });
 
             // Add the layer to the Map's Operational Layers collection
             MyMapView.Map.OperationalLayers.Add(collectionLayer);
@@ -139,12 +165,12 @@ namespace S1xxViewerWPF
                     break;
                 case GeometryType.Polyline:
                     // Create a line symbol
-                    sym = new SimpleLineSymbol(SimpleLineSymbolStyle.Dash, System.Drawing.Color.Gray, 3);
+                    sym = new SimpleLineSymbol(SimpleLineSymbolStyle.Dash, System.Drawing.Color.DarkGray, 3);
 
                     break;
                 case GeometryType.Polygon:
                     // Create a fill symbol
-                    var lineSym = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.DarkGray, 2);
+                    var lineSym = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.DarkGray, 1);
                     sym = new SimpleFillSymbol(SimpleFillSymbolStyle.Solid, System.Drawing.Color.FromArgb(50, System.Drawing.Color.LightGray), lineSym);
                    
                     break;
