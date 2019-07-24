@@ -7,9 +7,9 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class PilotageDistrict : GeoFeatureBase, IPilotageDistrict, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string[] CommunicationChannel { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +17,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new PilotageDistrict
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -36,9 +36,9 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                CommunicationChannel = CommunicationChannel == null
                     ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                    : Array.ConvertAll(CommunicationChannel, s => s),
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -97,32 +97,28 @@ namespace S1xxViewer.Types.Features
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
             if (textContentNodes != null && textContentNodes.Count > 0)
             {
-                var textContents = new List<TextContent>();
+                var texts = new List<TextContent>();
                 foreach (XmlNode textContentNode in textContentNodes)
                 {
-                    if (textContentNode != null && textContentNode.HasChildNodes)
-                    {
-                        var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
-                        textContents.Add(content);
-                    }
+                    var newTextContent = new TextContent();
+                    newTextContent.FromXml(textContentNode.FirstChild, mgr);
+                    texts.Add(newTextContent);
                 }
-                TextContent = textContents.ToArray();
+                TextContent = texts.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var communicationChannelNodes = node.FirstChild.SelectNodes("communicationChannel", mgr);
+            if (communicationChannelNodes != null && communicationChannelNodes.Count > 0)
             {
-                var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
+                var channels = new List<string>();
+                foreach (XmlNode communicationChannelNode in communicationChannelNodes)
                 {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
+                    if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
                     {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
+                        channels.Add(communicationChannelNode.FirstChild.InnerText);
                     }
                 }
-                CategoryOfGMDSSArea = categories.ToArray();
+                CommunicationChannel = channels.ToArray();
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

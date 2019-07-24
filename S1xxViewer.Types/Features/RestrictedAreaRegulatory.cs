@@ -8,10 +8,11 @@ using System.Xml;
 namespace S1xxViewer.Types.Features
 {
     [Serializable]
-    public class RestrictedAreaRegulatory : GeoFeatureBase, IRestrictedAreaRegulatory, IS122Feature
+    public class RestrictedAreaRegulatory : GeoFeatureBase, IRestrictedAreaRegulatory, IS122Feature, IS127Feature
     {
         public string[] CategoryOfRestrictedArea { get; set; }
         public string[] Restriction { get; set; }
+        public string[] Status { get; set; }
 
         /// <summary>
         /// 
@@ -21,9 +22,6 @@ namespace S1xxViewer.Types.Features
         {
             return new RestrictedAreaRegulatory
             {
-                CategoryOfRestrictedArea = CategoryOfRestrictedArea == null
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfRestrictedArea, s => s),
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
                     : Array.ConvertAll(FeatureName, fn => new InternationalString(fn.Value, fn.Language)),
@@ -34,13 +32,19 @@ namespace S1xxViewer.Types.Features
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
-                Restriction = Restriction == null ? new string[0] : Array.ConvertAll(Restriction, s => s),
                 SourceIndication = SourceIndication == null
                     ? new SourceIndication()
                     : SourceIndication.DeepClone() as ISourceIndication,
                 TextContent = TextContent == null
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                CategoryOfRestrictedArea = CategoryOfRestrictedArea == null
+                    ? new string[0]
+                    : Array.ConvertAll(CategoryOfRestrictedArea, s => s),
+                Restriction = Restriction == null ? new string[0] : Array.ConvertAll(Restriction, s => s),
+                Status = Status == null
+                    ? new string[0]
+                    : Array.ConvertAll(Status, s => s),
                 Geometry = Geometry,
                 Links = Links == null
                     ? new Link[0]
@@ -139,6 +143,20 @@ namespace S1xxViewer.Types.Features
                     }
                 }
                 Restriction = restrictions.ToArray();
+            }
+
+            var statusNodes = node.FirstChild.SelectNodes("status", mgr);
+            if (statusNodes != null && statusNodes.Count > 0)
+            {
+                var statuses = new List<string>();
+                foreach (XmlNode statusNode in statusNodes)
+                {
+                    if (statusNode != null && statusNode.HasChildNodes)
+                    {
+                        statuses.Add(statusNode.FirstChild.InnerText);
+                    }
+                }
+                Status = statuses.ToArray();
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

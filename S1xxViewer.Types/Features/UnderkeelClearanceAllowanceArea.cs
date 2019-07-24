@@ -7,9 +7,10 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class UnderkeelClearanceAllowanceArea : GeoFeatureBase, IUnderkeelClearanceAllowanceArea, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public IUnderkeelAllowance UnderkeelAllowance { get; set; }
+        public string WaterLevelTrend { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +18,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new UnderkeelClearanceAllowanceArea
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -25,7 +26,7 @@ namespace S1xxViewer.Types.Features
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
                     : FixedDateRange.DeepClone() as IDateRange,
-                Id = Id,
+                Id = Id ?? "",
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
@@ -36,9 +37,10 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                UnderkeelAllowance = UnderkeelAllowance == null
+                    ? new UnderkeelAllowance()
+                    : UnderkeelAllowance.DeepClone() as IUnderkeelAllowance,
+                WaterLevelTrend = WaterLevelTrend,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -110,19 +112,17 @@ namespace S1xxViewer.Types.Features
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var underkeelAllowanceNode = node.FirstChild.SelectSingleNode("underkeelAllowance", mgr);
+            if (underkeelAllowanceNode != null && underkeelAllowanceNode.HasChildNodes)
             {
-                var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
-                {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
-                    {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
-                    }
-                }
-                CategoryOfGMDSSArea = categories.ToArray();
+                UnderkeelAllowance = new UnderkeelAllowance();
+                UnderkeelAllowance.FromXml(underkeelAllowanceNode.FirstChild, mgr);
+            }
+
+            var waterLevelTrendNode = node.FirstChild.SelectSingleNode("waterLevelTrend", mgr);
+            if (waterLevelTrendNode != null && waterLevelTrendNode.HasChildNodes)
+            {
+                WaterLevelTrend = waterLevelTrendNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

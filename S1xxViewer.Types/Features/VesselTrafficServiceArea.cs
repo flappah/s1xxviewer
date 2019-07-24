@@ -7,10 +7,12 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class VesselTrafficServiceArea : GeoFeatureBase, IVesselTrafficServiceArea, IS122Feature
+    public class VesselTrafficServiceArea : GeoFeatureBase, IVesselTrafficServiceArea, IS122Feature, IS127Feature
     {
         // data
         public string CategoryOfVesselTrafficService { get; set; }
+        public string ServiceAccessProcedure { get; set; }
+        public string RequirementsForMaintenanceOfListeningWatch { get; set; }
 
         /// <summary>
         /// 
@@ -36,7 +38,10 @@ namespace S1xxViewer.Types.Features
                 TextContent = TextContent == null
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                Geometry = Geometry,
                 CategoryOfVesselTrafficService = CategoryOfVesselTrafficService,
+                ServiceAccessProcedure = ServiceAccessProcedure,
+                RequirementsForMaintenanceOfListeningWatch = RequirementsForMaintenanceOfListeningWatch,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -108,10 +113,22 @@ namespace S1xxViewer.Types.Features
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfVesselTrafficService = node.FirstChild.SelectSingleNode("categoryOfVesselTrafficService", mgr);
-            if (categoryOfVesselTrafficService != null)
+            var categoryOfVesselTrafficServiceNode = node.FirstChild.SelectSingleNode("categoryOfVesselTrafficService", mgr);
+            if (categoryOfVesselTrafficServiceNode != null)
             {
-                CategoryOfVesselTrafficService = categoryOfVesselTrafficService.FirstChild.InnerText;
+                CategoryOfVesselTrafficService = categoryOfVesselTrafficServiceNode.FirstChild.InnerText;
+            }
+
+            var serviceAccessProcedureNode = node.FirstChild.SelectSingleNode("serviceAccessProcedure", mgr);
+            if (serviceAccessProcedureNode != null)
+            {
+                ServiceAccessProcedure = serviceAccessProcedureNode.FirstChild.InnerText;
+            }
+
+            var requirementsForMaintenanceOfListeningWatchNode = node.FirstChild.SelectSingleNode("requirementsForMaintenanceOfListeningWatch", mgr);
+            if (requirementsForMaintenanceOfListeningWatchNode != null)
+            {
+                RequirementsForMaintenanceOfListeningWatch = requirementsForMaintenanceOfListeningWatchNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

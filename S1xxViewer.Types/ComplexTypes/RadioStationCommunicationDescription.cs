@@ -62,7 +62,7 @@ namespace S1xxViewer.Types.ComplexTypes
                         channels.Add(communicationChannelNode.FirstChild.InnerText);
                     }
                 }
-                CategoryOfMaritimeBroadcast = channels.ToArray();
+                CommunicationChannel = channels.ToArray();
             }
 
             var signalFrequencyNode = node.FirstChild.SelectSingleNode("signalFrequency");

@@ -7,9 +7,10 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class ConcentrationOfShippingHazardArea : GeoFeatureBase, IConcentrationOfShippingHazardArea
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string[] CategoryOfConcentrationOfShippingHazardArea { get; set; }
+        public string[] Status { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +18,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new ConcentrationOfShippingHazardArea
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -25,7 +26,7 @@ namespace S1xxViewer.Types.Features
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
                     : FixedDateRange.DeepClone() as IDateRange,
-                Id = Id,
+                Id = Id ?? "",
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
@@ -36,9 +37,12 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                CategoryOfConcentrationOfShippingHazardArea = CategoryOfConcentrationOfShippingHazardArea == null
                     ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                    : Array.ConvertAll(CategoryOfConcentrationOfShippingHazardArea, s => s),
+                Status = Status == null
+                    ? new string[0]
+                    : Array.ConvertAll(Status, s => s),
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -110,19 +114,32 @@ namespace S1xxViewer.Types.Features
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var categoryOfConcentrationOfShippingHazardAreaNodes = node.FirstChild.SelectNodes("categoryOfConcentrationOfShippingHazardArea", mgr);
+            if (categoryOfConcentrationOfShippingHazardAreaNodes != null && categoryOfConcentrationOfShippingHazardAreaNodes.Count > 0)
             {
                 var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
+                foreach (XmlNode categoryOfConcentrationOfShippingHazardAreaNode in categoryOfConcentrationOfShippingHazardAreaNodes)
                 {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
+                    if (categoryOfConcentrationOfShippingHazardAreaNode != null && categoryOfConcentrationOfShippingHazardAreaNode.HasChildNodes)
                     {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
+                        categories.Add(categoryOfConcentrationOfShippingHazardAreaNode.FirstChild.InnerText);
                     }
                 }
-                CategoryOfGMDSSArea = categories.ToArray();
+                CategoryOfConcentrationOfShippingHazardArea = categories.ToArray();
+            }
+
+            var statusNodes = node.FirstChild.SelectNodes("status", mgr);
+            if (statusNodes != null && statusNodes.Count > 0)
+            {
+                var statuses = new List<string>();
+                foreach (XmlNode statusNode in statusNodes)
+                {
+                    if (statusNode != null && statusNode.HasChildNodes)
+                    {
+                        statuses.Add(statusNode.FirstChild.InnerText);
+                    }
+                }
+                Status = statuses.ToArray();
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

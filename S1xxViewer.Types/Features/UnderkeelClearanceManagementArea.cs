@@ -7,9 +7,9 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class UnderkeelClearanceManagementArea : GeoFeatureBase, IUnderkeelClearanceManagementArea, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string DynamicResource { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +17,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new UnderkeelClearanceManagementArea
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -25,7 +25,7 @@ namespace S1xxViewer.Types.Features
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
                     : FixedDateRange.DeepClone() as IDateRange,
-                Id = Id,
+                Id = Id ?? "",
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
@@ -36,9 +36,7 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                DynamicResource = DynamicResource,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -110,19 +108,10 @@ namespace S1xxViewer.Types.Features
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var dynamicResourceNode = node.FirstChild.SelectSingleNode("dynamicResource", mgr);
+            if (dynamicResourceNode != null && dynamicResourceNode.HasChildNodes)
             {
-                var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
-                {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
-                    {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
-                    }
-                }
-                CategoryOfGMDSSArea = categories.ToArray();
+                DynamicResource = dynamicResourceNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

@@ -7,9 +7,11 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class RouteingMeasure : GeoFeatureBase, IRouteingMeasure, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string CategoryOfRouteingMeasure { get; set; }
+        public string CategoryOfTrafficSeparationScheme { get; set; }
+        public string CategoryOfNavigationLine { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +19,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new RouteingMeasure
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -25,7 +27,7 @@ namespace S1xxViewer.Types.Features
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
                     : FixedDateRange.DeepClone() as IDateRange,
-                Id = Id,
+                Id = Id ?? "",
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
@@ -35,10 +37,10 @@ namespace S1xxViewer.Types.Features
                 TextContent = TextContent == null
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                CategoryOfRouteingMeasure = CategoryOfRouteingMeasure,
+                CategoryOfTrafficSeparationScheme = CategoryOfTrafficSeparationScheme,
+                CategoryOfNavigationLine = CategoryOfNavigationLine,
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -110,19 +112,22 @@ namespace S1xxViewer.Types.Features
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var categoryOfRouteingMeasureNode = node.FirstChild.SelectSingleNode("categoryOfRouteingMeasure", mgr);
+            if (categoryOfRouteingMeasureNode != null && categoryOfRouteingMeasureNode.HasChildNodes)
             {
-                var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
-                {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
-                    {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
-                    }
-                }
-                CategoryOfGMDSSArea = categories.ToArray();
+                CategoryOfRouteingMeasure = categoryOfRouteingMeasureNode.FirstChild.InnerText;
+            }
+
+            var categoryOfTrafficSeparationSchemeNode = node.FirstChild.SelectSingleNode("categoryOfTrafficSeparationScheme", mgr);
+            if (categoryOfTrafficSeparationSchemeNode != null && categoryOfTrafficSeparationSchemeNode.HasChildNodes)
+            {
+                CategoryOfTrafficSeparationScheme = categoryOfTrafficSeparationSchemeNode.FirstChild.InnerText;
+            }
+
+            var categoryOfNavigationLineNode = node.FirstChild.SelectSingleNode("categoryOfNavigationLine", mgr);
+            if (categoryOfNavigationLineNode != null && categoryOfNavigationLineNode.HasChildNodes)
+            {
+                CategoryOfNavigationLine = categoryOfNavigationLineNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

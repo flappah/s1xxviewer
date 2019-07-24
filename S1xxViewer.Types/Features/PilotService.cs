@@ -7,9 +7,13 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class PilotService : GeoFeatureBase, IPilotService, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string[] CategoryOfPilot { get; set; }
+        public string PilotQualification { get; set; }
+        public string PilotRequest { get; set; }
+        public bool RemotePilot { get; set; }
+        public INoticeTime NoticeTime { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +21,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new PilotService
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -36,9 +40,15 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                CategoryOfPilot = CategoryOfPilot == null
                     ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                    : Array.ConvertAll(CategoryOfPilot, s => s),
+                PilotQualification = PilotQualification,
+                PilotRequest = PilotRequest,
+                RemotePilot = RemotePilot,
+                NoticeTime = NoticeTime == null
+                    ? new NoticeTime()
+                    : NoticeTime.DeepClone() as INoticeTime,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -87,42 +97,66 @@ namespace S1xxViewer.Types.Features
                 FeatureName = featureNames.ToArray();
             }
 
-            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
-            if (sourceIndication != null && sourceIndication.HasChildNodes)
+            var sourceIndicationNode = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
             {
                 SourceIndication = new SourceIndication();
-                SourceIndication.FromXml(sourceIndication, mgr);
+                SourceIndication.FromXml(sourceIndicationNode, mgr);
             }
 
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
             if (textContentNodes != null && textContentNodes.Count > 0)
             {
-                var textContents = new List<TextContent>();
-                foreach (XmlNode textContentNode in textContentNodes)
+                var texts = new List<TextContent>();
+                foreach(XmlNode textContentNode in textContentNodes)
                 {
-                    if (textContentNode != null && textContentNode.HasChildNodes)
-                    {
-                        var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
-                        textContents.Add(content);
-                    }
+                    var newTextContent = new TextContent();
+                    newTextContent.FromXml(textContentNode.FirstChild, mgr);
+                    texts.Add(newTextContent);
                 }
-                TextContent = textContents.ToArray();
+                TextContent = texts.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var categoryOfPilotNodes = node.FirstChild.SelectNodes("categoryOfPilot", mgr);
+            if (categoryOfPilotNodes != null && categoryOfPilotNodes.Count > 0)
             {
                 var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
+                foreach (XmlNode categoryOfPilotNode in categoryOfPilotNodes)
                 {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
-                    {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
-                    }
+                    var category = categoryOfPilotNode.FirstChild.InnerText;
+                    categories.Add(category);
                 }
-                CategoryOfGMDSSArea = categories.ToArray();
+                CategoryOfPilot = categories.ToArray();
+            }
+
+            var pilotQualificationNode = node.FirstChild.SelectSingleNode("pilotQualification", mgr);
+            if (pilotQualificationNode != null && pilotQualificationNode.HasChildNodes)
+            {
+                PilotQualification = pilotQualificationNode.FirstChild.InnerText;
+            }
+
+            var pilotRequestNode = node.FirstChild.SelectSingleNode("pilotRequest", mgr);
+            if (pilotRequestNode != null && pilotRequestNode.HasChildNodes)
+            {
+                PilotRequest = pilotRequestNode.FirstChild.InnerText;
+            }
+
+            var remotePilotNode = node.FirstChild.SelectSingleNode("remotePilot", mgr);
+            if (remotePilotNode != null && remotePilotNode.HasChildNodes)
+            {
+                bool remotePilot;
+                if (!bool.TryParse(remotePilotNode.FirstChild.InnerText, out remotePilot))
+                {
+                    remotePilot = false;
+                }
+                RemotePilot = remotePilot;
+            }
+
+            var noticeTimeNode = node.FirstChild.SelectSingleNode("noticeTime", mgr);
+            if (noticeTimeNode != null && noticeTimeNode.HasChildNodes)
+            {
+                NoticeTime = new NoticeTime();
+                NoticeTime.FromXml(noticeTimeNode.FirstChild, mgr);
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

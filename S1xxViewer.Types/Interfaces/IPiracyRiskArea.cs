@@ -1,8 +1,7 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IRestrictedAreaRegulatory : IGeoFeature
+    public interface IPiracyRiskArea : IGeoFeature
     {
-        string[] CategoryOfRestrictedArea { get; set; }
         string[] Restriction { get; set; }
         string[] Status { get; set; }
     }

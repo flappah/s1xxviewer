@@ -106,18 +106,18 @@ namespace S1xxViewer.Types.Features
                 }
                 SourceIndication = sourceIndications.ToArray();
             }
-            
-            var categoryOfAuthorityNode = node.FirstChild.SelectSingleNode("categoryOfAuthority", mgr);
-            if (categoryOfAuthorityNode != null && categoryOfAuthorityNode.HasChildNodes)
-            {
-                CategoryOfAuthority = categoryOfAuthorityNode.FirstChild.InnerText;
-            }
 
             var textContentNode = node.FirstChild.SelectSingleNode("textContent", mgr);
             if (textContentNode != null && textContentNode.HasChildNodes)
             {
                 TextContent = new TextContent();
                 TextContent.FromXml(textContentNode.FirstChild, mgr);
+            }
+
+            var categoryOfAuthorityNode = node.FirstChild.SelectSingleNode("categoryOfAuthority", mgr);
+            if (categoryOfAuthorityNode != null && categoryOfAuthorityNode.HasChildNodes)
+            {
+                CategoryOfAuthority = categoryOfAuthorityNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

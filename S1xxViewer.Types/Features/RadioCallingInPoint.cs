@@ -7,9 +7,15 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class RadioCallingInPoint : GeoFeatureBase, IRadioCallingInPoint, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string CallSign { get; set; }
+        public string[] CommunicationChannel { get; set; }
+        public string[] CategoryOfCargo { get; set; }
+        public string CategoryOfVessel { get; set; }
+        public IOrientation[] Orientation { get; set; }
+        public string[] Status { get; set; }
+        public string TrafficFlow { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +23,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new RadioCallingInPoint
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -36,9 +42,21 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                CallSign = CallSign,
+                CommunicationChannel = CommunicationChannel == null
                     ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                    : Array.ConvertAll(CommunicationChannel, s => s),
+                CategoryOfCargo = CategoryOfCargo == null
+                    ? new string[0]
+                    : Array.ConvertAll(CategoryOfCargo, s => s),
+                CategoryOfVessel = CategoryOfVessel,
+                Orientation = Orientation == null
+                    ? new Orientation[0]
+                    : Array.ConvertAll(Orientation, o => o.DeepClone() as IOrientation),
+                Status = Status == null
+                    ? new string[0]
+                    : Array.ConvertAll(Status, s => s),
+                TrafficFlow = TrafficFlow,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -97,32 +115,90 @@ namespace S1xxViewer.Types.Features
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
             if (textContentNodes != null && textContentNodes.Count > 0)
             {
-                var textContents = new List<TextContent>();
+                var texts = new List<TextContent>();
                 foreach (XmlNode textContentNode in textContentNodes)
                 {
-                    if (textContentNode != null && textContentNode.HasChildNodes)
-                    {
-                        var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
-                        textContents.Add(content);
-                    }
+                    var newTextContent = new TextContent();
+                    newTextContent.FromXml(textContentNode.FirstChild, mgr);
+                    texts.Add(newTextContent);
                 }
-                TextContent = textContents.ToArray();
+                TextContent = texts.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var callSignNode = node.FirstChild.SelectSingleNode("callSign", mgr);
+            if (callSignNode != null && callSignNode.HasChildNodes)
             {
-                var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
+                CallSign = callSignNode.FirstChild.InnerText;
+            }
+
+            var communicationChannelNodes = node.FirstChild.SelectNodes("communicationChannel", mgr);
+            if (communicationChannelNodes != null && communicationChannelNodes.Count > 0)
+            {
+                var channels = new List<string>();
+                foreach (XmlNode communicationChannelNode in communicationChannelNodes)
                 {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
+                    if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
                     {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
+                        channels.Add(communicationChannelNode.FirstChild.InnerText);
                     }
                 }
-                CategoryOfGMDSSArea = categories.ToArray();
+                CommunicationChannel = channels.ToArray();
+            }
+
+            var categoryOfCargoNodes = node.FirstChild.SelectNodes("categoryOfCargo", mgr);
+            if (categoryOfCargoNodes != null && categoryOfCargoNodes.Count > 0)
+            {
+                var categories = new List<string>();
+                foreach (XmlNode categoryOfCargoNode in categoryOfCargoNodes)
+                {
+                    if (categoryOfCargoNode != null && categoryOfCargoNode.HasChildNodes)
+                    {
+                        categories.Add(categoryOfCargoNode.FirstChild.InnerText);
+                    }
+                }
+                CategoryOfCargo = categories.ToArray();
+            }
+
+            var categoryOfVesselNode = node.FirstChild.SelectSingleNode("categoryOfVessel", mgr);
+            if (categoryOfVesselNode != null && categoryOfVesselNode.HasChildNodes)
+            {
+                CategoryOfVessel = categoryOfVesselNode.FirstChild.InnerText;
+            }
+
+            var orientationNodes = node.FirstChild.SelectNodes("orientation", mgr);
+            if (orientationNodes != null && orientationNodes.Count > 0)
+            {
+                var orientations = new List<Orientation>();
+                foreach (XmlNode orientationNode in orientationNodes)
+                {
+                    if (orientationNode != null && orientationNode.HasChildNodes)
+                    {
+                        var newOrientation = new Orientation();
+                        newOrientation.FromXml(orientationNode.FirstChild, mgr);
+                        orientations.Add(newOrientation);
+                    }
+                }
+                Orientation = orientations.ToArray();
+            }
+
+            var statusNodes = node.FirstChild.SelectNodes("status", mgr);
+            if (statusNodes != null && statusNodes.Count > 0)
+            {
+                var statuses = new List<string>();
+                foreach (XmlNode statusNode in statusNodes)
+                {
+                    if (statusNode != null && statusNode.HasChildNodes)
+                    {
+                        statuses.Add(statusNode.FirstChild.InnerText);
+                    }
+                }
+                Status = statuses.ToArray();
+            }
+
+            var trafficFlowNode = node.FirstChild.SelectSingleNode("trafficFlow", mgr);
+            if (trafficFlowNode != null && trafficFlowNode.HasChildNodes)
+            {
+                TrafficFlow = trafficFlowNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

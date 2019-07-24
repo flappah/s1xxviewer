@@ -7,9 +7,12 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class MilitaryPracticeArea : GeoFeatureBase, IMilitaryPracticeArea, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string[] CategoryOfMilitaryPracticeArea { get; set; }
+        public string Nationality { get; set; }
+        public string[] Restriction { get; set; }
+        public string[] Status { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +20,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new MilitaryPracticeArea
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -36,9 +39,16 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                CategoryOfMilitaryPracticeArea = CategoryOfMilitaryPracticeArea == null
                     ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                    : Array.ConvertAll(CategoryOfMilitaryPracticeArea, s => s),
+                Nationality = Nationality,
+                Restriction = Restriction == null
+                    ? new string[0]
+                    : Array.ConvertAll(Restriction, s => s),
+                Status = Status == null
+                    ? new string[0]
+                    : Array.ConvertAll(Status, s => s),
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -97,32 +107,63 @@ namespace S1xxViewer.Types.Features
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
             if (textContentNodes != null && textContentNodes.Count > 0)
             {
-                var textContents = new List<TextContent>();
+                var texts = new List<TextContent>();
                 foreach (XmlNode textContentNode in textContentNodes)
                 {
-                    if (textContentNode != null && textContentNode.HasChildNodes)
-                    {
-                        var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
-                        textContents.Add(content);
-                    }
+                    var newTextContent = new TextContent();
+                    newTextContent.FromXml(textContentNode.FirstChild, mgr);
+                    texts.Add(newTextContent);
                 }
-                TextContent = textContents.ToArray();
+                TextContent = texts.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var categoryOfMilitaryPracticeAreaNodes = node.FirstChild.SelectNodes("categoryOfMilitaryPracticeArea", mgr);
+            if (categoryOfMilitaryPracticeAreaNodes != null && categoryOfMilitaryPracticeAreaNodes.Count > 0)
             {
                 var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
+                foreach (XmlNode categoryOfMilitaryPracticeAreaNode in categoryOfMilitaryPracticeAreaNodes)
                 {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
+                    if (categoryOfMilitaryPracticeAreaNode != null && categoryOfMilitaryPracticeAreaNode.HasChildNodes)
                     {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
+                        categories.Add(categoryOfMilitaryPracticeAreaNode.FirstChild.InnerText);
                     }
                 }
-                CategoryOfGMDSSArea = categories.ToArray();
+                CategoryOfMilitaryPracticeArea = categories.ToArray();
+            }
+
+            var nationalityNode = node.FirstChild.SelectSingleNode("nationalityNode", mgr);
+            if (nationalityNode != null && nationalityNode.HasChildNodes)
+            {
+                Nationality = nationalityNode.FirstChild.InnerText;
+            }
+
+            var restrictionNodes = node.FirstChild.SelectNodes("restriction", mgr);
+            if (restrictionNodes != null && restrictionNodes.Count > 0)
+            {
+                var restrictions = new List<string>();
+                foreach (XmlNode restrictionNode in restrictionNodes)
+                {
+                    if (restrictionNode != null && restrictionNode.HasChildNodes)
+                    {
+                        restrictions.Add(restrictionNode.FirstChild.InnerText);
+                    }
+                }
+                Restriction = restrictions.ToArray();
+            }
+
+            var statusNodes = node.FirstChild.SelectNodes("status", mgr);
+            if (statusNodes != null && statusNodes.Count > 0)
+            {
+                var statuses = new List<string>();
+                foreach (XmlNode statusNode in statusNodes)
+                {
+                    if (statusNode != null && statusNode.HasChildNodes)
+                    {
+                        var status = statusNode.FirstChild.InnerText;
+                        statuses.Add(status);
+                    }
+                }
+                Status = statuses.ToArray();
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

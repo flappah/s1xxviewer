@@ -35,6 +35,7 @@ namespace S1xxViewer.Types.Features
                 TextContent = TextContent == null
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                Geometry = Geometry,
                 Status = Status,
                 Links = Links == null
                     ? new Link[0]

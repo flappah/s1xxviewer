@@ -7,9 +7,10 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class PiracyRiskArea : GeoFeatureBase, IPiracyRiskArea, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string[] Restriction { get; set; }
+        public string[] Status { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +18,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new PiracyRiskArea
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -36,9 +37,12 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                Restriction = Restriction == null
                     ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                    : Array.ConvertAll(Restriction, s => s),
+                Status = Status == null
+                    ? new string[0]
+                    : Array.ConvertAll(Status, s => s),
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -97,32 +101,42 @@ namespace S1xxViewer.Types.Features
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
             if (textContentNodes != null && textContentNodes.Count > 0)
             {
-                var textContents = new List<TextContent>();
+                var texts = new List<TextContent>();
                 foreach (XmlNode textContentNode in textContentNodes)
                 {
-                    if (textContentNode != null && textContentNode.HasChildNodes)
-                    {
-                        var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
-                        textContents.Add(content);
-                    }
+                    var newTextContent = new TextContent();
+                    newTextContent.FromXml(textContentNode.FirstChild, mgr);
+                    texts.Add(newTextContent);
                 }
-                TextContent = textContents.ToArray();
+                TextContent = texts.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var restrictionNodes = node.FirstChild.SelectNodes("restriction", mgr);
+            if (restrictionNodes != null && restrictionNodes.Count > 0)
             {
-                var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
+                var restrictions = new List<string>();
+                foreach (XmlNode restrictionNode in restrictionNodes)
                 {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
+                    if (restrictionNode != null && restrictionNode.HasChildNodes)
                     {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
+                        restrictions.Add(restrictionNode.FirstChild.InnerText);
                     }
                 }
-                CategoryOfGMDSSArea = categories.ToArray();
+                Restriction = restrictions.ToArray();
+            }
+
+            var statusNodes = node.FirstChild.SelectNodes("status", mgr);
+            if (statusNodes != null && statusNodes.Count > 0)
+            {
+                var statuses = new List<string>();
+                foreach (XmlNode statusNode in statusNodes)
+                {
+                    if (statusNode != null && statusNode.HasChildNodes)
+                    {
+                        statuses.Add(statusNode.FirstChild.InnerText);
+                    }
+                }
+                Status = statuses.ToArray();
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

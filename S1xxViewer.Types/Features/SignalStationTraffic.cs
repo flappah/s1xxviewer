@@ -7,9 +7,11 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class SignalStationTraffic : GeoFeatureBase, ISignalStationTraffic, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string[] CategoryOfSignalStationTraffic { get; set; }
+        public string[] CommunicationChannel { get; set; }
+        public string[] Status { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +19,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new SignalStationTraffic
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -25,7 +27,7 @@ namespace S1xxViewer.Types.Features
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
                     : FixedDateRange.DeepClone() as IDateRange,
-                Id = Id,
+                Id = Id ?? "",
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
@@ -36,9 +38,15 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                CategoryOfSignalStationTraffic = CategoryOfSignalStationTraffic == null
                     ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                    : Array.ConvertAll(CategoryOfSignalStationTraffic, s => s),
+                CommunicationChannel = CommunicationChannel == null
+                    ? new string[0]
+                    : Array.ConvertAll(CommunicationChannel, s => s),
+                Status = Status == null
+                    ? new string[0]
+                    : Array.ConvertAll(Status, s => s),
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -110,19 +118,46 @@ namespace S1xxViewer.Types.Features
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var categoryOfSignalStationTrafficNodes = node.FirstChild.SelectNodes("categoryOfSignalStationTraffic", mgr);
+            if (categoryOfSignalStationTrafficNodes != null && categoryOfSignalStationTrafficNodes.Count > 0)
             {
                 var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
+                foreach (XmlNode categoryOfSignalStationTrafficNode in categoryOfSignalStationTrafficNodes)
                 {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
+                    if (categoryOfSignalStationTrafficNode != null && categoryOfSignalStationTrafficNode.HasChildNodes)
                     {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
+                        categories.Add(categoryOfSignalStationTrafficNode.FirstChild.InnerText);
                     }
                 }
-                CategoryOfGMDSSArea = categories.ToArray();
+                CategoryOfSignalStationTraffic = categories.ToArray();
+            }
+
+            var communicationChannelNodes = node.FirstChild.SelectNodes("communicationChannel", mgr);
+            if (communicationChannelNodes != null && communicationChannelNodes.Count > 0)
+            {
+                var communications = new List<string>();
+                foreach (XmlNode communicationChannelNode in communicationChannelNodes)
+                {
+                    if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
+                    {
+                        communications.Add(communicationChannelNode.FirstChild.InnerText);
+                    }
+                }
+                CommunicationChannel = communications.ToArray();
+            }
+
+            var statusNodes = node.FirstChild.SelectNodes("status", mgr);
+            if (statusNodes != null && statusNodes.Count > 0)
+            {
+                var statuses = new List<string>();
+                foreach (XmlNode statusNode in statusNodes)
+                {
+                    if (statusNode != null && statusNode.HasChildNodes)
+                    {
+                        statuses.Add(statusNode.FirstChild.InnerText);
+                    }
+                }
+                Status = statuses.ToArray();
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

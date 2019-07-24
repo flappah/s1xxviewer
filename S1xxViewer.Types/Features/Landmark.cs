@@ -37,6 +37,7 @@ namespace S1xxViewer.Types.Features
                 TextContent = TextContent == null
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                Geometry = Geometry,
                 CategoryOfLandmark = CategoryOfLandmark == null
                     ? new string[0]
                     : Array.ConvertAll(CategoryOfLandmark, s => s),

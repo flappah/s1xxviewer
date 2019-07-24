@@ -73,10 +73,12 @@
     <Compile Include="Interfaces\IS122DataParser.cs" />
     <Compile Include="Interfaces\INullDataParser.cs" />
     <Compile Include="Interfaces\IS123DataParser.cs" />
+    <Compile Include="Interfaces\IS127DataParser.cs" />
     <Compile Include="NullDataParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="S122DataParser.cs" />
     <Compile Include="S123DataParser.cs" />
+    <Compile Include="S127DataParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

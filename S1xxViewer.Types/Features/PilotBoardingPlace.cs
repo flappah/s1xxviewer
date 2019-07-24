@@ -7,9 +7,17 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class GMDSSArea : GeoFeatureBase, IGMDSSArea, IS123Feature
+    public class PilotBoardingPlace : GeoFeatureBase, IPilotBoardingPlace, IS127Feature
     {
-        public string[] CategoryOfGMDSSArea { get; set; }
+        public string CallSign { get; set; }
+        public string CategoryOfPilotBoardingPlace { get; set; }
+        public string CategoryOfPreference { get; set; }
+        public string CategoryOfVessel { get; set; }
+        public string[] CommunicationChannel { get; set; }
+        public string Destination { get; set; }
+        public string PilotMovement { get; set; }
+        public string PilotVessel { get; set; }
+        public string[] Status { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +25,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new GMDSSArea
+            return new PilotBoardingPlace
             {
                 FeatureName = FeatureName == null
                     ? new[] { new InternationalString("") }
@@ -36,9 +44,19 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfGMDSSArea = CategoryOfGMDSSArea == null
+                CallSign = CallSign,
+                CategoryOfPilotBoardingPlace = CategoryOfPilotBoardingPlace,
+                CategoryOfPreference = CategoryOfPreference,
+                CategoryOfVessel = CategoryOfVessel,
+                CommunicationChannel = CommunicationChannel == null
                     ? new string[0]
-                    : Array.ConvertAll(CategoryOfGMDSSArea, s => s),
+                    : Array.ConvertAll(CommunicationChannel, s => s),
+                Destination = Destination,
+                PilotMovement = PilotMovement,
+                PilotVessel = PilotVessel,
+                Status = Status == null
+                    ? new string[0]
+                    : Array.ConvertAll(Status, s => s),
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -97,34 +115,72 @@ namespace S1xxViewer.Types.Features
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
             if (textContentNodes != null && textContentNodes.Count > 0)
             {
-                var textContents = new List<TextContent>();
+                var texts = new List<TextContent>();
                 foreach (XmlNode textContentNode in textContentNodes)
                 {
-                    if (textContentNode != null && textContentNode.HasChildNodes)
-                    {
-                        var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
-                        textContents.Add(content);
-                    }
+                    var newTextContent = new TextContent();
+                    newTextContent.FromXml(textContentNode.FirstChild, mgr);
+                    texts.Add(newTextContent);
                 }
-                TextContent = textContents.ToArray();
+                TextContent = texts.ToArray();
             }
 
-            var categoryOfGMDSSAreaNodes = node.FirstChild.SelectNodes("categoryOfGMDSSArea", mgr);
-            if (categoryOfGMDSSAreaNodes != null && categoryOfGMDSSAreaNodes.Count > 0)
+            var callSignNode = node.FirstChild.SelectSingleNode("callSign", mgr);
+            if (callSignNode != null && callSignNode.HasChildNodes)
             {
-                var categories = new List<string>();
-                foreach (XmlNode categoryOfGMDSSAreaNode in categoryOfGMDSSAreaNodes)
-                {
-                    if (categoryOfGMDSSAreaNode != null && categoryOfGMDSSAreaNode.HasChildNodes)
-                    {
-                        var category = categoryOfGMDSSAreaNode.FirstChild.InnerText;
-                        categories.Add(category);
-                    }
-                }
-                CategoryOfGMDSSArea = categories.ToArray();
+                CallSign = callSignNode.FirstChild.InnerText;
             }
 
+            var categoryOfPilotBoardingPlaceNode = node.FirstChild.SelectSingleNode("categoryOfPilotBoardingPlace", mgr);
+            if (categoryOfPilotBoardingPlaceNode != null && categoryOfPilotBoardingPlaceNode.HasChildNodes)
+            {
+                CategoryOfPilotBoardingPlace = categoryOfPilotBoardingPlaceNode.FirstChild.InnerText;
+            }
+
+            var categoryOfPreferenceNode= node.FirstChild.SelectSingleNode("categoryOfPreference", mgr);
+            if (categoryOfPreferenceNode != null && categoryOfPreferenceNode.HasChildNodes)
+            {
+                CategoryOfPilotBoardingPlace = categoryOfPreferenceNode.FirstChild.InnerText;
+            }
+
+            var categoryOfVesselNode = node.FirstChild.SelectSingleNode("categoryOfVessel", mgr);
+            if (categoryOfVesselNode != null && categoryOfVesselNode.HasChildNodes)
+            {
+                CategoryOfVessel = categoryOfVesselNode.FirstChild.InnerText;
+            }
+
+            var communicationChannelNodes = node.FirstChild.SelectNodes("communicationChannel", mgr);
+            if (communicationChannelNodes != null && communicationChannelNodes.Count > 0)
+            {
+                var channels = new List<string>();
+                foreach (XmlNode communicationChannelNode in communicationChannelNodes)
+                {
+                    if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
+                    {
+                        channels.Add(communicationChannelNode.FirstChild.InnerText);
+                    }
+                }
+                CommunicationChannel = channels.ToArray();
+            }
+
+            var destinationNode = node.FirstChild.SelectSingleNode("destination", mgr);
+            if (destinationNode != null && destinationNode.HasChildNodes)
+            {
+                Destination = destinationNode.FirstChild.InnerText;
+            }
+
+            var pilotMovementNode = node.FirstChild.SelectSingleNode("pilotMovement", mgr);
+            if (pilotMovementNode != null && pilotMovementNode.HasChildNodes)
+            {
+                PilotMovement = pilotMovementNode.FirstChild.InnerText;
+            }
+
+            var pilotVesselNode = node.FirstChild.SelectSingleNode("pilotVessel", mgr);
+            if (pilotVesselNode != null && pilotVesselNode.HasChildNodes)
+            {
+                PilotVessel = pilotVesselNode.FirstChild.InnerText;
+            }
+                       
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
             if (linkNodes != null && linkNodes.Count > 0)
             {

@@ -41,6 +41,7 @@ namespace S1xxViewer.Types.Features
                 TextContent = TextContent == null
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                Geometry = Geometry,
                 CallSign = CallSign,
                 CategoryOfRadioStation = CategoryOfRadioStation,
                 EstimatedRangeOffTransmission = EstimatedRangeOffTransmission,
