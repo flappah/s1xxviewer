@@ -1,0 +1,93 @@
+﻿using S1xxViewer.Types.Interfaces;
+using System.Xml;
+
+namespace S1xxViewer.Types
+{
+    public class PrintInformation : IPrintInformation
+    {
+        public string PrintAgency { get; set; }
+        public string PrintNation { get; set; }
+        public string PrintSize { get; set; }
+        public int PrintWeek { get; set; }
+        public string PrintYear { get; set; }
+        public string ReprintEdition { get; set; }
+        public string ReprintNation { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IComplexType DeepClone()
+        {
+            return new PrintInformation
+            {
+                PrintAgency = PrintAgency,
+                PrintNation = PrintNation,
+                PrintSize = PrintSize,
+                PrintWeek = PrintWeek,
+                PrintYear = PrintYear,
+                ReprintEdition = ReprintEdition,
+                ReprintNation = ReprintNation
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="mgr"></param>
+        /// <returns></returns>
+        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        {
+            var printAgencyNode = node.FirstChild.SelectSingleNode("printAgency");
+            if (printAgencyNode != null && printAgencyNode.HasChildNodes)
+            {
+                PrintAgency = printAgencyNode.FirstChild.InnerText;
+            }
+
+            var printNationNode = node.FirstChild.SelectSingleNode("printNation");
+            if (printNationNode != null && printNationNode.HasChildNodes)
+            {
+                PrintNation = printNationNode.FirstChild.InnerText;
+            }
+
+            var printSizeNode = node.FirstChild.SelectSingleNode("printSize");
+            if (printSizeNode != null && printSizeNode.HasChildNodes)
+            {
+                PrintSize = printSizeNode.FirstChild.InnerText;
+            }
+
+            var printWeekNode = node.FirstChild.SelectSingleNode("printWeek");
+            if (printWeekNode != null && printWeekNode.HasChildNodes)
+            {
+                int printWeek;
+                if (!int.TryParse(printWeekNode.FirstChild.InnerText, out printWeek))
+                {
+                    printWeek = -1;
+                }
+                PrintWeek = printWeek;
+            }
+
+            var printYearNode = node.FirstChild.SelectSingleNode("printYear");
+            if (printYearNode != null && printYearNode.HasChildNodes)
+            {
+                PrintYear = printYearNode.FirstChild.InnerText;
+            }
+
+            var reprintEditionNode = node.FirstChild.SelectSingleNode("reprintEdition");
+            if (reprintEditionNode != null && reprintEditionNode.HasChildNodes)
+            {
+                ReprintEdition = reprintEditionNode.FirstChild.InnerText;
+            }
+
+            var reprintNationNode = node.FirstChild.SelectSingleNode("reprintNation");
+            if (reprintNationNode != null && reprintNationNode.HasChildNodes)
+            {
+                ReprintNation = reprintNationNode.FirstChild.InnerText;
+            }
+
+            return this;
+
+        }
+    }
+}

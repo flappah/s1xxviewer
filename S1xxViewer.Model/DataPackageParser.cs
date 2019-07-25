@@ -8,7 +8,10 @@ using System.Xml;
 namespace S1xxViewer.Model
 {
     public class DataPackageParser : IDataPackageParser
-    {       
+    {     
+        /// <summary>
+        /// Uses Autofac to insert all existing dataparsers in this property.
+        /// </summary>
         public IDataParser[] DataParsers { get; set; }
 
         /// <summary>

@@ -8,15 +8,20 @@ namespace S1xxViewer.Model
 {
     public abstract class DataParserBase : IDataParser
     {
+        /// <summary>
+        /// Parses specified XMLDocument
+        /// </summary>
+        /// <param name="xmlDocument">XmlDocument</param>
+        /// <returns>IS1xxDataPackage</returns>
         public abstract IS1xxDataPackage Parse(XmlDocument xmlDocument);
 
         /// <summary>
-        /// 
+        /// Resolves specified links by looking in the specified lists for the requested ID's
         /// </summary>
-        /// <param name="links"></param>
-        /// <param name="informationFeatures"></param>
-        /// <param name="metaFeatures"></param>
-        /// <param name="geoFeatures"></param>
+        /// <param name="links">ILink[]</param>
+        /// <param name="informationFeatures">List<IInformationFeature></param>
+        /// <param name="metaFeatures">List<IMetaFeature></param>
+        /// <param name="geoFeatures">List<IGeoFeature></param>
         protected void ResolveLinks(ILink[] links, List<IInformationFeature> informationFeatures, List<IMetaFeature> metaFeatures, List<IGeoFeature> geoFeatures)
         {
             foreach (ILink link in links)

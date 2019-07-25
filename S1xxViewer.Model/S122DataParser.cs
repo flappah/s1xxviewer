@@ -21,10 +21,10 @@ namespace S1xxViewer.Model
         }
 
         /// <summary>
-        /// 
+        /// Parses specified XMLDocument
         /// </summary>
-        /// <param name="xmlDocument"></param>
-        /// <returns></returns>
+        /// <param name="xmlDocument">XmlDocument</param>
+        /// <returns>IS1xxDataPackage</returns>
         public override IS1xxDataPackage Parse(XmlDocument xmlDocument)
         {
             var dataPackage = new S1xxDataPackage();

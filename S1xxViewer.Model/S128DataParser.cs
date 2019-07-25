@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace S1xxViewer.Model
 {
-    public class S127DataParser : DataParserBase, IS127DataParser
+    public class S128DataParser : DataParserBase, IS128DataParser
     {
         private IGeometryBuilderFactory _geometryBuilderFactory;
         private IFeatureFactory _featureFactory;
@@ -14,7 +14,7 @@ namespace S1xxViewer.Model
         /// <summary>
         /// For autofac initialization
         /// </summary>
-        public S127DataParser(IGeometryBuilderFactory geometryBuilderFactory, IFeatureFactory featureFactory)
+        public S128DataParser(IGeometryBuilderFactory geometryBuilderFactory, IFeatureFactory featureFactory)
         {
             _geometryBuilderFactory = geometryBuilderFactory;
             _featureFactory = featureFactory;
@@ -28,12 +28,12 @@ namespace S1xxViewer.Model
         public override IS1xxDataPackage Parse(XmlDocument xmlDocument)
         {
             var dataPackage = new S1xxDataPackage();
-            dataPackage.Type = S1xxTypes.S127;
+            dataPackage.Type = S1xxTypes.S128;
             dataPackage.RawData = xmlDocument;
 
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDocument.NameTable);
             nsmgr.AddNamespace("gml", "http://www.opengis.net/gml/3.2");
-            nsmgr.AddNamespace("S127", "http://www.iho.int/S127/gml/1.0");
+            nsmgr.AddNamespace("S128", "http://www.iho.int/S127/gml/1.0");
             nsmgr.AddNamespace("s100", "http://www.iho.int/s100gml/1.0");
             nsmgr.AddNamespace("xlink", "http://www.w3.org/1999/xlink");
 

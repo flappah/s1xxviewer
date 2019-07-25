@@ -24,6 +24,15 @@ using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.Symbology;
 using Esri.ArcGISRuntime.Mapping;
 using System.Drawing;
+using Esri.ArcGISRuntime;
+using Esri.ArcGISRuntime.Data;
+using Esri.ArcGISRuntime.Geometry;
+using Esri.ArcGISRuntime.Mapping;
+using Esri.ArcGISRuntime.UI.Controls;
+using System;
+using System.Windows;
+using System.Drawing;
+using S1xxViewer.Model.Interface;
 
 namespace S1xxViewerWPF
 {
@@ -33,6 +42,7 @@ namespace S1xxViewerWPF
     public partial class MainWindow : Window
     {
         private readonly IContainer _container;
+        private FeatureCollectionLayer _collectionLayer;
 
         public MainWindow()
         {
@@ -40,11 +50,21 @@ namespace S1xxViewerWPF
             _container = AutofacInitializer.Initialize();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="e"></param>
         public void AppExit_Click(object obj, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AppOpen_Click(object sender, RoutedEventArgs e)
         {
             MyMapView.Map.OperationalLayers.Clear();
@@ -62,24 +82,40 @@ namespace S1xxViewerWPF
 
                 var dataParser = _container.Resolve<IDataPackageParser>();
                 IS1xxDataPackage dataPackage = dataParser.Parse(xmlDoc);
-
-                CreateFeatureCollection(dataPackage);
+                if (dataPackage is INullDataParser)
+                {
+                    MessageBox.Show("Can't parse specified input file. No dataparser exists for this input file!");
+                }
+                else
+                {
+                    CreateFeatureCollection(dataPackage);
+                }
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataPackage"></param>
         private async void CreateFeatureCollection (IS1xxDataPackage dataPackage)
         {
             List<Field> polyFields = new List<Field>();
             Field idField1 = new Field(FieldType.Text, "FeatureId", "Id", 50);
+            Field nameField1 = new Field(FieldType.Text, "FeatureName", "Name", 255);
             polyFields.Add(idField1);
+            polyFields.Add(nameField1);
 
             List<Field> pointFields = new List<Field>();
             Field idField2 = new Field(FieldType.Text, "FeatureId", "Id", 50);
+            Field nameField2 = new Field(FieldType.Text, "FeatureName", "Name", 255);
             pointFields.Add(idField2);
+            pointFields.Add(nameField2);
 
             List<Field> lineFields = new List<Field>();
             Field idField3 = new Field(FieldType.Text, "FeatureId", "Id", 50);
+            Field nameField3 = new Field(FieldType.Text, "FeatureName", "Name", 255);
             lineFields.Add(idField3);
+            lineFields.Add(nameField3);
 
             FeatureCollectionTable polysTable = new FeatureCollectionTable(polyFields, GeometryType.Polygon, SpatialReferences.Wgs84);
             polysTable.Renderer = CreateRenderer(GeometryType.Polygon);
@@ -90,7 +126,6 @@ namespace S1xxViewerWPF
             FeatureCollectionTable pointTable = new FeatureCollectionTable(pointFields, GeometryType.Point, SpatialReferences.Wgs84);
             pointTable.Renderer = CreateRenderer(GeometryType.Point);
 
-            FeatureCollection featuresCollection = new FeatureCollection();
             foreach (IFeature feature in dataPackage.GeoFeatures)
             {
                 if (feature is IGeoFeature)
@@ -99,6 +134,7 @@ namespace S1xxViewerWPF
                     {
                         Feature pointFeature = pointTable.CreateFeature();
                         pointFeature.SetAttributeValue(idField2, feature.Id);
+                        pointFeature.SetAttributeValue(nameField2, ((IGeoFeature)feature).FeatureName?.First()?.Value);
                         pointFeature.Geometry = ((IGeoFeature)feature).Geometry;
 
                         await pointTable.AddFeatureAsync(pointFeature);
@@ -106,7 +142,8 @@ namespace S1xxViewerWPF
                     else if (((IGeoFeature)feature).Geometry is Esri.ArcGISRuntime.Geometry.Polyline)
                     {
                         Feature lineFeature = linesTable.CreateFeature();
-                        lineFeature.SetAttributeValue(idField3, feature.Id);                        
+                        lineFeature.SetAttributeValue(idField3, feature.Id);
+                        lineFeature.SetAttributeValue(nameField3, ((IGeoFeature)feature).FeatureName?.First()?.Value);
                         lineFeature.Geometry = ((IGeoFeature)feature).Geometry;
 
                         await linesTable.AddFeatureAsync(lineFeature);
@@ -115,6 +152,7 @@ namespace S1xxViewerWPF
                     { 
                         Feature polyFeature = polysTable.CreateFeature();
                         polyFeature.SetAttributeValue(idField1, feature.Id);
+                        polyFeature.SetAttributeValue(nameField1, ((IGeoFeature)feature).FeatureName?.First()?.Value);
                         polyFeature.Geometry = ((IGeoFeature)feature).Geometry;
 
                         await polysTable.AddFeatureAsync(polyFeature);
@@ -122,6 +160,7 @@ namespace S1xxViewerWPF
                 }
             }
 
+            FeatureCollection featuresCollection = new FeatureCollection();
             if (pointTable.Count() > 0)
             {
                 featuresCollection.Tables.Add(pointTable);
@@ -134,22 +173,73 @@ namespace S1xxViewerWPF
             {
                 featuresCollection.Tables.Add(linesTable);
             }
-            FeatureCollectionLayer collectionLayer = new FeatureCollectionLayer(featuresCollection);
+            _collectionLayer = new FeatureCollectionLayer(featuresCollection);
 
             // When the layer loads, zoom the map view to the extent of the feature collection
-            collectionLayer.Loaded += (s, e) => Dispatcher.Invoke(() => 
+            _collectionLayer.Loaded += (s, e) => Dispatcher.Invoke(() => 
             {
                 try
                 {
-                    MyMapView.SetViewpointAsync(new Viewpoint(collectionLayer.FullExtent));
+                    MyMapView.SetViewpointAsync(new Viewpoint(_collectionLayer.FullExtent));
                 }
                 catch(Exception) { }
             });
 
             // Add the layer to the Map's Operational Layers collection
-            MyMapView.Map.OperationalLayers.Add(collectionLayer);
+            MyMapView.Map.OperationalLayers.Add(_collectionLayer);
+            MyMapView.GeoViewTapped += OnMapViewTapped;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnMapViewTapped(object sender, GeoViewInputEventArgs e)
+        {
+            try
+            {
+                // Define the selection tolerance (half the marker symbol size so that any click on the symbol will select the feature)
+                double tolerance = 10;
+
+                // Convert the tolerance to map units
+                double mapTolerance = tolerance * MyMapView.UnitsPerPixel;
+
+                // Get the tapped point
+                MapPoint geometry = e.Location;
+
+                // Normalize the geometry if wrap-around is enabled
+                //    This is necessary because of how wrapped-around map coordinates are handled by Runtime
+                //    Without this step, querying may fail because wrapped-around coordinates are out of bounds.
+                if (MyMapView.IsWrapAroundEnabled) { geometry = GeometryEngine.NormalizeCentralMeridian(geometry) as MapPoint; }
+
+                // Define the envelope around the tap location for selecting features
+                var selectionEnvelope = new Envelope(geometry.X - mapTolerance, geometry.Y - mapTolerance, geometry.X + mapTolerance,
+                    geometry.Y + mapTolerance, MyMapView.Map.SpatialReference);
+
+                // Define the query parameters for selecting features
+                var queryParams = new QueryParameters();
+
+                // Set the geometry to selection envelope for selection by geometry
+                queryParams.Geometry = selectionEnvelope;
+
+                // Select the features based on query parameters defined above
+                foreach (FeatureLayer layer in _collectionLayer.Layers)
+                {
+                    var result = await layer.SelectFeaturesAsync(queryParams, Esri.ArcGISRuntime.Mapping.SelectionMode.New);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sample error", ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rendererType"></param>
+        /// <returns></returns>
         private Renderer CreateRenderer(GeometryType rendererType)
         {
             // Return a simple renderer to match the geometry type provided
