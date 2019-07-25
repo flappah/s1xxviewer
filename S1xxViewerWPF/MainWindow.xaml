@@ -6,7 +6,7 @@
         xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
         xmlns:local="clr-namespace:S1xxViewerWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="525" Width="790">
+        Title="MainWindow" Height="800" Width="1280">
     <Window.Resources>
         <local:MapViewModel x:Key="MapViewModel" />
     </Window.Resources>
@@ -24,9 +24,9 @@
                     <MenuItem x:Name="About" Header="&amp;About" HorizontalAlignment="Left" Width="140"/>
                 </MenuItem>
             </Menu>
-            <Label Content="Label"/>
+
         </StackPanel>
-        <esri:MapView x:Name="MyMapView" Margin="0,21,0,-0.5">
+        <esri:MapView x:Name="MyMapView" Margin="0,21,0,191.5">
             <esri:Map>
                 <esri:Map.Basemap>
                     <esri:Basemap Name="Basemap">
@@ -36,5 +36,6 @@
                 </esri:Map.Basemap>
             </esri:Map>
         </esri:MapView>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="176" Margin="0,586,0,0" VerticalAlignment="Bottom" Width="1265"/>
     </Grid>
 </Window>

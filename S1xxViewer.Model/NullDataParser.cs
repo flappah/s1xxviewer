@@ -17,7 +17,10 @@ namespace S1xxViewer.Model
             return new S1xxDataPackage
             {
                 Type = S1xxTypes.Null,
-                RawData = xmlDocument
+                RawData = xmlDocument,
+                GeoFeatures = new IGeoFeature[0],
+                MetaFeatures = new IMetaFeature [0],
+                InformationFeatures = new IInformationFeature[0]
             };
         }
     }

@@ -23,7 +23,16 @@ namespace S1xxViewer.Model
         {
             string namespaceName = xmlDocument.DocumentElement?.Name;
             string s12xTypeString = namespaceName.Substring(0, namespaceName.IndexOf(":"));
-            var s12xType = (S1xxTypes)Enum.Parse(typeof(S1xxTypes), s12xTypeString);
+            S1xxTypes s12xType;
+            try
+            {
+                s12xType = (S1xxTypes)Enum.Parse(typeof(S1xxTypes), s12xTypeString);
+            }
+            catch
+            {
+                // type can't be resolved just bail out
+                return new NullDataParser().Parse(xmlDocument);
+            }
 
             var locatedDataParser =
                 DataParsers.ToList().Find(tp => tp.GetType().Name.Contains(s12xType + "DataParser"));

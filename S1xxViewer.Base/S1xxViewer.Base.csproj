@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enum.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="HandlerModule.cs" />
     <Compile Include="Interfaces\IInjectableXmlDocument.cs" />
