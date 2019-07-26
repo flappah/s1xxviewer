@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 
 namespace S1xxViewer.Types.Interfaces
 {
@@ -10,5 +11,6 @@ namespace S1xxViewer.Types.Interfaces
 
         IFeature DeepClone();
         IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
+        Dictionary<string, string> SerializeProperties();
     }
 }

@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class BearingInformation : IBearingInformation
+    public class BearingInformation : ComplexTypeBase, IBearingInformation
     {
         public string CardinalDirection { get; set; }
         public double Distance { get; set; }
@@ -18,7 +18,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new BearingInformation
             {
@@ -42,7 +42,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var cardinalDirectionNode = node.FirstChild.SelectSingleNode("cardinalDirection", mgr);
             if (cardinalDirectionNode != null && cardinalDirectionNode.HasChildNodes)

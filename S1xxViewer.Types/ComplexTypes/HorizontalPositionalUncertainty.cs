@@ -10,7 +10,7 @@ using System.Globalization;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class HorizontalPositionalUncertainty : IHorizontalPositionalUncertainty
+    public class HorizontalPositionalUncertainty : ComplexTypeBase, IHorizontalPositionalUncertainty
     {
         public double UncertaintyFixed { get; set; }
         public double UncertaintyVariable { get; set; }
@@ -19,7 +19,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new HorizontalPositionalUncertainty
             {
@@ -34,7 +34,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var uncertaintyFixedNode = node.FirstChild.SelectSingleNode("uncertaintyFixed", mgr);
             if (uncertaintyFixedNode != null && uncertaintyFixedNode.HasChildNodes)

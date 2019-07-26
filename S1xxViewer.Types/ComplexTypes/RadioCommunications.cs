@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class RadioCommunications : IRadioCommunications
+    public class RadioCommunications : ComplexTypeBase, IRadioCommunications
     {
         public string CategoryOfCommPref { get; set; }
         public string CommunicationChannel { get; set; }
@@ -17,7 +17,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new RadioCommunications
             {
@@ -39,7 +39,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var categoryOfCommPrefNode = node.FirstChild.SelectSingleNode("categoryOfCommPref", mgr);
             if (categoryOfCommPrefNode != null && categoryOfCommPrefNode.HasChildNodes)

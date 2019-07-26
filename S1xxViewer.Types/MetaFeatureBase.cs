@@ -1,19 +1,10 @@
-﻿using S1xxViewer.Types.Interfaces;
-using System.Xml;
-using System;
-using Esri.ArcGISRuntime.Geometry;
+﻿using Esri.ArcGISRuntime.Geometry;
+using S1xxViewer.Types.Interfaces;
 
 namespace S1xxViewer.Types
 {
-    public abstract class MetaFeatureBase : IMetaFeature
+    public abstract class MetaFeatureBase : FeatureBase, IMetaFeature
     {
-        public string Id { get; set; }
         public Geometry Geometry { get; set; }
-
-        // linkages
-        public ILink[] Links { get; set; }
-
-        public abstract IFeature DeepClone();
-        public abstract IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
     }
 }

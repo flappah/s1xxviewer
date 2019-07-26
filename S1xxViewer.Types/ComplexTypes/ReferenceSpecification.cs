@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class ReferenceSpecification : IReferenceSpecification
+    public class ReferenceSpecification : ComplexTypeBase, IReferenceSpecification
     {
         public string Name { get; set; }
         public string Version { get; set; }
@@ -14,7 +14,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new ReferenceSpecification
             {
@@ -30,7 +30,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var nameNode = node.FirstChild.SelectSingleNode("name");
             if (nameNode != null && nameNode.HasChildNodes)

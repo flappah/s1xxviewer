@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class SurveyDateRange : ISurveyDateRange
+    public class SurveyDateRange : ComplexTypeBase, ISurveyDateRange
     {
         public DateTime DateEnd { get; set; }
         public DateTime DateStart { get; set; }
@@ -13,7 +13,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new SurveyDateRange
             {
@@ -28,7 +28,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var dateEndNode = node.SelectSingleNode("dateEnd", mgr);
             if (dateEndNode != null)

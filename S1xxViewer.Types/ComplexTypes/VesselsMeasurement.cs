@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class VesselsMeasurement : IVesselsMeasurement
+    public class VesselsMeasurement : ComplexTypeBase, IVesselsMeasurement
     {
         public string ComparisonOperator { get; set; }
         public string VesselsCharacteristics { get; set; }
@@ -14,7 +14,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new VesselsMeasurement
             {
@@ -31,7 +31,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var comparisonOperatorNode = node.FirstChild.SelectSingleNode("comparisonOperator", mgr);
             if (comparisonOperatorNode != null && comparisonOperatorNode.HasChildNodes)

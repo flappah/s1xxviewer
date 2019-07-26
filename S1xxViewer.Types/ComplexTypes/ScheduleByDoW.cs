@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class ScheduleByDoW : IScheduleByDoW
+    public class ScheduleByDoW : ComplexTypeBase, IScheduleByDoW
     {
         public string CategoryOfSchedule { get; set; }
         public ITmIntervalsByDoW[] TmIntervalsByDoW { get; set; }
@@ -14,7 +14,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new ScheduleByDoW
             {
@@ -31,7 +31,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var categoryOfScheduleNode = node.FirstChild.SelectSingleNode("categoryOfSchedule", mgr);
             if (categoryOfScheduleNode != null && categoryOfScheduleNode.HasChildNodes)

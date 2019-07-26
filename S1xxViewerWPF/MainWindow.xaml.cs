@@ -155,7 +155,7 @@ namespace S1xxViewerWPF
                     {
                         Feature pointFeature = pointTable.CreateFeature();
                         pointFeature.SetAttributeValue(idField, feature.Id);
-                        pointFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Value);
+                        pointFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Name);
                         pointFeature.Geometry = ((IGeoFeature)feature).Geometry;
 
                         await pointTable.AddFeatureAsync(pointFeature);
@@ -164,7 +164,7 @@ namespace S1xxViewerWPF
                     {
                         Feature lineFeature = linesTable.CreateFeature();
                         lineFeature.SetAttributeValue(idField, feature.Id);
-                        lineFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Value);
+                        lineFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Name);
                         lineFeature.Geometry = ((IGeoFeature)feature).Geometry;
 
                         await linesTable.AddFeatureAsync(lineFeature);
@@ -173,7 +173,7 @@ namespace S1xxViewerWPF
                     { 
                         Feature polyFeature = polysTable.CreateFeature();
                         polyFeature.SetAttributeValue(idField, feature.Id);
-                        polyFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Value);
+                        polyFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Name);
                         polyFeature.Geometry = ((IGeoFeature)feature).Geometry;
 
                         await polysTable.AddFeatureAsync(polyFeature);

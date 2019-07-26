@@ -5,11 +5,11 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class SourceIndication : ISourceIndication
+    public class SourceIndication : ComplexTypeBase, ISourceIndication
     {
         public string CategoryOfAuthority { get; set; }
         public string Country { get; set; }
-        public InternationalString[] FeatureName { get; set; }
+        public IFeatureName[] FeatureName { get; set; }
         public DateTime ReportedDate { get; set; }
         public string Source { get; set; }
         public string SourceType { get; set; }
@@ -18,15 +18,15 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new SourceIndication
             {
                 CategoryOfAuthority = CategoryOfAuthority,
                 Country = Country,
                 FeatureName = FeatureName == null
-                    ? new[] { new InternationalString("") }
-                    : Array.ConvertAll(FeatureName, fn => new InternationalString(fn.Value, fn.Language)),
+                    ? new[] { new FeatureName() }
+                    : Array.ConvertAll(FeatureName, fn => fn.DeepClone() as IFeatureName),
                 ReportedDate = ReportedDate,
                 Source = Source,
                 SourceType = SourceType
@@ -38,7 +38,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public virtual IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             if (node != null && node.HasChildNodes)
             {
@@ -57,12 +57,12 @@ namespace S1xxViewer.Types.ComplexTypes
                 var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
                 if (featureNameNodes != null && featureNameNodes.Count > 0)
                 {
-                    var featureNames = new List<InternationalString>();
+                    var featureNames = new List<FeatureName>();
                     foreach (XmlNode featureNameNode in featureNameNodes)
                     {
-                        var language = featureNameNode.SelectSingleNode("language", mgr)?.InnerText ?? "";
-                        var name = featureNameNode.SelectSingleNode("name", mgr)?.InnerText ?? "";
-                        featureNames.Add(new InternationalString(name, language));
+                        var newFeatureName = new FeatureName();
+                        newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
+                        featureNames.Add(newFeatureName);
                     }
                     FeatureName = featureNames.ToArray();
                 }

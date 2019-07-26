@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class Information : IInformation
+    public class Information : ComplexTypeBase, IInformation
     {
         public string FileDescription { get; set; }
         public string FileLocator { get; set; }
@@ -15,7 +15,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new Information
             {
@@ -33,7 +33,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public virtual IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var fileDescriptionNode = node.FirstChild.SelectSingleNode("fileDescription", mgr);
             if (fileDescriptionNode != null && fileDescriptionNode.HasChildNodes)

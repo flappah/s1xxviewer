@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class UnderkeelAllowance : IUnderkeelAllowance
+    public class UnderkeelAllowance : ComplexTypeBase, IUnderkeelAllowance
     {
         public double UnderkeelAllowanceFixed { get; set; }
         public double UnderkeelAllowanceVariableBeamBased { get; set; }
@@ -13,7 +13,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new UnderkeelAllowance
             {
@@ -29,7 +29,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var underkeelAllowanceFixedNode = node.FirstChild.SelectSingleNode("underkeelAllowanceFixed", mgr);
             if (underkeelAllowanceFixedNode != null && underkeelAllowanceFixedNode.HasChildNodes)

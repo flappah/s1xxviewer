@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class DateRange : IDateRange
+    public class DateRange : ComplexTypeBase, IDateRange
     {
         public string StartMonthDay { get; set; }
         public string EndMonthDay { get; set; }
@@ -12,7 +12,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new DateRange
             {
@@ -26,7 +26,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public virtual IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             if (node != null && node.HasChildNodes)
             {

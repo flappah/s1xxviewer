@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class RadioStationCommunicationDescription : IRadioStationCommunicationDescription
+    public class RadioStationCommunicationDescription : ComplexTypeBase, IRadioStationCommunicationDescription
     {
         public string[] CategoryOfMaritimeBroadcast { get; set; }
         public string[] CommunicationChannel { get; set; }
@@ -20,7 +20,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new RadioStationCommunicationDescription
             {
@@ -35,7 +35,7 @@ namespace S1xxViewer.Types.ComplexTypes
             };
         }
 
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var categoryOfMaritimeBroadcastNodes = node.FirstChild.SelectNodes("categoryOfMaritimeBroadcast", mgr);
             if (categoryOfMaritimeBroadcastNodes != null && categoryOfMaritimeBroadcastNodes.Count > 0)

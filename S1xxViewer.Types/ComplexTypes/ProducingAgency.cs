@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class ProducingAgency : IProducingAgency
+    public class ProducingAgency : ComplexTypeBase, IProducingAgency
     {
         public string IndividualName { get; set; }
         public string OrganizationName { get; set; }
@@ -16,7 +16,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new ProducingAgency
             {
@@ -41,7 +41,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var individualNameNode = node.FirstChild.SelectSingleNode("individualName");
             if (individualNameNode != null && individualNameNode.HasChildNodes)

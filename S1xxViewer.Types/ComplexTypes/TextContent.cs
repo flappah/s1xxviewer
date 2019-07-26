@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class TextContent : ITextContent
+    public class TextContent : ComplexTypeBase, ITextContent
     {
         public string CategoryOfText { get; set; }
         public IInformation[] Information { get; set; }
@@ -16,7 +16,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new TextContent
             {
@@ -39,7 +39,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public virtual IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var categoryOfTextNode = node.FirstChild.SelectSingleNode("categoryOfText", mgr);
             if (categoryOfTextNode != null && categoryOfTextNode.HasChildNodes)

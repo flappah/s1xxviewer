@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class Telecommunications : ITelecommunications
+    public class Telecommunications : ComplexTypeBase, ITelecommunications
     {
         public string TelecommunicationsIdentifier { get; set; }
         public string[] TelecommunicationsService { get; set; }
@@ -17,7 +17,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new Telecommunications
             {
@@ -38,7 +38,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var telecommunicationsIdentifierNode = node.FirstChild.SelectSingleNode("telecommunicationsIdentifier", mgr);
             if (telecommunicationsIdentifierNode != null && telecommunicationsIdentifierNode.HasChildNodes)

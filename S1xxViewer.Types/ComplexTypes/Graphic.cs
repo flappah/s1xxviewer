@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class Graphic : IGraphic
+    public class Graphic : ComplexTypeBase, IGraphic
     {
         public string[] PictorialRepresentation { get; set; }
         public string PictureCaption { get; set; }
@@ -17,7 +17,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new Graphic
             {
@@ -39,7 +39,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var pictorialRepresentationNodes = node.FirstChild.SelectNodes("pictorialRepresentation");
             if (pictorialRepresentationNodes != null && pictorialRepresentationNodes.Count > 0)

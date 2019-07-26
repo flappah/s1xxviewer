@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class FrequencyPair : IFrequencyPair
+    public class FrequencyPair : ComplexTypeBase, IFrequencyPair
     {
         public int FrequencyShoreStationReceives { get; set; }
         public int FrequencyShoreStationTransmits { get; set; }
@@ -12,7 +12,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new FrequencyPair
             {
@@ -27,7 +27,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var frequencyShoreStationReceivesNode = node.FirstChild.SelectSingleNode("frequencyShoreStationReceives");
             if (frequencyShoreStationReceivesNode != null && frequencyShoreStationReceivesNode.HasChildNodes)

@@ -76,6 +76,8 @@ namespace S1xxViewer.Model
                     }
 
                     geoFeatures.Add(geoFeature);
+
+                    var propreites = geoFeature.SerializeProperties();
                 }
                 else
                 {

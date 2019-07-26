@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class TimesOfTransmission : ITimesOfTransmission
+    public class TimesOfTransmission : ComplexTypeBase, ITimesOfTransmission
     {
         public int MinutePastEvenHours { get; set; }
         public int MinutePastEveryHours { get; set; }
@@ -17,7 +17,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new TimesOfTransmission
             {
@@ -37,7 +37,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var minutePastEvenHoursNode = node.FirstChild.SelectSingleNode("minutePastEvenHours");
             if (minutePastEvenHoursNode != null && minutePastEvenHoursNode.HasChildNodes)

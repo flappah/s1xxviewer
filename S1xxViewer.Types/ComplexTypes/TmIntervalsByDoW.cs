@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class TmIntervalsByDoW : ITmIntervalsByDoW
+    public class TmIntervalsByDoW : ComplexTypeBase, ITmIntervalsByDoW
     {
         public int DayOfWeek { get; set; }
         public bool DayOfWeekIsRange { get; set; }
@@ -16,7 +16,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new TmIntervalsByDoW
             {
@@ -34,7 +34,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var dayOfWeekNode = node.FirstChild.SelectSingleNode("dayOfWeek");
             if (dayOfWeekNode != null && dayOfWeekNode.HasChildNodes)

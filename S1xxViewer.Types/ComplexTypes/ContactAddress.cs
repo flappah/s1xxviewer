@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class ContactAddress : IContactAddress
+    public class ContactAddress : ComplexTypeBase, IContactAddress
     {
         public string[] DeliveryPoint { get; set; }
         public string CityName { get; set; }
@@ -17,7 +17,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new ContactAddress
             {
@@ -37,7 +37,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var deliveryPointNodes = node.FirstChild.SelectNodes("deliveryPoint", mgr);
             if (deliveryPointNodes != null && deliveryPointNodes.Count > 0)

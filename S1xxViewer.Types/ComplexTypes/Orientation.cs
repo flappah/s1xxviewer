@@ -4,12 +4,12 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class Orientation : IOrientation
+    public class Orientation : ComplexTypeBase, IOrientation
     {
         public double OrientationUncertainty { get; set; }
         public double OrientationValue { get; set; }
 
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new Orientation
             {
@@ -24,7 +24,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var orientationUncertaintyNode = node.FirstChild.SelectSingleNode("orientationUncertainty", mgr);
             if (orientationUncertaintyNode != null && orientationUncertaintyNode.HasChildNodes)

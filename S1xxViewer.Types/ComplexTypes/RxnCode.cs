@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class RxnCode : IRxnCode
+    public class RxnCode : ComplexTypeBase, IRxnCode
     {
         public string CategoryOfRxn { get; set; }
         public string ActionOrActivity { get; set; }
@@ -12,7 +12,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new RxnCode
             {
@@ -27,7 +27,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public virtual IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var categoryOfRxnNode = node.FirstChild.SelectSingleNode("categoryOfRxn", mgr);
             if (categoryOfRxnNode != null && categoryOfRxnNode.HasChildNodes)

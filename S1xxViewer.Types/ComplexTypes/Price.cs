@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class Price : IPrice
+    public class Price : ComplexTypeBase, IPrice
     {
         public int PriceNumber { get; set; }
         public string Currency { get; set; }
@@ -12,7 +12,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new Price
             {
@@ -27,7 +27,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var priceNumberNode = node.FirstChild.SelectSingleNode("priceNumber");
             if (priceNumberNode != null && priceNumberNode.HasChildNodes)

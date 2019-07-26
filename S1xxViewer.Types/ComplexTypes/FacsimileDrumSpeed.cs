@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class FacsimileDrumSpeed : IFacsimileDrumSpeed
+    public class FacsimileDrumSpeed : ComplexTypeBase, IFacsimileDrumSpeed
     {
         public int DrumSpeed { get; set; }
         public int IndexOfCooperation { get; set; }
@@ -12,7 +12,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new FacsimileDrumSpeed
             {
@@ -27,7 +27,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var drumSpeedNode = node.FirstChild.SelectSingleNode("drumSpeed");
             if (drumSpeedNode != null && drumSpeedNode.HasChildNodes)

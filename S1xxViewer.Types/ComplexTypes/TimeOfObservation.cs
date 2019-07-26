@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class TimeOfObservation : ITimeOfObservation
+    public class TimeOfObservation : ComplexTypeBase, ITimeOfObservation
     {
         public DateTime ObservationTime { get; set; }
         public string TimeReference { get; set; }
@@ -13,7 +13,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new TimeOfObservation
             {
@@ -28,7 +28,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var observationTimeNode = node.FirstChild.SelectSingleNode("observationTime");
             if (observationTimeNode != null && observationTimeNode.HasChildNodes)

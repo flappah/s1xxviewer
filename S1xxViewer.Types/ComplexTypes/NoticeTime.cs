@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
-    public class NoticeTime : INoticeTime
+    public class NoticeTime : ComplexTypeBase, INoticeTime
     {
         public int NoticeTimeHours { get; set; }
         public string NoticeTimeText { get; set; }
@@ -12,7 +12,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new NoticeTime
             {
@@ -27,7 +27,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var noticeTimeHoursNode = node.FirstChild.SelectSingleNode("noticeTimeHours");
             if (noticeTimeHoursNode != null && noticeTimeHoursNode.HasChildNodes)
