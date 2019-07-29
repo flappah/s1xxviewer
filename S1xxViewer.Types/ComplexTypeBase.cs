@@ -21,9 +21,9 @@ namespace S1xxViewer.Types
         public abstract IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr);
 
         /// <summary>
-        /// 
+        /// Returns the properties of the current object in a dictionary of strings
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Dictionary<string, string></returns>
         public Dictionary<string, string> GetData()
         {
             var properties = new Dictionary<string, string>();
