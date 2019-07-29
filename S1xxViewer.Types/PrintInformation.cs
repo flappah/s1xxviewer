@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types
 {
-    public class PrintInformation : IPrintInformation
+    public class PrintInformation : ComplexTypeBase, IPrintInformation
     {
         public string PrintAgency { get; set; }
         public string PrintNation { get; set; }
@@ -17,7 +17,7 @@ namespace S1xxViewer.Types
         /// 
         /// </summary>
         /// <returns></returns>
-        public IComplexType DeepClone()
+        public override IComplexType DeepClone()
         {
             return new PrintInformation
             {
@@ -37,7 +37,7 @@ namespace S1xxViewer.Types
         /// <param name="node"></param>
         /// <param name="mgr"></param>
         /// <returns></returns>
-        public IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var printAgencyNode = node.FirstChild.SelectSingleNode("printAgency");
             if (printAgencyNode != null && printAgencyNode.HasChildNodes)

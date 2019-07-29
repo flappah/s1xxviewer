@@ -11,6 +11,6 @@ namespace S1xxViewer.Types.Interfaces
 
         IFeature DeepClone();
         IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
-        Dictionary<string, string> SerializeProperties();
+        Dictionary<string, string> GetData();
     }
 }

@@ -13,6 +13,7 @@ using Esri.ArcGISRuntime.Security;
 using Esri.ArcGISRuntime.Symbology;
 using Esri.ArcGISRuntime.Tasks;
 using Esri.ArcGISRuntime.UI;
+using System.Threading;
 
 namespace S1xxViewerWPF
 {
@@ -23,10 +24,13 @@ namespace S1xxViewerWPF
     {
         public MapViewModel()
         {
-
+            Task.Factory.StartNew(() =>
+            {
+                _map = new Map(Basemap.CreateOceans());
+            });
         }
 
-        private Map _map = new Map(Basemap.CreateOceans());
+        private Map _map = null;
 
         /// <summary>
         /// Gets or sets the map

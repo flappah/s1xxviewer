@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 
 namespace S1xxViewer.Types.Interfaces
 {
@@ -6,5 +7,6 @@ namespace S1xxViewer.Types.Interfaces
     {
         IComplexType DeepClone();
         IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr);
+        Dictionary<string, string> GetData();
     }
 }

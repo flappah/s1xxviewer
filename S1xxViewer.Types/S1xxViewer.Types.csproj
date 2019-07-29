@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="ChartProductBase.cs" />
     <Compile Include="ComplexTypes\BearingInformation.cs" />
-    <Compile Include="ComplexTypes\ComplexTypeBase.cs" />
+    <Compile Include="ComplexTypeBase.cs" />
     <Compile Include="ComplexTypes\ContactAddress.cs" />
     <Compile Include="ComplexTypes\FacsimileDrumSpeed.cs" />
     <Compile Include="ComplexTypes\FeatureName.cs" />

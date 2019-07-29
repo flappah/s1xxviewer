@@ -1,4 +1,9 @@
-﻿using System;
+﻿using S1xxViewer.Types.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Xml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +15,10 @@ using System.Reflection;
 
 namespace S1xxViewer.Types
 {
-    public abstract class FeatureBase : IFeature
+    public abstract class ComplexTypeBase : IComplexType
     {
-        public string Id { get; set; }
-        public ILink[] Links { get; set; }
-
-        public abstract IFeature DeepClone();
-
-        public abstract IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
+        public abstract IComplexType DeepClone();
+        public abstract IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr);
 
         /// <summary>
         /// 
@@ -26,7 +27,7 @@ namespace S1xxViewer.Types
         public Dictionary<string, string> GetData()
         {
             var properties = new Dictionary<string, string>();
-            foreach(PropertyInfo propertyInfo in GetType().GetProperties())
+            foreach (PropertyInfo propertyInfo in GetType().GetProperties())
             {
                 if (propertyInfo.PropertyType.FullName.Contains(GetType().FullName.Substring(0, GetType().FullName.IndexOf("."))))
                 {
@@ -35,7 +36,7 @@ namespace S1xxViewer.Types
                         var objs = GetPropertyValue(propertyInfo, propertyInfo.Name) as IComplexType[];
                         if (objs != null)
                         {
-                            foreach(IComplexType obj in objs)
+                            foreach (IComplexType obj in objs)
                             {
                                 Dictionary<string, string> childProperties = obj.GetData();
                                 foreach (var childProperty in childProperties)
@@ -93,11 +94,11 @@ namespace S1xxViewer.Types
             string[] propertyNameParts = propertyName.Split('.');
 
             foreach (string propertyNamePart in propertyNameParts)
-            {                
+            {
                 // propertyNamePart could contain reference to specific 
                 // element (by index) inside a collection
                 if (!propertyNamePart.Contains("["))
-                {                    
+                {
                     if (pi == null) return null;
                     return pi.GetValue(this, null);
                 }
@@ -110,7 +111,7 @@ namespace S1xxViewer.Types
                     string collectionPropertyName = propertyNamePart.Substring(0, indexStart - 1);
                     int collectionElementIndex = Int32.Parse(propertyNamePart.Substring(indexStart, propertyNamePart.Length - indexStart - 1));
                     //   get collection object
-                    
+
                     if (pi == null) return null;
                     object unknownCollection = pi.GetValue(this, null);
                     //   try to process the collection as array
