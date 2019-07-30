@@ -68,13 +68,20 @@ namespace S1xxViewer.Types.Features
             if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
             {
                 var dateRanges = new List<DateRange>();
-                foreach(XmlNode periodicDateRangeNode in periodicDateRangeNodes)
+                foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
                 {
                     var newDateRange = new DateRange();
-                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    newDateRange.FromXml(periodicDateRangeNode, mgr);
                     dateRanges.Add(newDateRange);
                 }
                 PeriodicDateRange = dateRanges.ToArray();
+            }
+
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
             }
 
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
@@ -84,17 +91,17 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode featureNameNode in featureNameNodes)
                 {
                     var newFeatureName = new FeatureName();
-                    newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
+                    newFeatureName.FromXml(featureNameNode, mgr);
                     featureNames.Add(newFeatureName);
                 }
                 FeatureName = featureNames.ToArray();
             }
 
-            var sourceIndicationNode = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
-            if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
+            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            if (sourceIndication != null && sourceIndication.HasChildNodes)
             {
                 SourceIndication = new SourceIndication();
-                SourceIndication.FromXml(sourceIndicationNode, mgr);
+                SourceIndication.FromXml(sourceIndication, mgr);
             }
 
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
@@ -106,7 +113,7 @@ namespace S1xxViewer.Types.Features
                     if (textContentNode != null && textContentNode.HasChildNodes)
                     {
                         var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
+                        content.FromXml(textContentNode, mgr);
                         textContents.Add(content);
                     }
                 }

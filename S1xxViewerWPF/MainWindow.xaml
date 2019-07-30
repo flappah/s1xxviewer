@@ -36,6 +36,6 @@
                 </esri:Map.Basemap>
             </esri:Map>
         </esri:MapView>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="176" Margin="0,586,0,0" VerticalAlignment="Bottom" Width="1265"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch" Height="186" Margin="0,0,0,0.5" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

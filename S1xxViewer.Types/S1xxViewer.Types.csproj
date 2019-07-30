@@ -188,7 +188,7 @@
     <Compile Include="GeoFeatureBase.cs" />
     <Compile Include="Features\Authority.cs" />
     <Compile Include="Features\DataCoverage.cs" />
-    <Compile Include="FeatureObjectIdentifier.cs" />
+    <Compile Include="ComplexTypes\FeatureObjectIdentifier.cs" />
     <Compile Include="HandlerModule.cs" />
     <Compile Include="Interfaces\IInformation.cs" />
     <Compile Include="ComplexTypes\Information.cs" />

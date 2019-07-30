@@ -36,7 +36,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var dayOfWeekNode = node.FirstChild.SelectSingleNode("dayOfWeek");
+            var dayOfWeekNode = node.SelectSingleNode("dayOfWeek");
             if (dayOfWeekNode != null && dayOfWeekNode.HasChildNodes)
             {
                 int dayOfWeek;
@@ -47,7 +47,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 DayOfWeek = dayOfWeek;
             }
 
-            var dayOfWeekIsRangeNode = node.FirstChild.SelectSingleNode("dayOfWeekIsRange", mgr);
+            var dayOfWeekIsRangeNode = node.SelectSingleNode("dayOfWeekIsRange", mgr);
             if (dayOfWeekIsRangeNode != null && dayOfWeekIsRangeNode.HasChildNodes)
             {
                 bool dayOfWeekIsRange;
@@ -58,13 +58,13 @@ namespace S1xxViewer.Types.ComplexTypes
                 DayOfWeekIsRange = dayOfWeekIsRange;
             }
 
-            var timeReferenceNode = node.FirstChild.SelectSingleNode("timeReference", mgr);
+            var timeReferenceNode = node.SelectSingleNode("timeReference", mgr);
             if (timeReferenceNode != null && timeReferenceNode.HasChildNodes)
             {
                 TimeReference = timeReferenceNode.FirstChild.InnerText;
             }
 
-            var timeOfDayStartNode = node.FirstChild.SelectSingleNode("timeOfDayStart", mgr);
+            var timeOfDayStartNode = node.SelectSingleNode("timeOfDayStart", mgr);
             if (timeOfDayStartNode != null && timeOfDayStartNode.HasChildNodes)
             {
                 DateTime timeOfDayStart;
@@ -75,7 +75,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 TimeOfDayStart = timeOfDayStart;
             }
 
-            var timeOfDayEndNode = node.FirstChild.SelectSingleNode("timeOfDayEnd", mgr);
+            var timeOfDayEndNode = node.SelectSingleNode("timeOfDayEnd", mgr);
             if (timeOfDayEndNode != null && timeOfDayEndNode.HasChildNodes)
             {
                 DateTime timeOfDayEnd;

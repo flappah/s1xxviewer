@@ -78,10 +78,17 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
                 {
                     var newDateRange = new DateRange();
-                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    newDateRange.FromXml(periodicDateRangeNode, mgr);
                     dateRanges.Add(newDateRange);
                 }
                 PeriodicDateRange = dateRanges.ToArray();
+            }
+
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
             }
 
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
@@ -91,30 +98,33 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode featureNameNode in featureNameNodes)
                 {
                     var newFeatureName = new FeatureName();
-                    newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
+                    newFeatureName.FromXml(featureNameNode, mgr);
                     featureNames.Add(newFeatureName);
                 }
                 FeatureName = featureNames.ToArray();
             }
 
-            var sourceIndicationNode = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
-            if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
+            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            if (sourceIndication != null && sourceIndication.HasChildNodes)
             {
                 SourceIndication = new SourceIndication();
-                SourceIndication.FromXml(sourceIndicationNode, mgr);
+                SourceIndication.FromXml(sourceIndication, mgr);
             }
 
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
             if (textContentNodes != null && textContentNodes.Count > 0)
             {
-                var texts = new List<TextContent>();
-                foreach(XmlNode textContentNode in textContentNodes)
+                var textContents = new List<TextContent>();
+                foreach (XmlNode textContentNode in textContentNodes)
                 {
-                    var newTextContent = new TextContent();
-                    newTextContent.FromXml(textContentNode.FirstChild, mgr);
-                    texts.Add(newTextContent);
+                    if (textContentNode != null && textContentNode.HasChildNodes)
+                    {
+                        var content = new TextContent();
+                        content.FromXml(textContentNode, mgr);
+                        textContents.Add(content);
+                    }
                 }
-                TextContent = texts.ToArray();
+                TextContent = textContents.ToArray();
             }
 
             var categoryOfPilotNodes = node.FirstChild.SelectNodes("categoryOfPilot", mgr);

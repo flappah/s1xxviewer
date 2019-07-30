@@ -31,7 +31,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var underkeelAllowanceFixedNode = node.FirstChild.SelectSingleNode("underkeelAllowanceFixed", mgr);
+            var underkeelAllowanceFixedNode = node.SelectSingleNode("underkeelAllowanceFixed", mgr);
             if (underkeelAllowanceFixedNode != null && underkeelAllowanceFixedNode.HasChildNodes)
             {
                 double underkeelAllowance;
@@ -42,7 +42,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 UnderkeelAllowanceFixed = underkeelAllowance;
             }
 
-            var underkeelAllowanceVariableBeamBasedNode = node.FirstChild.SelectSingleNode("underkeelAllowanceVariableBeamBased", mgr);
+            var underkeelAllowanceVariableBeamBasedNode = node.SelectSingleNode("underkeelAllowanceVariableBeamBased", mgr);
             if (underkeelAllowanceVariableBeamBasedNode != null && underkeelAllowanceVariableBeamBasedNode.HasChildNodes)
             {
                 double underkeelAllowance;
@@ -53,7 +53,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 UnderkeelAllowanceVariableBeamBased = underkeelAllowance;
             }
 
-            var underkeelAllowanceVariableDraughtBasedNode = node.FirstChild.SelectSingleNode("underkeelAllowanceVariableDraughtBasedNode", mgr);
+            var underkeelAllowanceVariableDraughtBasedNode = node.SelectSingleNode("underkeelAllowanceVariableDraughtBased", mgr);
             if (underkeelAllowanceVariableDraughtBasedNode != null && underkeelAllowanceVariableDraughtBasedNode.HasChildNodes)
             {
                 double underkeelAllowance;

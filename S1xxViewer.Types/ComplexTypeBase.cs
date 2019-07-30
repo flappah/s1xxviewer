@@ -1,17 +1,9 @@
-﻿using S1xxViewer.Types.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Xml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using S1xxViewer.Base;
 using S1xxViewer.Types.Interfaces;
-using System.Xml;
-using System.Collections.Generic;
+using System;
+using System.Data;
 using System.Reflection;
+using System.Xml;
 
 namespace S1xxViewer.Types
 {
@@ -24,24 +16,58 @@ namespace S1xxViewer.Types
         /// Returns the properties of the current object in a dictionary of strings
         /// </summary>
         /// <returns>Dictionary<string, string></returns>
-        public Dictionary<string, string> GetData()
+        public DataTable GetData()
         {
-            var properties = new Dictionary<string, string>();
+            var results = new DataTable($"Results_{this.GetHashCode()}");
+            results.Columns.AddRange(new DataColumn[]
+            {
+                new DataColumn
+                {
+                    DataType = System.Type.GetType("System.String"),
+                    ColumnName = "Name"
+                },
+                 new DataColumn
+                {
+                    DataType = System.Type.GetType("System.String"),
+                    ColumnName = "Value"
+                }
+            });
+
             foreach (PropertyInfo propertyInfo in GetType().GetProperties())
             {
                 if (propertyInfo.PropertyType.FullName.Contains(GetType().FullName.Substring(0, GetType().FullName.IndexOf("."))))
                 {
                     if (propertyInfo.PropertyType.IsArray)
                     {
-                        var objs = GetPropertyValue(propertyInfo, propertyInfo.Name) as IComplexType[];
-                        if (objs != null)
+                        var objs = GetPropertyValue(propertyInfo, propertyInfo.Name);
+                        if (objs is IComplexType[])
                         {
-                            foreach (IComplexType obj in objs)
+                            foreach (IComplexType obj in (IComplexType[])objs)
                             {
-                                Dictionary<string, string> childProperties = obj.GetData();
-                                foreach (var childProperty in childProperties)
+                                DataTable childResults = obj.GetData();
+                                foreach (DataRow childRow in childResults.Rows)
                                 {
-                                    properties.Add(childProperty.Key, childProperty.Value);
+                                    var row = results.NewRow();
+                                    row["Name"] = $"{propertyInfo.Name}.{childRow["Name"]}";
+                                    row["Value"] = childRow["Value"];
+                                    results.Rows.Add(row);
+                                }
+                            }
+                        }
+                        else if (objs is ILink[])
+                        {
+                            foreach (ILink obj in (ILink[])objs)
+                            {
+                                if (obj.LinkedFeature != null)
+                                {
+                                    var linkedFeatureData = obj.LinkedFeature.GetData();
+                                    foreach (DataRow linkedRow in linkedFeatureData.Rows)
+                                    {
+                                        var row = results.NewRow();
+                                        row["Name"] = $"{obj.LinkedFeature.GetType().ToString().LastPart(".")}.{linkedRow["Name"]}";
+                                        row["Value"] = linkedRow["Value"];
+                                        results.Rows.Add(row);
+                                    }
                                 }
                             }
                         }
@@ -51,10 +77,13 @@ namespace S1xxViewer.Types
                         var obj = GetPropertyValue(propertyInfo, propertyInfo.Name) as IComplexType;
                         if (obj != null)
                         {
-                            Dictionary<string, string> childProperties = obj.GetData();
-                            foreach (var childProperty in childProperties)
+                            DataTable childResults = obj.GetData();
+                            foreach (DataRow childRow in childResults.Rows)
                             {
-                                properties.Add(childProperty.Key, childProperty.Value);
+                                var row = results.NewRow();
+                                row["Name"] = $"{propertyInfo.Name}.{childRow["Name"]}";
+                                row["Value"] = childRow["Value"];
+                                results.Rows.Add(row);
                             }
                         }
                     }
@@ -64,19 +93,23 @@ namespace S1xxViewer.Types
                     var value = GetPropertyValue(propertyInfo, propertyInfo.Name);
                     if (value != null)
                     {
+                        var row = results.NewRow();
                         if (propertyInfo.PropertyType.IsArray)
                         {
-                            properties.Add(propertyInfo.Name, String.Join(",", Array.ConvertAll<object, string>((object[])value, v => v?.ToString() ?? string.Empty)));
+                            row["Name"] = propertyInfo.Name;
+                            row["Value"] = String.Join(",", Array.ConvertAll<object, string>((object[])value, v => v?.ToString() ?? string.Empty));
                         }
                         else
                         {
-                            properties.Add(propertyInfo.Name, value.ToString());
+                            row["Name"] = propertyInfo.Name;
+                            row["Value"] = value.ToString();
                         }
+                        results.Rows.Add(row);
                     }
                 }
-            }
+            }            
 
-            return properties;
+            return results;
         }
 
         /// <summary>

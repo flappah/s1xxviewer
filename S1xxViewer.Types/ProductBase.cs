@@ -1,7 +1,6 @@
 ﻿using S1xxViewer.Types.Interfaces;
 using System;
 
-
 namespace S1xxViewer.Types
 {
     public abstract class ProductBase : GeoFeatureBase, IProduct

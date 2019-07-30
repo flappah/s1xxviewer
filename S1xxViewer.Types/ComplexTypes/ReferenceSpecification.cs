@@ -32,19 +32,19 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var nameNode = node.FirstChild.SelectSingleNode("name");
+            var nameNode = node.SelectSingleNode("name");
             if (nameNode != null && nameNode.HasChildNodes)
             {
                 Name = node.FirstChild.InnerText;
             }
 
-            var versionNode = node.FirstChild.SelectSingleNode("version");
+            var versionNode = node.SelectSingleNode("version");
             if (versionNode != null && versionNode.HasChildNodes)
             {
                 Version = node.FirstChild.InnerText;
             }
 
-            var dateNode = node.FirstChild.SelectSingleNode("date");
+            var dateNode = node.SelectSingleNode("date");
             if (dateNode != null && dateNode.HasChildNodes)
             {
                 DateTime date;

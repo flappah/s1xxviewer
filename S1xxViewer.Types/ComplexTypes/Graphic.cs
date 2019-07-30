@@ -41,7 +41,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var pictorialRepresentationNodes = node.FirstChild.SelectNodes("pictorialRepresentation");
+            var pictorialRepresentationNodes = node.SelectNodes("pictorialRepresentation");
             if (pictorialRepresentationNodes != null && pictorialRepresentationNodes.Count > 0)
             {
                 var representations = new List<string>();
@@ -56,13 +56,13 @@ namespace S1xxViewer.Types.ComplexTypes
                 PictorialRepresentation = representations.ToArray();
             }
 
-            var pictureCaptionNode = node.FirstChild.SelectSingleNode("pictureCaptionNode");
+            var pictureCaptionNode = node.SelectSingleNode("pictureCaptionNode");
             if (pictureCaptionNode != null && pictureCaptionNode.HasChildNodes)
             {
                 PictureCaption = pictureCaptionNode.FirstChild.InnerText;
             }
 
-            var sourceDateNode = node.FirstChild.SelectSingleNode("sourceDate");
+            var sourceDateNode = node.SelectSingleNode("sourceDate");
             if (sourceDateNode != null && sourceDateNode.HasChildNodes)
             {
                 DateTime sourceDate;
@@ -73,17 +73,17 @@ namespace S1xxViewer.Types.ComplexTypes
                 SourceDate = sourceDate;
             }
 
-            var pictureInformationNode = node.FirstChild.SelectSingleNode("pictureInformation");
+            var pictureInformationNode = node.SelectSingleNode("pictureInformation");
             if (pictureInformationNode != null && pictureInformationNode.HasChildNodes)
             {
                 PictureInformation = pictureInformationNode.FirstChild.InnerText;
             }
 
-            var bearingInformationNode = node.FirstChild.SelectSingleNode("bearingInformation");
+            var bearingInformationNode = node.SelectSingleNode("bearingInformation");
             if (bearingInformationNode != null && bearingInformationNode.HasChildNodes)
             {
                 var bearingInformation = new BearingInformation();
-                bearingInformation.FromXml(bearingInformationNode.FirstChild, mgr);
+                bearingInformation.FromXml(bearingInformationNode, mgr);
                 BearingInformation = bearingInformation;
             }
 

@@ -1,38 +1,18 @@
-﻿using Esri.ArcGISRuntime.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using Autofac;
+using Esri.ArcGISRuntime.Data;
+using Esri.ArcGISRuntime.Geometry;
+using Esri.ArcGISRuntime.Mapping;
+using Esri.ArcGISRuntime.Symbology;
+using Esri.ArcGISRuntime.UI.Controls;
 using Microsoft.Win32;
 using S1xxViewer.Model.Interfaces;
-using System.Xml;
-using Autofac;
 using S1xxViewer.Types.Interfaces;
-using Esri.ArcGISRuntime;
-using Esri.ArcGISRuntime.Geometry;
-using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.Symbology;
-using Esri.ArcGISRuntime.Mapping;
-using System.Drawing;
-using Esri.ArcGISRuntime;
-using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.Geometry;
-using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.UI.Controls;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Windows;
-using System.Drawing;
-using S1xxViewer.Model.Interface;
+using System.Xml;
 
 namespace S1xxViewerWPF
 {
@@ -43,6 +23,7 @@ namespace S1xxViewerWPF
     {
         private readonly IContainer _container;
         private FeatureCollectionLayer _collectionLayer;
+        private List<IS1xxDataPackage> _dataPackages = new List<IS1xxDataPackage>();
 
         public MainWindow()
         {
@@ -82,8 +63,46 @@ namespace S1xxViewerWPF
 
                 var dataParser = _container.Resolve<IDataPackageParser>();
                 IS1xxDataPackage dataPackage = dataParser.Parse(xmlDoc);
+                _dataPackages.Add(dataPackage);
                 CreateFeatureCollection(dataPackage);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="featureId"></param>
+        /// <returns></returns>
+        private S1xxViewer.Types.Interfaces.IFeature FindFeature(string featureId)
+        {
+            foreach(IS1xxDataPackage dataPackage in _dataPackages)
+            {
+                var resultInGeoFeature =
+                    dataPackage.GeoFeatures.ToList().Find(ftr => ftr.Id == featureId);
+
+                if (resultInGeoFeature != null)
+                {
+                    return resultInGeoFeature;
+                }
+
+                var resultInMetaFeature =
+                    dataPackage.MetaFeatures.ToList().Find(f => f.Id == featureId);
+
+                if (resultInMetaFeature != null)
+                {
+                    return resultInMetaFeature;
+                }
+
+                var resultInInfoFeatures =
+                    dataPackage.InformationFeatures.ToList().Find(f => f.Id == featureId);
+
+                if (resultInInfoFeatures != null)
+                {
+                    return resultInInfoFeatures;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -255,11 +274,24 @@ namespace S1xxViewerWPF
                             layer.SelectFeature(idFeature);
                         }
 
+                        if (idElement.Attributes.ContainsKey("FeatureId"))
+                        {
+                            if (!String.IsNullOrEmpty(idElement.Attributes["FeatureId"]?.ToString()))
+                            {
+                                IFeature feature = FindFeature(idElement.Attributes["FeatureId"].ToString());
+                                if (feature != null)
+                                {
+                                    DataTable featureAttributesDataTable = feature.GetData();
+                                    dataGrid.ItemsSource = featureAttributesDataTable.AsDataView();                                     
+                                } 
+                            }
+                        }
+
                         // Loop through and display the attribute values.
                         Console.WriteLine("  ** Attributes **");
                         foreach (KeyValuePair<string, object> attribute in idElement.Attributes)
                         {
-                            Console.WriteLine("    - " + attribute.Key + " = " + attribute.Value.ToString());
+                            Console.WriteLine("    - " + attribute.Key + " = " + attribute.Value?.ToString());
                         }
                     }
                 }

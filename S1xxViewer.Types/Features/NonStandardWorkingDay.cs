@@ -60,117 +60,116 @@ namespace S1xxViewer.Types.Features
                 {
                     Id = node.FirstChild.Attributes["gml:id"].InnerText;
                 }
+            }
 
-                var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
-                if (featureNameNodes != null && featureNameNodes.Count > 0)
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
+            }
+
+            var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
+            if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
+            {
+                var dateRanges = new List<DateRange>();
+                foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
                 {
-                    var featureNames = new List<FeatureName>();
-                    foreach (XmlNode featureNameNode in featureNameNodes)
+                    var newDateRange = new DateRange();
+                    newDateRange.FromXml(periodicDateRangeNode, mgr);
+                    dateRanges.Add(newDateRange);
+                }
+                PeriodicDateRange = dateRanges.ToArray();
+            }
+            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
+            if (featureNameNodes != null && featureNameNodes.Count > 0)
+            {
+                var featureNames = new List<FeatureName>();
+                foreach (XmlNode featureNameNode in featureNameNodes)
+                {
+                    var newFeatureName = new FeatureName();
+                    newFeatureName.FromXml(featureNameNode, mgr);
+                    featureNames.Add(newFeatureName);
+                }
+                FeatureName = featureNames.ToArray();
+            }
+
+            var sourceIndicationNodes = node.FirstChild.SelectNodes("sourceIndication", mgr);
+            if (sourceIndicationNodes != null && sourceIndicationNodes.Count > 0)
+            {
+                var sourceIndications = new List<SourceIndication>();
+                foreach (XmlNode sourceIndicationNode in sourceIndicationNodes)
+                {
+                    if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
                     {
-                        var newFeatureName = new FeatureName();
-                        newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
-                        featureNames.Add(newFeatureName);
+                        var sourceIndication = new SourceIndication();
+                        sourceIndication.FromXml(sourceIndicationNode, mgr);
+                        sourceIndications.Add(sourceIndication);
                     }
-                    FeatureName = featureNames.ToArray();
                 }
+                SourceIndication = sourceIndications.ToArray();
+            }
 
-                var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
-                if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            var dateFixedNodes = node.FirstChild.SelectNodes("dateFixed", mgr);
+            if (dateFixedNodes != null && dateFixedNodes.Count > 0)
+            {
+                var datesFixed = new List<DateTime>();
+                foreach (XmlNode dateFixedNode in dateFixedNodes)
                 {
-                    FixedDateRange = new DateRange();
-                    FixedDateRange.FromXml(fixedDateRangeNode.FirstChild, mgr);
-                }
-
-                var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
-                if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
-                {
-                    var dateRanges = new List<DateRange>();
-                    foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
+                    if (dateFixedNode != null && dateFixedNode.HasChildNodes)
                     {
-                        var newDateRange = new DateRange();
-                        newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
-                        dateRanges.Add(newDateRange);
-                    }
-                    PeriodicDateRange = dateRanges.ToArray();
-                }
-
-                var sourceIndicationNodes = node.FirstChild.SelectNodes("sourceIndication", mgr);
-                if (sourceIndicationNodes != null && sourceIndicationNodes.Count > 0)
-                {
-                    var sourceIndications = new List<SourceIndication>();
-                    foreach (XmlNode sourceIndicationNode in sourceIndicationNodes)
-                    {
-                        if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
+                        DateTime newDateFixed;
+                        if (!DateTime.TryParse(dateFixedNode.FirstChild.InnerText, out newDateFixed))
                         {
-                            var sourceIndication = new SourceIndication();
-                            sourceIndication.FromXml(sourceIndicationNode.FirstChild, mgr);
-                            sourceIndications.Add(sourceIndication);
+                            newDateFixed = DateTime.MinValue;
                         }
+                        datesFixed.Add(newDateFixed);
                     }
-                    SourceIndication = sourceIndications.ToArray();
                 }
+                DateFixed = datesFixed.ToArray();
+            }
 
-                var dateFixedNodes = node.FirstChild.SelectNodes("dateFixed", mgr);
-                if (dateFixedNodes != null && dateFixedNodes.Count > 0)
+            var dateVariableNodes = node.FirstChild.SelectNodes("dateVariable", mgr);
+            if (dateVariableNodes != null && dateVariableNodes.Count > 0)
+            {
+                var datesVariable = new List<string>();
+                foreach (XmlNode dateVariableNode in dateVariableNodes)
                 {
-                    var datesFixed = new List<DateTime>();
-                    foreach(XmlNode dateFixedNode in dateFixedNodes)
+                    if (dateVariableNode != null && dateVariableNode.HasChildNodes)
                     {
-                        if (dateFixedNode != null && dateFixedNode.HasChildNodes)
-                        {
-                            DateTime newDateFixed;
-                            if (!DateTime.TryParse(dateFixedNode.FirstChild.InnerText, out newDateFixed))
-                            {
-                                newDateFixed = DateTime.MinValue;
-                            }
-                            datesFixed.Add(newDateFixed);
-                        }
+                        datesVariable.Add(dateVariableNode.FirstChild.InnerText);
                     }
-                    DateFixed = datesFixed.ToArray();
                 }
+                DateVariable = datesVariable.ToArray();
+            }
 
-                var dateVariableNodes = node.FirstChild.SelectNodes("dateVariable", mgr);
-                if (dateVariableNodes != null && dateVariableNodes.Count > 0)
+            var informationNodes = node.FirstChild.SelectNodes("information", mgr);
+            if (informationNodes != null && informationNodes.Count > 0)
+            {
+                var informations = new List<Information>();
+                foreach (XmlNode informationNode in informationNodes)
                 {
-                    var datesVariable = new List<string>();
-                    foreach(XmlNode dateVariableNode in dateVariableNodes)
+                    if (informationNode != null && informationNode.HasChildNodes)
                     {
-                        if (dateVariableNode != null && dateVariableNode.HasChildNodes)
-                        {
-                            datesVariable.Add(dateVariableNode.FirstChild.InnerText);
-                        }
+                        var newInformation = new Information();
+                        newInformation.FromXml(informationNode, mgr);
+                        informations.Add(newInformation);
                     }
-                    DateVariable = datesVariable.ToArray();
                 }
+                Information = informations.ToArray();
+            }
 
-                var informationNodes = node.FirstChild.SelectNodes("information", mgr);
-                if (informationNodes != null && informationNodes.Count > 0)
+            var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
+            if (linkNodes != null && linkNodes.Count > 0)
+            {
+                var links = new List<Link>();
+                foreach (XmlNode linkNode in linkNodes)
                 {
-                    var informations = new List<Information>();
-                    foreach (XmlNode informationNode in informationNodes)
-                    {
-                        if (informationNode != null && informationNode.HasChildNodes)
-                        {
-                            var newInformation = new Information();
-                            newInformation.FromXml(informationNode.FirstChild, mgr);
-                            informations.Add(newInformation);
-                        }
-                    }
-                    Information = informations.ToArray();
+                    var newLink = new Link();
+                    newLink.FromXml(linkNode, mgr);
+                    links.Add(newLink);
                 }
-
-                var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
-                if (linkNodes != null && linkNodes.Count > 0)
-                {
-                    var links = new List<Link>();
-                    foreach (XmlNode linkNode in linkNodes)
-                    {
-                        var newLink = new Link();
-                        newLink.FromXml(linkNode, mgr);
-                        links.Add(newLink);
-                    }
-                    Links = links.ToArray();
-                }
+                Links = links.ToArray();
             }
 
             return this;

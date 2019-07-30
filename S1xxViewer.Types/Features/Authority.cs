@@ -58,24 +58,11 @@ namespace S1xxViewer.Types.Features
                 }
             }
 
-            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
-            if (featureNameNodes != null && featureNameNodes.Count > 0)
-            {
-                var featureNames = new List<FeatureName>();
-                foreach (XmlNode featureNameNode in featureNameNodes)
-                {
-                    var newFeatureName = new FeatureName();
-                    newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
-                    featureNames.Add(newFeatureName);
-                }
-                FeatureName = featureNames.ToArray();
-            }
-
             var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
             if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
             {
                 FixedDateRange = new DateRange();
-                FixedDateRange.FromXml(fixedDateRangeNode.FirstChild, mgr);
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
             }
 
             var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
@@ -85,33 +72,39 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
                 {
                     var newDateRange = new DateRange();
-                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    newDateRange.FromXml(periodicDateRangeNode, mgr);
                     dateRanges.Add(newDateRange);
                 }
                 PeriodicDateRange = dateRanges.ToArray();
+            }
+
+            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
+            if (featureNameNodes != null && featureNameNodes.Count > 0)
+            {
+                var featureNames = new List<FeatureName>();
+                foreach (XmlNode featureNameNode in featureNameNodes)
+                {
+                    var newFeatureName = new FeatureName();
+                    newFeatureName.FromXml(featureNameNode, mgr);
+                    featureNames.Add(newFeatureName);
+                }
+                FeatureName = featureNames.ToArray();
             }
 
             var sourceIndicationNodes = node.FirstChild.SelectNodes("sourceIndication", mgr);
             if (sourceIndicationNodes != null && sourceIndicationNodes.Count > 0)
             {
                 var sourceIndications = new List<SourceIndication>();
-                foreach(XmlNode sourceIndicationNode in sourceIndicationNodes)
+                foreach (XmlNode sourceIndicationNode in sourceIndicationNodes)
                 {
                     if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
                     {
                         var sourceIndication = new SourceIndication();
-                        sourceIndication.FromXml(sourceIndicationNode.FirstChild, mgr);
+                        sourceIndication.FromXml(sourceIndicationNode, mgr);
                         sourceIndications.Add(sourceIndication);
                     }
                 }
                 SourceIndication = sourceIndications.ToArray();
-            }
-
-            var textContentNode = node.FirstChild.SelectSingleNode("textContent", mgr);
-            if (textContentNode != null && textContentNode.HasChildNodes)
-            {
-                TextContent = new TextContent();
-                TextContent.FromXml(textContentNode.FirstChild, mgr);
             }
 
             var categoryOfAuthorityNode = node.FirstChild.SelectSingleNode("categoryOfAuthority", mgr);

@@ -41,13 +41,13 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var categoryOfTextNode = node.FirstChild.SelectSingleNode("categoryOfText", mgr);
+            var categoryOfTextNode = node.SelectSingleNode("categoryOfText", mgr);
             if (categoryOfTextNode != null && categoryOfTextNode.HasChildNodes)
             {
                 CategoryOfText = categoryOfTextNode.FirstChild.InnerText;
             }
 
-            var informationNodes = node.FirstChild.SelectNodes("information", mgr);
+            var informationNodes = node.SelectNodes("information", mgr);
             if (informationNodes != null && informationNodes.Count > 0)
             {
                 var informations = new List<Information>();
@@ -56,25 +56,25 @@ namespace S1xxViewer.Types.ComplexTypes
                     if (informationNode != null && informationNode.HasChildNodes)
                     {
                         var newInformation = new Information();
-                        newInformation.FromXml(informationNode.FirstChild, mgr);
+                        newInformation.FromXml(informationNode, mgr);
                         informations.Add(newInformation);
                     }
                 }
                 Information = informations.ToArray();
             }
 
-            var onlineResourceNode = node.FirstChild.SelectSingleNode("onlineResource");
+            var onlineResourceNode = node.SelectSingleNode("onlineResource");
             if (onlineResourceNode != null && onlineResourceNode.HasChildNodes)
             {
                 OnlineResource = new OnlineResource();
-                OnlineResource.FromXml(onlineResourceNode.FirstChild, mgr);
+                OnlineResource.FromXml(onlineResourceNode, mgr);
             }
 
-            var sourceIndicationNode = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            var sourceIndicationNode = node.SelectSingleNode("sourceIndication", mgr);
             if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
             {
                 SourceIndication = new SourceIndication();
-                SourceIndication.FromXml(sourceIndicationNode.FirstChild, mgr);
+                SourceIndication.FromXml(sourceIndicationNode, mgr);
             }
 
             return this;

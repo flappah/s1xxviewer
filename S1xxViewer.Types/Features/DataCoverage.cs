@@ -15,7 +15,6 @@ namespace S1xxViewer.Types.Features
 {
     public class DataCoverage : MetaFeatureBase, IDataCoverage, IS122Feature
     {
-        public IFeatureObjectIdentifier FeatureObjectIdentifier { get; set; }
         public int MaximumDisplayScale { get; set; }
         public int MinimumDisplayScale { get; set; }
 
@@ -52,6 +51,13 @@ namespace S1xxViewer.Types.Features
                 if (node.FirstChild.Attributes.Count > 0)
                 {
                     Id = node.FirstChild.Attributes["gml:id"].InnerText;
+                }
+
+                var featureObjectIdentifierNode = node.FirstChild.SelectSingleNode("s100:featureObjectIdentifier", mgr);
+                if (featureObjectIdentifierNode != null && featureObjectIdentifierNode.HasChildNodes)
+                {
+                    FeatureObjectIdentifier = new FeatureObjectIdentifier();
+                    FeatureObjectIdentifier.FromXml(featureObjectIdentifierNode, mgr);
                 }
 
                 var foidNode = node.FirstChild.SelectSingleNode("s100:featureObjectIdentifier", mgr);

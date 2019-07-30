@@ -40,13 +40,13 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var telecommunicationsIdentifierNode = node.FirstChild.SelectSingleNode("telecommunicationsIdentifier", mgr);
+            var telecommunicationsIdentifierNode = node.SelectSingleNode("telecommunicationsIdentifier", mgr);
             if (telecommunicationsIdentifierNode != null && telecommunicationsIdentifierNode.HasChildNodes)
             {
                 TelecommunicationsIdentifier = telecommunicationsIdentifierNode.FirstChild.InnerText;
             }
 
-            var telecommunicationsServiceNodes = node.FirstChild.SelectNodes("telecommunicationsService", mgr);
+            var telecommunicationsServiceNodes = node.SelectNodes("telecommunicationsService", mgr);
             if (telecommunicationsServiceNodes != null && telecommunicationsServiceNodes.Count > 0)
             {
                 var services = new List<string>();
@@ -60,29 +60,29 @@ namespace S1xxViewer.Types.ComplexTypes
                 TelecommunicationsService = services.ToArray();
             }
 
-            var categoryOfCommPrefNode = node.FirstChild.SelectSingleNode("categoryOfCommPref", mgr);
+            var categoryOfCommPrefNode = node.SelectSingleNode("categoryOfCommPref", mgr);
             if (categoryOfCommPrefNode != null && categoryOfCommPrefNode.HasChildNodes)
             {
                 CategoryOfCommPref = categoryOfCommPrefNode.FirstChild.InnerText;
             }
 
-            var contactInstructionsNode = node.FirstChild.SelectSingleNode("contactInstructions", mgr);
+            var contactInstructionsNode = node.SelectSingleNode("contactInstructions", mgr);
             if (contactInstructionsNode != null && contactInstructionsNode.HasChildNodes)
             {
                 ContactInstructions = contactInstructionsNode.FirstChild.InnerText;
             }
 
-            var telcomCarrierNode = node.FirstChild.SelectSingleNode("telcomCarrier", mgr);
+            var telcomCarrierNode = node.SelectSingleNode("telcomCarrier", mgr);
             if (telcomCarrierNode != null && telcomCarrierNode.HasChildNodes)
             {
                 TelcomCarrier = telcomCarrierNode.FirstChild.InnerText;
             }
 
-            var scheduleByDoWNode = node.FirstChild.SelectSingleNode("scheduleByDoW", mgr);
+            var scheduleByDoWNode = node.SelectSingleNode("scheduleByDoW", mgr);
             if (scheduleByDoWNode != null && scheduleByDoWNode.HasChildNodes)
             {
                 ScheduleByDoW = new ScheduleByDoW();
-                ScheduleByDoW.FromXml(node.FirstChild, mgr);
+                ScheduleByDoW.FromXml(scheduleByDoWNode, mgr);
             }
 
             return this;

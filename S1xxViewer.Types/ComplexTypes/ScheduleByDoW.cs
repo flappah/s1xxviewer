@@ -33,13 +33,13 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var categoryOfScheduleNode = node.FirstChild.SelectSingleNode("categoryOfSchedule", mgr);
+            var categoryOfScheduleNode = node.SelectSingleNode("categoryOfSchedule", mgr);
             if (categoryOfScheduleNode != null && categoryOfScheduleNode.HasChildNodes)
             {
                 CategoryOfSchedule = categoryOfScheduleNode.FirstChild.InnerText;
             }
 
-            var tmIntervalsByDoWNodes = node.FirstChild.SelectNodes("tmIntervalsByDoW", mgr);
+            var tmIntervalsByDoWNodes = node.SelectNodes("tmIntervalsByDoW", mgr);
             if (tmIntervalsByDoWNodes != null && tmIntervalsByDoWNodes.Count > 0)
             {
                 var intervals = new List<TmIntervalsByDoW>();
@@ -48,7 +48,7 @@ namespace S1xxViewer.Types.ComplexTypes
                     if (tmIntervalsByDoWNode != null && tmIntervalsByDoWNode.HasChildNodes)
                     {
                         var newInterval = new TmIntervalsByDoW();
-                        newInterval.FromXml(tmIntervalsByDoWNode.FirstChild, mgr);
+                        newInterval.FromXml(tmIntervalsByDoWNode, mgr);
                         intervals.Add(newInterval);
                     }
                 }

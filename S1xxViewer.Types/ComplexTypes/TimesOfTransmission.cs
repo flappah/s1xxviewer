@@ -39,7 +39,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var minutePastEvenHoursNode = node.FirstChild.SelectSingleNode("minutePastEvenHours");
+            var minutePastEvenHoursNode = node.SelectSingleNode("minutePastEvenHours");
             if (minutePastEvenHoursNode != null && minutePastEvenHoursNode.HasChildNodes)
             {
                 int minuteValue;
@@ -50,7 +50,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 MinutePastEvenHours = minuteValue;
             }
 
-            var minutePastEveryHoursNode = node.FirstChild.SelectSingleNode("minutePastEveryHours");
+            var minutePastEveryHoursNode = node.SelectSingleNode("minutePastEveryHours");
             if (minutePastEveryHoursNode != null && minutePastEveryHoursNode.HasChildNodes)
             {
                 int minuteValue;
@@ -61,7 +61,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 MinutePastEveryHours = minuteValue;
             }
 
-            var minutePastOddHoursNode = node.FirstChild.SelectSingleNode("minutePastOddHours");
+            var minutePastOddHoursNode = node.SelectSingleNode("minutePastOddHours");
             if (minutePastOddHoursNode != null && minutePastOddHoursNode.HasChildNodes)
             {
                 int minuteValue;
@@ -72,13 +72,13 @@ namespace S1xxViewer.Types.ComplexTypes
                 MinutePastOddHours = minuteValue;
             }
 
-            var timeReferenceNode = node.FirstChild.SelectSingleNode("timeReference");
+            var timeReferenceNode = node.SelectSingleNode("timeReference");
             if (timeReferenceNode != null && timeReferenceNode.HasChildNodes)
             {
                 TimeReference = timeReferenceNode.FirstChild.InnerText;
             }
 
-            var transmissionTimeNodes = node.FirstChild.SelectNodes("transmissionTime");
+            var transmissionTimeNodes = node.SelectNodes("transmissionTime");
             if (transmissionTimeNodes != null && transmissionTimeNodes.Count > 0)
             {
                 var transmissionTimes = new List<DateTime>();

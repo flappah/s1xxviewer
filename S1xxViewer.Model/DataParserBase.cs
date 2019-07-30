@@ -34,6 +34,7 @@ namespace S1xxViewer.Model
                 if (foundInfoFeatureIndex != -1)
                 {
                     link.Offset = $"I_{foundInfoFeatureIndex}";
+                    link.LinkedFeature = informationFeatures[foundInfoFeatureIndex].DeepClone();
                 }
                 else
                 {
@@ -45,6 +46,7 @@ namespace S1xxViewer.Model
                     if (foundMetaFeatureIndex != -1)
                     {
                         link.Offset = $"M_{foundMetaFeatureIndex}";
+                        link.LinkedFeature = metaFeatures[foundMetaFeatureIndex].DeepClone();
                     }
                     else
                     {
@@ -56,6 +58,7 @@ namespace S1xxViewer.Model
                         if (foundGeoFeatureIndex != -1)
                         {
                             link.Offset = $"G_{foundGeoFeatureIndex}";
+                            link.LinkedFeature = geoFeatures[foundGeoFeatureIndex].DeepClone();
                         }
                     }
                 }

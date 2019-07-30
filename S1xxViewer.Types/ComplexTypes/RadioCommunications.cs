@@ -41,25 +41,25 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var categoryOfCommPrefNode = node.FirstChild.SelectSingleNode("categoryOfCommPref", mgr);
+            var categoryOfCommPrefNode = node.SelectSingleNode("categoryOfCommPref", mgr);
             if (categoryOfCommPrefNode != null && categoryOfCommPrefNode.HasChildNodes)
             {
                 CategoryOfCommPref = categoryOfCommPrefNode.FirstChild.InnerText;
             }
 
-            var communicationChannelNode = node.FirstChild.SelectSingleNode("communicationChannel", mgr);
+            var communicationChannelNode = node.SelectSingleNode("communicationChannel", mgr);
             if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
             {
                 CommunicationChannel = communicationChannelNode.FirstChild.InnerText;
             }
 
-            var contactInstructionsNode = node.FirstChild.SelectSingleNode("contactInstructions", mgr);
+            var contactInstructionsNode = node.SelectSingleNode("contactInstructions", mgr);
             if (contactInstructionsNode != null && contactInstructionsNode.HasChildNodes)
             {
                 ContactInstructions = contactInstructionsNode.FirstChild.InnerText;
             }
 
-            var tmIntervalsByDoWNodes = node.FirstChild.SelectNodes("tmIntervalsByDoW", mgr);
+            var tmIntervalsByDoWNodes = node.SelectNodes("tmIntervalsByDoW", mgr);
             if (tmIntervalsByDoWNodes != null && tmIntervalsByDoWNodes.Count > 0)
             {
                 var tmIntervals = new List<TmIntervalsByDoW>();
@@ -68,14 +68,14 @@ namespace S1xxViewer.Types.ComplexTypes
                     if (tmIntervalsByDoWNode != null && tmIntervalsByDoWNode.HasChildNodes)
                     {
                         var newTmInterval = new TmIntervalsByDoW();
-                        newTmInterval.FromXml(tmIntervalsByDoWNode.FirstChild, mgr);
+                        newTmInterval.FromXml(tmIntervalsByDoWNode, mgr);
                         tmIntervals.Add(newTmInterval);
                     }
                 }
                 TmIntervalsByDoW = tmIntervals.ToArray();
             }
 
-            var frequencyPairNodes = node.FirstChild.SelectNodes("frequencyPair", mgr);
+            var frequencyPairNodes = node.SelectNodes("frequencyPair", mgr);
             if (frequencyPairNodes != null && frequencyPairNodes.Count > 0)
             {
                 var frequencyPairs = new List<FrequencyPair>();
@@ -84,7 +84,7 @@ namespace S1xxViewer.Types.ComplexTypes
                     if (frequencyPairNode != null && frequencyPairNode.HasChildNodes)
                     {
                         var newFrequencyPair = new FrequencyPair();
-                        newFrequencyPair.FromXml(frequencyPairNode.FirstChild, mgr);
+                        newFrequencyPair.FromXml(frequencyPairNode, mgr);
                         frequencyPairs.Add(newFrequencyPair);
                     }
                 }

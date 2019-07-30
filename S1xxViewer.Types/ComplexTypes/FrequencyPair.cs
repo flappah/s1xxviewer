@@ -29,7 +29,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var frequencyShoreStationReceivesNode = node.FirstChild.SelectSingleNode("frequencyShoreStationReceives");
+            var frequencyShoreStationReceivesNode = node.SelectSingleNode("frequencyShoreStationReceives");
             if (frequencyShoreStationReceivesNode != null && frequencyShoreStationReceivesNode.HasChildNodes)
             {
                 int frequencyShoreStationReceives;
@@ -40,7 +40,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 FrequencyShoreStationReceives = frequencyShoreStationReceives;
             }
 
-            var frequencyShoreStationTransmitsNode = node.FirstChild.SelectSingleNode("frequencyShoreStationTransmits");
+            var frequencyShoreStationTransmitsNode = node.SelectSingleNode("frequencyShoreStationTransmits");
             if (frequencyShoreStationTransmitsNode != null && frequencyShoreStationTransmitsNode.HasChildNodes)
             {
                 int frequencyShoreStationTransmits;

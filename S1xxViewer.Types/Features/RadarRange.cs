@@ -68,10 +68,17 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
                 {
                     var newDateRange = new DateRange();
-                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    newDateRange.FromXml(periodicDateRangeNode, mgr);
                     dateRanges.Add(newDateRange);
                 }
                 PeriodicDateRange = dateRanges.ToArray();
+            }
+
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
             }
 
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
@@ -81,7 +88,7 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode featureNameNode in featureNameNodes)
                 {
                     var newFeatureName = new FeatureName();
-                    newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
+                    newFeatureName.FromXml(featureNameNode, mgr);
                     featureNames.Add(newFeatureName);
                 }
                 FeatureName = featureNames.ToArray();
@@ -97,14 +104,17 @@ namespace S1xxViewer.Types.Features
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
             if (textContentNodes != null && textContentNodes.Count > 0)
             {
-                var texts = new List<TextContent>();
+                var textContents = new List<TextContent>();
                 foreach (XmlNode textContentNode in textContentNodes)
                 {
-                    var newTextContent = new TextContent();
-                    newTextContent.FromXml(textContentNode.FirstChild, mgr);
-                    texts.Add(newTextContent);
+                    if (textContentNode != null && textContentNode.HasChildNodes)
+                    {
+                        var content = new TextContent();
+                        content.FromXml(textContentNode, mgr);
+                        textContents.Add(content);
+                    }
                 }
-                TextContent = texts.ToArray();
+                TextContent = textContents.ToArray();
             }
 
             var statusNodes = node.FirstChild.SelectNodes("status", mgr);

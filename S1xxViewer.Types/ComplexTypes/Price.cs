@@ -29,7 +29,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var priceNumberNode = node.FirstChild.SelectSingleNode("priceNumber");
+            var priceNumberNode = node.SelectSingleNode("priceNumber");
             if (priceNumberNode != null && priceNumberNode.HasChildNodes)
             {
                 int price;
@@ -40,7 +40,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 PriceNumber = price;
             }
 
-            var currencyNode = node.FirstChild.SelectSingleNode("currency");
+            var currencyNode = node.SelectSingleNode("currency");
             if (currencyNode != null && currencyNode.HasChildNodes)
             {
                 Currency = currencyNode.FirstChild.InnerText;

@@ -29,13 +29,13 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var categoryOfRxnNode = node.FirstChild.SelectSingleNode("categoryOfRxn", mgr);
+            var categoryOfRxnNode = node.SelectSingleNode("categoryOfRxn", mgr);
             if (categoryOfRxnNode != null && categoryOfRxnNode.HasChildNodes)
             {
                 CategoryOfRxn = categoryOfRxnNode.FirstChild.InnerText;
             }
 
-            var actionOrActivityNode = node.FirstChild.SelectSingleNode("actionOrActivity");
+            var actionOrActivityNode = node.SelectSingleNode("actionOrActivity");
             if (actionOrActivityNode != null && actionOrActivityNode.HasChildNodes)
             {
                 ActionOrActivity = actionOrActivityNode.FirstChild.InnerText;

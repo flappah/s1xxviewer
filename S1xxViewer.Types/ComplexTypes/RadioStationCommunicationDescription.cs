@@ -35,9 +35,15 @@ namespace S1xxViewer.Types.ComplexTypes
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="mgr"></param>
+        /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var categoryOfMaritimeBroadcastNodes = node.FirstChild.SelectNodes("categoryOfMaritimeBroadcast", mgr);
+            var categoryOfMaritimeBroadcastNodes = node.SelectNodes("categoryOfMaritimeBroadcast", mgr);
             if (categoryOfMaritimeBroadcastNodes != null && categoryOfMaritimeBroadcastNodes.Count > 0)
             {
                 var categories = new List<string>();
@@ -51,7 +57,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 CategoryOfMaritimeBroadcast = categories.ToArray();
             }
 
-            var communicationChannelNodes = node.FirstChild.SelectNodes("communicationChannel", mgr);
+            var communicationChannelNodes = node.SelectNodes("communicationChannel", mgr);
             if (communicationChannelNodes != null && communicationChannelNodes.Count > 0)
             {
                 var channels = new List<string>();
@@ -65,7 +71,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 CommunicationChannel = channels.ToArray();
             }
 
-            var signalFrequencyNode = node.FirstChild.SelectSingleNode("signalFrequency");
+            var signalFrequencyNode = node.SelectSingleNode("signalFrequency");
             if (signalFrequencyNode != null && signalFrequencyNode.HasChildNodes)
             {
                 int frequency;
@@ -76,7 +82,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 SignalFrequency = frequency;
             }
 
-            var transmissionContentNode = node.FirstChild.SelectSingleNode("transmissionContent");
+            var transmissionContentNode = node.SelectSingleNode("transmissionContent");
             if (transmissionContentNode != null && transmissionContentNode.HasChildNodes)
             {
                 TransmissionContent = transmissionContentNode.FirstChild.InnerText;

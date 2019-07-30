@@ -33,25 +33,25 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var comparisonOperatorNode = node.FirstChild.SelectSingleNode("comparisonOperator", mgr);
+            var comparisonOperatorNode = node.SelectSingleNode("comparisonOperator", mgr);
             if (comparisonOperatorNode != null && comparisonOperatorNode.HasChildNodes)
             {
                 ComparisonOperator = comparisonOperatorNode.FirstChild.InnerText;
             }
 
-            var vesselsCharacteristicsNode = node.FirstChild.SelectSingleNode("vesselsCharacteristics", mgr);
+            var vesselsCharacteristicsNode = node.SelectSingleNode("vesselsCharacteristics", mgr);
             if (vesselsCharacteristicsNode != null && vesselsCharacteristicsNode.HasChildNodes)
             {
                 VesselsCharacteristics = vesselsCharacteristicsNode.FirstChild.InnerText;
             }
 
-            var vesselsCharacteristicsValueNode = node.FirstChild.SelectSingleNode("vesselsCharacteristicsValue", mgr);
+            var vesselsCharacteristicsValueNode = node.SelectSingleNode("vesselsCharacteristicsValue", mgr);
             if (vesselsCharacteristicsValueNode != null && vesselsCharacteristicsValueNode.HasChildNodes)
             {
                 VesselsCharacteristicsValue = vesselsCharacteristicsValueNode.FirstChild.InnerText;
             }
 
-            var vesselsCharacteristicsUnitNode = node.FirstChild.SelectSingleNode("vesselsCharacteristicsUnit", mgr);
+            var vesselsCharacteristicsUnitNode = node.SelectSingleNode("vesselsCharacteristicsUnit", mgr);
             if (vesselsCharacteristicsUnitNode != null && vesselsCharacteristicsUnitNode.HasChildNodes)
             {
                 VesselsCharacteristicsUnit = vesselsCharacteristicsUnitNode.FirstChild.InnerText;

@@ -39,7 +39,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var deliveryPointNodes = node.FirstChild.SelectNodes("deliveryPoint", mgr);
+            var deliveryPointNodes = node.SelectNodes("deliveryPoint", mgr);
             if (deliveryPointNodes != null && deliveryPointNodes.Count > 0)
             {
                 var deliveryPoints = new List<string>();
@@ -53,25 +53,25 @@ namespace S1xxViewer.Types.ComplexTypes
                 DeliveryPoint = deliveryPoints.ToArray();
             }
 
-            var cityNameNode = node.FirstChild.SelectSingleNode("cityName", mgr);
+            var cityNameNode = node.SelectSingleNode("cityName", mgr);
             if (cityNameNode != null && cityNameNode.HasChildNodes)
             {
                 CityName = cityNameNode.FirstChild.InnerText;
             }
 
-            var administrativeDivisionNode = node.FirstChild.SelectSingleNode("administrativeDivision", mgr);
+            var administrativeDivisionNode = node.SelectSingleNode("administrativeDivision", mgr);
             if (administrativeDivisionNode != null && administrativeDivisionNode.HasChildNodes)
             {
                 AdministrativeDivision = administrativeDivisionNode.FirstChild.InnerText;
             }
 
-            var countryNode = node.FirstChild.SelectSingleNode("country", mgr);
+            var countryNode = node.SelectSingleNode("country", mgr);
             if (countryNode != null && countryNode.HasChildNodes)
             {
                 Country = countryNode.FirstChild.InnerText;
             }
 
-            var postalCodeNode = node.FirstChild.SelectSingleNode("postalCode", mgr);
+            var postalCodeNode = node.SelectSingleNode("postalCode", mgr);
             if (postalCodeNode != null && postalCodeNode.HasChildNodes)
             {
                 PostalCode = postalCodeNode.FirstChild.InnerText;

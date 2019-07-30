@@ -26,7 +26,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var orientationUncertaintyNode = node.FirstChild.SelectSingleNode("orientationUncertainty", mgr);
+            var orientationUncertaintyNode = node.SelectSingleNode("orientationUncertainty", mgr);
             if (orientationUncertaintyNode != null && orientationUncertaintyNode.HasChildNodes)
             {
                 double uncertainty;
@@ -37,7 +37,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 OrientationUncertainty = uncertainty;
             }
 
-            var orientationValueNode = node.FirstChild.SelectSingleNode("orientationValue", mgr);
+            var orientationValueNode = node.SelectSingleNode("orientationValue", mgr);
             if (orientationValueNode != null && orientationValueNode.HasChildNodes)
             {
                 double value;

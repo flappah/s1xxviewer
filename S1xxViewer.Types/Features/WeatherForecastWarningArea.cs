@@ -24,6 +24,9 @@ namespace S1xxViewer.Types.Features
                 FeatureName = FeatureName == null
                     ? new[] { new FeatureName() }
                     : Array.ConvertAll(FeatureName, fn => fn.DeepClone() as IFeatureName),
+                FeatureObjectIdentifier = FeatureObjectIdentifier == null
+                    ? new FeatureObjectIdentifier()
+                    : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
                     : FixedDateRange.DeepClone() as IDateRange,
@@ -63,6 +66,13 @@ namespace S1xxViewer.Types.Features
                 }
             }
 
+            var featureObjectIdentifierNode = node.FirstChild.SelectSingleNode("s100:featureObjectIdentifier", mgr);
+            if (featureObjectIdentifierNode != null && featureObjectIdentifierNode.HasChildNodes)
+            {
+                FeatureObjectIdentifier = new FeatureObjectIdentifier();
+                FeatureObjectIdentifier.FromXml(featureObjectIdentifierNode, mgr);
+            }
+
             var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
             if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
             {
@@ -70,10 +80,17 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
                 {
                     var newDateRange = new DateRange();
-                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    newDateRange.FromXml(periodicDateRangeNode, mgr);
                     dateRanges.Add(newDateRange);
                 }
                 PeriodicDateRange = dateRanges.ToArray();
+            }
+
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
             }
 
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
@@ -83,7 +100,7 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode featureNameNode in featureNameNodes)
                 {
                     var newFeatureName = new FeatureName();
-                    newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
+                    newFeatureName.FromXml(featureNameNode, mgr);
                     featureNames.Add(newFeatureName);
                 }
                 FeatureName = featureNames.ToArray();
@@ -105,20 +122,20 @@ namespace S1xxViewer.Types.Features
                     if (textContentNode != null && textContentNode.HasChildNodes)
                     {
                         var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
+                        content.FromXml(textContentNode, mgr);
                         textContents.Add(content);
                     }
                 }
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfFrctAndWarningAreaNode = node.FirstChild.SelectSingleNode("categoryOfFrctAndWarningArea", mgr);
+            var categoryOfFrctAndWarningAreaNode = node.FirstChild.SelectSingleNode("categoryOfFrcstAndWarningArea", mgr);
             if (categoryOfFrctAndWarningAreaNode != null && categoryOfFrctAndWarningAreaNode.HasChildNodes)
             {
                 CategoryOfFrctAndWarningArea = categoryOfFrctAndWarningAreaNode.FirstChild.InnerText;
             }
 
-            var nationalityNode = node.FirstChild.SelectSingleNode("nationalityNode", mgr);
+            var nationalityNode = node.FirstChild.SelectSingleNode("nationality", mgr);
             if (nationalityNode != null && nationalityNode.HasChildNodes)
             {
                 Nationality = nationalityNode.FirstChild.InnerText;

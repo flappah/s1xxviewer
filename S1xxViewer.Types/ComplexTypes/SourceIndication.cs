@@ -54,14 +54,14 @@ namespace S1xxViewer.Types.ComplexTypes
                     Country = country.InnerText;
                 }
 
-                var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
+                var featureNameNodes = node.SelectNodes("featureName", mgr);
                 if (featureNameNodes != null && featureNameNodes.Count > 0)
                 {
                     var featureNames = new List<FeatureName>();
                     foreach (XmlNode featureNameNode in featureNameNodes)
                     {
                         var newFeatureName = new FeatureName();
-                        newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
+                        newFeatureName.FromXml(featureNameNode, mgr);
                         featureNames.Add(newFeatureName);
                     }
                     FeatureName = featureNames.ToArray();

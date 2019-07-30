@@ -36,7 +36,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var uncertaintyFixedNode = node.FirstChild.SelectSingleNode("uncertaintyFixed", mgr);
+            var uncertaintyFixedNode = node.SelectSingleNode("uncertaintyFixed", mgr);
             if (uncertaintyFixedNode != null && uncertaintyFixedNode.HasChildNodes)
             {
                 double uncertainty;
@@ -47,7 +47,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 UncertaintyFixed = uncertainty;
             }
 
-            var uncertaintyVariableNode = node.FirstChild.SelectSingleNode("uncertaintyVariable", mgr);
+            var uncertaintyVariableNode = node.SelectSingleNode("uncertaintyVariable", mgr);
             if (uncertaintyVariableNode != null && uncertaintyVariableNode.HasChildNodes)
             {
                 double uncertainty;

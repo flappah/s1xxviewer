@@ -5,8 +5,8 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class Information : ComplexTypeBase, IInformation
     {
-        public string FileDescription { get; set; }
         public string FileLocator { get; set; }
+        public string FileReference { get; set; }
         public string Headline { get; set; }
         public string Language { get; set; }
         public string Text { get; set; }
@@ -19,8 +19,8 @@ namespace S1xxViewer.Types.ComplexTypes
         {
             return new Information
             {
-                FileDescription = FileDescription,
                 FileLocator = FileLocator,
+                FileReference = FileReference,
                 Headline = Headline,
                 Language = Language,
                 Text = Text
@@ -35,29 +35,30 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var fileDescriptionNode = node.FirstChild.SelectSingleNode("fileDescription", mgr);
-            if (fileDescriptionNode != null && fileDescriptionNode.HasChildNodes)
-            {
-                FileDescription = fileDescriptionNode.FirstChild.InnerText;
-            }
-
-            var fileLocatorNode = node.FirstChild.SelectSingleNode("fileLocator", mgr);
+            var fileLocatorNode = node.SelectSingleNode("fileLocator", mgr);
             if (fileLocatorNode != null && fileLocatorNode.HasChildNodes)
             {
                 FileLocator = fileLocatorNode.FirstChild.InnerText;
             }
-            var headlineNode = node.FirstChild.SelectSingleNode("headline", mgr);
+
+            var fileReferenceNode = node.SelectSingleNode("fileReference", mgr);
+            if (fileReferenceNode != null && fileReferenceNode.HasChildNodes)
+            {
+                FileReference = fileReferenceNode.FirstChild.InnerText;
+            }
+
+            var headlineNode = node.SelectSingleNode("headline", mgr);
             if (headlineNode != null && headlineNode.HasChildNodes)
             {
                 Headline = headlineNode.FirstChild.InnerText;
             }
 
-            var languageNode = node.FirstChild.SelectSingleNode("language", mgr);
+            var languageNode = node.SelectSingleNode("language", mgr);
             if (languageNode != null && languageNode.HasChildNodes)
             {
                 Language = languageNode.FirstChild.InnerText;
             }
-            var textNode = node.FirstChild.SelectSingleNode("text", mgr);
+            var textNode = node.SelectSingleNode("text", mgr);
             if (textNode != null && textNode.HasChildNodes)
             {
                 Text = textNode.FirstChild.InnerText;

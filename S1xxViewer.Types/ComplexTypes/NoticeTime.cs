@@ -29,7 +29,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var noticeTimeHoursNode = node.FirstChild.SelectSingleNode("noticeTimeHours");
+            var noticeTimeHoursNode = node.SelectSingleNode("noticeTimeHours");
             if (noticeTimeHoursNode != null && noticeTimeHoursNode.HasChildNodes)
             {
                 int noticeTimeHours;
@@ -39,7 +39,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 }
                 NoticeTimeHours = noticeTimeHours;
 
-                var noticeTimeTextNode = node.FirstChild.SelectSingleNode("noticeTimeText", mgr);
+                var noticeTimeTextNode = node.SelectSingleNode("noticeTimeText", mgr);
                 if (noticeTimeTextNode != null && noticeTimeTextNode.HasChildNodes)
                 {
                     NoticeTimeText = noticeTimeTextNode.FirstChild.InnerText;

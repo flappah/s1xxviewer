@@ -13,8 +13,5 @@ namespace S1xxViewer.Types.Interfaces
         string PilotMovement { get; set; }
         string PilotVessel { get; set; }
         string[] Status { get; set; }
-
-        IFeature DeepClone();
-        IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
     }
 }

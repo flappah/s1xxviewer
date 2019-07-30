@@ -30,7 +30,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var observationTimeNode = node.FirstChild.SelectSingleNode("observationTime");
+            var observationTimeNode = node.SelectSingleNode("observationTime");
             if (observationTimeNode != null && observationTimeNode.HasChildNodes)
             {
                 DateTime observation;
@@ -41,7 +41,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 ObservationTime = observation;
             }
 
-            var timeReferenceNode = node.FirstChild.SelectSingleNode("timeReference");
+            var timeReferenceNode = node.SelectSingleNode("timeReference");
             if (timeReferenceNode != null && timeReferenceNode.HasChildNodes)
             {
                 TimeReference = timeReferenceNode.FirstChild.InnerText;

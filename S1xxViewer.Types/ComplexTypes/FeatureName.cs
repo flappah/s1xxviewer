@@ -31,7 +31,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var displayNameNode = node.FirstChild.SelectSingleNode("displayName", mgr);
+            var displayNameNode = node.SelectSingleNode("displayName", mgr);
             if (displayNameNode != null && displayNameNode.HasChildNodes)
             {
                 bool displayName;
@@ -42,13 +42,13 @@ namespace S1xxViewer.Types.ComplexTypes
                 DisplayName = displayName;
             }
 
-            var languageNode = node.FirstChild.SelectSingleNode("language", mgr);
+            var languageNode = node.SelectSingleNode("language", mgr);
             if (languageNode != null && languageNode.HasChildNodes)
             {
                 Language = languageNode.FirstChild.InnerText;
             }
 
-            var nameNode = node.FirstChild.SelectSingleNode("name", mgr);
+            var nameNode = node.SelectSingleNode("name", mgr);
             if (nameNode != null && nameNode.HasChildNodes)
             {
                 Name = nameNode.FirstChild.InnerText;

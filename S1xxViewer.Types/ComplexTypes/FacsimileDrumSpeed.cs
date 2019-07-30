@@ -29,7 +29,7 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var drumSpeedNode = node.FirstChild.SelectSingleNode("drumSpeed");
+            var drumSpeedNode = node.SelectSingleNode("drumSpeed");
             if (drumSpeedNode != null && drumSpeedNode.HasChildNodes)
             {
                 int drumSpeed;
@@ -40,7 +40,7 @@ namespace S1xxViewer.Types.ComplexTypes
                 DrumSpeed = drumSpeed;
             }
 
-            var indexOfCooperationNode = node.FirstChild.SelectSingleNode("indexOfCooperation");
+            var indexOfCooperationNode = node.SelectSingleNode("indexOfCooperation");
             if (indexOfCooperationNode != null && indexOfCooperationNode.HasChildNodes)
             {
                 int index;

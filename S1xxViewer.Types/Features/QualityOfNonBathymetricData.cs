@@ -14,7 +14,6 @@ namespace S1xxViewer.Types.Features
         public string CategoryOfTemporalVariation { get; set; }
         public string DataAssessment { get; set; }
         public ISourceIndication SourceIndication { get; set; }
-        public IFeatureObjectIdentifier FeatureObjectIdentifier { get; set; }
         public double[] HorizontalDistanceUncertainty { get; set; }
         public IHorizontalPositionalUncertainty HorizontalPositionalUncertainty { get; set; }
         public double DirectionUncertainty { get; set; }
@@ -36,7 +35,7 @@ namespace S1xxViewer.Types.Features
                     : SourceIndication.DeepClone() as ISourceIndication,
                 FeatureObjectIdentifier = FeatureObjectIdentifier == null
                     ? new FeatureObjectIdentifier()
-                    : FeatureObjectIdentifier.DeepClone(),
+                    : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,
                 HorizontalDistanceUncertainty = HorizontalDistanceUncertainty == null
                     ? new double[0]
                     : Array.ConvertAll(HorizontalDistanceUncertainty, hdu => hdu),
@@ -70,11 +69,11 @@ namespace S1xxViewer.Types.Features
                     Id = node.FirstChild.Attributes["gml:id"].InnerText;
                 }
 
-                var foidNode = node.FirstChild.SelectSingleNode("s100:featureObjectIdentifier", mgr);
-                if (foidNode != null && foidNode.HasChildNodes)
+                var featureObjectIdentifierNode = node.FirstChild.SelectSingleNode("s100:featureObjectIdentifier", mgr);
+                if (featureObjectIdentifierNode != null && featureObjectIdentifierNode.HasChildNodes)
                 {
                     FeatureObjectIdentifier = new FeatureObjectIdentifier();
-                    FeatureObjectIdentifier.FromXml(foidNode, mgr);
+                    FeatureObjectIdentifier.FromXml(featureObjectIdentifierNode, mgr);
                 }
 
                 var categoryOfTemporalVariation = node.FirstChild.SelectSingleNode("categoryOfTemporalVariation", mgr);
@@ -122,7 +121,7 @@ namespace S1xxViewer.Types.Features
                     HorizontalPositionalUncertainty.FromXml(horizontalPositionalUncertaintyNode.FirstChild, mgr);
                 }
 
-                var directionUncertaintyNode = node.FirstChild.SelectSingleNode("directionUncertaintyNode", mgr);
+                var directionUncertaintyNode = node.FirstChild.SelectSingleNode("directionUncertainty", mgr);
                 if (directionUncertaintyNode != null && directionUncertaintyNode.HasChildNodes)
                 {
                     double uncertainty;

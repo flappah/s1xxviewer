@@ -43,39 +43,39 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var individualNameNode = node.FirstChild.SelectSingleNode("individualName");
+            var individualNameNode = node.SelectSingleNode("individualName");
             if (individualNameNode != null && individualNameNode.HasChildNodes)
             {
                 IndividualName = individualNameNode.FirstChild.InnerText;
             }
 
-            var organizationNameNode = node.FirstChild.SelectSingleNode("organizationName");
+            var organizationNameNode = node.SelectSingleNode("organizationName");
             if (organizationNameNode != null && organizationNameNode.HasChildNodes)
             {
                 OrganizationName = organizationNameNode.FirstChild.InnerText;
             }
 
-            var positionNameNode = node.FirstChild.SelectSingleNode("positionName");
+            var positionNameNode = node.SelectSingleNode("positionName");
             if (positionNameNode != null && positionNameNode.HasChildNodes)
             {
                 PositionName = positionNameNode.FirstChild.InnerText;
             }
 
-            var contactAddressNode = node.FirstChild.SelectSingleNode("contactAddress");
+            var contactAddressNode = node.SelectSingleNode("contactAddress");
             if (contactAddressNode != null && contactAddressNode.HasChildNodes)
             {
                 ContactAddress = new ContactAddress();
                 ContactAddress.FromXml(contactAddressNode.FirstChild, mgr);
             }
 
-            var onlineResourceNode = node.FirstChild.SelectSingleNode("onlineResource");
+            var onlineResourceNode = node.SelectSingleNode("onlineResource");
             if (onlineResourceNode != null && onlineResourceNode.HasChildNodes)
             {
                 OnlineResource = new OnlineResource();
                 OnlineResource.FromXml(onlineResourceNode.FirstChild, mgr);
             }
 
-            var telecommunicationsNode = node.FirstChild.SelectSingleNode("telecommunications");
+            var telecommunicationsNode = node.SelectSingleNode("telecommunications");
             if (telecommunicationsNode != null && telecommunicationsNode.HasChildNodes)
             {
                 Telecommunications = new Telecommunications();

@@ -67,26 +67,6 @@ namespace S1xxViewer.Types.Features
                 }
             }
 
-            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
-            if (featureNameNodes != null && featureNameNodes.Count > 0)
-            {
-                var featureNames = new List<FeatureName>();
-                foreach (XmlNode featureNameNode in featureNameNodes)
-                {
-                    var newFeatureName = new FeatureName();
-                    newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
-                    featureNames.Add(newFeatureName);
-                }
-                FeatureName = featureNames.ToArray();
-            }
-
-            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
-            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
-            {
-                FixedDateRange = new DateRange();
-                FixedDateRange.FromXml(fixedDateRangeNode.FirstChild, mgr);
-            }
-
             var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
             if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
             {
@@ -94,17 +74,37 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
                 {
                     var newDateRange = new DateRange();
-                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    newDateRange.FromXml(periodicDateRangeNode, mgr);
                     dateRanges.Add(newDateRange);
                 }
                 PeriodicDateRange = dateRanges.ToArray();
             }
 
-            var sourceIndicationNode = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
-            if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
+            }
+
+            var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
+            if (featureNameNodes != null && featureNameNodes.Count > 0)
+            {
+                var featureNames = new List<FeatureName>();
+                foreach (XmlNode featureNameNode in featureNameNodes)
+                {
+                    var newFeatureName = new FeatureName();
+                    newFeatureName.FromXml(featureNameNode, mgr);
+                    featureNames.Add(newFeatureName);
+                }
+                FeatureName = featureNames.ToArray();
+            }
+
+            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            if (sourceIndication != null && sourceIndication.HasChildNodes)
             {
                 SourceIndication = new SourceIndication();
-                SourceIndication.FromXml(sourceIndicationNode.FirstChild, mgr);
+                SourceIndication.FromXml(sourceIndication, mgr);
             }
 
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
@@ -115,12 +115,11 @@ namespace S1xxViewer.Types.Features
                 {
                     if (textContentNode != null && textContentNode.HasChildNodes)
                     {
-                        var newTextContent = new TextContent();
-                        newTextContent.FromXml(textContentNode.FirstChild, mgr);
-                        textContents.Add(newTextContent);
+                        var content = new TextContent();
+                        content.FromXml(textContentNode, mgr);
+                        textContents.Add(content);
                     }
                 }
-
                 TextContent = textContents.ToArray();
             }
 
@@ -133,7 +132,7 @@ namespace S1xxViewer.Types.Features
                     if (graphicNode != null && graphicNode.HasChildNodes)
                     {
                         var newGraphic = new Graphic();
-                        newGraphic.FromXml(graphicNode.FirstChild, mgr);
+                        newGraphic.FromXml(graphicNode, mgr);
                         graphics.Add(newGraphic);
                     }
                 }

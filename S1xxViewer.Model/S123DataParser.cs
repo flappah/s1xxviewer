@@ -94,9 +94,9 @@ namespace S1xxViewer.Model
             }
 
             // Populate links between features
-            foreach (IFeature geoFeature in geoFeatures)
+            foreach (IFeature infoFeature in informationFeatures)
             {
-                ResolveLinks(geoFeature.Links, informationFeatures, metaFeatures, geoFeatures);
+                ResolveLinks(infoFeature.Links, informationFeatures, metaFeatures, geoFeatures);
             }
 
             foreach (IFeature metaFeature in metaFeatures)
@@ -104,9 +104,9 @@ namespace S1xxViewer.Model
                 ResolveLinks(metaFeature.Links, informationFeatures, metaFeatures, geoFeatures);
             }
 
-            foreach (IFeature infoFeature in informationFeatures)
+            foreach (IFeature geoFeature in geoFeatures)
             {
-                ResolveLinks(infoFeature.Links, informationFeatures, metaFeatures, geoFeatures);
+                ResolveLinks(geoFeature.Links, informationFeatures, metaFeatures, geoFeatures);
             }
 
             dataPackage.GeoFeatures = geoFeatures.ToArray();

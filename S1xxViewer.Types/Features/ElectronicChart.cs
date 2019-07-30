@@ -104,10 +104,17 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
                 {
                     var newDateRange = new DateRange();
-                    newDateRange.FromXml(periodicDateRangeNode.FirstChild, mgr);
+                    newDateRange.FromXml(periodicDateRangeNode, mgr);
                     dateRanges.Add(newDateRange);
                 }
                 PeriodicDateRange = dateRanges.ToArray();
+            }
+
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
             }
 
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
@@ -117,7 +124,7 @@ namespace S1xxViewer.Types.Features
                 foreach (XmlNode featureNameNode in featureNameNodes)
                 {
                     var newFeatureName = new FeatureName();
-                    newFeatureName.FromXml(featureNameNode.FirstChild, mgr);
+                    newFeatureName.FromXml(featureNameNode, mgr);
                     featureNames.Add(newFeatureName);
                 }
                 FeatureName = featureNames.ToArray();
@@ -139,14 +146,14 @@ namespace S1xxViewer.Types.Features
                     if (textContentNode != null && textContentNode.HasChildNodes)
                     {
                         var content = new TextContent();
-                        content.FromXml(textContentNode.FirstChild, mgr);
+                        content.FromXml(textContentNode, mgr);
                         textContents.Add(content);
                     }
                 }
                 TextContent = textContents.ToArray();
             }
 
-            var classificationNode = node.FirstChild.SelectSingleNode("classificationNode", mgr);
+            var classificationNode = node.FirstChild.SelectSingleNode("classification", mgr);
             if (classificationNode != null && classificationNode.HasChildNodes)
             {
                 Classification = classificationNode.FirstChild.InnerText;
@@ -158,7 +165,7 @@ namespace S1xxViewer.Types.Features
                 Copyright = copyrightNode.FirstChild.InnerText;
             }
 
-            var maximumDisplayScaleNode = node.FirstChild.SelectSingleNode("maximumDisplayScaleNode", mgr);
+            var maximumDisplayScaleNode = node.FirstChild.SelectSingleNode("maximumDisplayScale", mgr);
             if (maximumDisplayScaleNode != null && maximumDisplayScaleNode.HasChildNodes)
             {
                 MaximumDisplayScale = maximumDisplayScaleNode.FirstChild.InnerText;
@@ -231,7 +238,7 @@ namespace S1xxViewer.Types.Features
                     if (informationNode != null && informationNode.HasChildNodes)
                     {
                         var newInformation = new Information();
-                        newInformation.FromXml(informationNode.FirstChild, mgr);
+                        newInformation.FromXml(informationNode, mgr);
                         informations.Add(newInformation);
                     }
                 }
@@ -247,7 +254,7 @@ namespace S1xxViewer.Types.Features
                     if (priceNode != null && priceNode.HasChildNodes)
                     {
                         var newPrice = new Price();
-                        newPrice.FromXml(priceNode.FirstChild, mgr);
+                        newPrice.FromXml(priceNode, mgr);
                         prices.Add(newPrice);
                     }
                 }
@@ -258,7 +265,7 @@ namespace S1xxViewer.Types.Features
             if (producingAgencyNode != null && producingAgencyNode.HasChildNodes)
             {
                 ProducingAgency = new ProducingAgency();
-                ProducingAgency.FromXml(producingAgencyNode.FirstChild, mgr);
+                ProducingAgency.FromXml(producingAgencyNode, mgr);
             }
 
             var chartNumberNode = node.FirstChild.SelectSingleNode("chartNumber", mgr);
@@ -348,7 +355,7 @@ namespace S1xxViewer.Types.Features
             if (productSpecificationNode != null && productSpecificationNode.HasChildNodes)
             {
                 ProductSpecification = new ReferenceSpecification();
-                ProductSpecification.FromXml(productSpecificationNode.FirstChild, mgr);
+                ProductSpecification.FromXml(productSpecificationNode, mgr);
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

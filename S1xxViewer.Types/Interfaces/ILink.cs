@@ -8,6 +8,7 @@ namespace S1xxViewer.Types.Interfaces
         string ArcRole { get; set; }
         string Name { get; set; }
         string Offset { get; set; }
+        IFeature LinkedFeature { get; set; }
 
         ILink DeepClone();
         ILink FromXml(XmlNode node, XmlNamespaceManager mgr);

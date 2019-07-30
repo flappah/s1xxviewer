@@ -2,9 +2,9 @@
 using System.Xml;
 using System;
 
-namespace S1xxViewer.Types
+namespace S1xxViewer.Types.ComplexTypes
 {
-    public class FeatureObjectIdentifier : IFeatureObjectIdentifier
+    public class FeatureObjectIdentifier : ComplexTypeBase, IFeatureObjectIdentifier
     {
         public string Agency { get; set; }
         public int FeatureIdentificationNumber { get; set; }
@@ -14,7 +14,7 @@ namespace S1xxViewer.Types
         /// 
         /// </summary>
         /// <returns></returns>
-        public IFeatureObjectIdentifier DeepClone()
+        public override IComplexType DeepClone()
         {
             return new FeatureObjectIdentifier
             {
@@ -29,21 +29,21 @@ namespace S1xxViewer.Types
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public virtual IFeatureObjectIdentifier FromXml(XmlNode node, XmlNamespaceManager mgr)
+        public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             if (node != null && node.HasChildNodes)
             {
                 var agencyNode = node.SelectSingleNode("s100:agency", mgr);
                 if (agencyNode != null)
                 {
-                    Agency = agencyNode.InnerText;
+                    Agency = agencyNode.FirstChild.InnerText;
                 }
 
                 var featureIdentificationNumberNode = node.SelectSingleNode("s100:featureIdentificationNumber", mgr);
                 if (featureIdentificationNumberNode != null)
                 {
                     int featureIdentificationNumber;
-                    if (!int.TryParse(featureIdentificationNumberNode.InnerText, out featureIdentificationNumber))
+                    if (!int.TryParse(featureIdentificationNumberNode.FirstChild.InnerText, out featureIdentificationNumber))
                     {
                         featureIdentificationNumber = -1;
                     }
@@ -54,7 +54,7 @@ namespace S1xxViewer.Types
                 if (featureIdentificationSubdivisionNode != null)
                 {
                     int featureIdentificationSubdivision;
-                    if (!int.TryParse(featureIdentificationSubdivisionNode.InnerText, out featureIdentificationSubdivision))
+                    if (!int.TryParse(featureIdentificationSubdivisionNode.FirstChild.InnerText, out featureIdentificationSubdivision))
                     {
                         featureIdentificationSubdivision = -1;
                     }
