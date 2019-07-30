@@ -10,7 +10,6 @@
 
         string CategoryOfTemporalVariation { get; set; }
         string DataAssessment { get; set; }
-        IFeatureObjectIdentifier FeatureObjectIdentifier { get; set; }
         IInformation Information { get; set; }
     }
 }
