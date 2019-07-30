@@ -4,6 +4,8 @@ using System;
 using System.Data;
 using System.Reflection;
 using System.Xml;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace S1xxViewer.Types
 {
@@ -97,7 +99,26 @@ namespace S1xxViewer.Types
                         if (propertyInfo.PropertyType.IsArray)
                         {
                             row["Name"] = propertyInfo.Name;
-                            row["Value"] = String.Join(",", Array.ConvertAll<object, string>((object[])value, v => v?.ToString() ?? string.Empty));
+
+                            string[] arrayAsStrings;
+                            if (value is double[])
+                            {
+                                arrayAsStrings = Array.ConvertAll((double[])value, v => v.ToString() ?? "");
+                            }
+                            else if (value is int[])
+                            {
+                                arrayAsStrings = Array.ConvertAll((int[])value, v => v.ToString() ?? "");
+                            }
+                            else if (value is float[])
+                            {
+                                arrayAsStrings = Array.ConvertAll((float[])value, v => v.ToString() ?? "");
+                            }
+                            else
+                            {
+                                arrayAsStrings = Array.ConvertAll((object[])value, v => v.ToString() ?? "");
+                            }
+
+                            row["Value"] = String.Join(",", arrayAsStrings);
                         }
                         else
                         {
