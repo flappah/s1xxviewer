@@ -48,7 +48,9 @@ namespace S1xxViewerWPF
         /// <param name="e"></param>
         private void AppOpen_Click(object sender, RoutedEventArgs e)
         {
+            dataGrid.ItemsSource = null;
             MyMapView.Map.OperationalLayers.Clear();
+            _dataPackages.Clear();
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "XML/GML files (*.xml;*.gml)|*.xml;*.gml|All files (*.*)|*.*";

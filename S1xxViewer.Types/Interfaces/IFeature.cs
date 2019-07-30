@@ -10,8 +10,9 @@ namespace S1xxViewer.Types.Interfaces
 
         ILink[] Links { get; set; }
 
+        void Clear();
         IFeature DeepClone();
-        IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
         DataTable GetData();
+        IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
     }
 }

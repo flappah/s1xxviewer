@@ -18,6 +18,17 @@ namespace S1xxViewer.Types
         public abstract IFeature FromXml(XmlNode node, XmlNamespaceManager mgr);
 
         /// <summary>
+        /// 
+        /// </summary>
+        public void Clear()
+        {
+            foreach (PropertyInfo propertyInfo in GetType().GetProperties())
+            {
+                propertyInfo.SetValue(this, null);
+            }
+        }
+
+        /// <summary>
         /// Returns the properties of the current object in a dictionary of strings
         /// </summary>
         /// <returns>Dictionary<string, string></returns>

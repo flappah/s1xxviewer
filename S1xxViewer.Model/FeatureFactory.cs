@@ -33,8 +33,16 @@ namespace S1xxViewer.Model
                 // if there's a feature, start XML parsing it and return the feature
                 if (locatedFeature != null)
                 {
-                    locatedFeature.FromXml(node, mgr);
-                    return locatedFeature;
+                    // just to make sure to have a copy of the autofac feature
+                    var clonedFeature = locatedFeature.DeepClone() as IFeature;
+                    if (clonedFeature != null)
+                    {
+                        // clear the feature of the original content
+                        clonedFeature.Clear();
+                        // and parse xml content into it
+                        clonedFeature.FromXml(node, mgr);
+                        return clonedFeature;
+                    }
                 }
             }
 
