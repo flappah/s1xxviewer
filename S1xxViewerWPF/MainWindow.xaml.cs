@@ -13,6 +13,8 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Xml;
+using System.IO;
+using System.Windows.Controls;
 
 namespace S1xxViewerWPF
 {
@@ -29,6 +31,21 @@ namespace S1xxViewerWPF
         {
             InitializeComponent();
             _container = AutofacInitializer.Initialize();
+
+            var fileNames = RetrieveRecentFiles();
+            RecentFilesMenuItem.Items.Clear();
+
+            int i = 1;
+            foreach(var fileName in fileNames)
+            {
+                var newMenuItem = new MenuItem
+                {
+                    Name = $"MenuItem{i++}",
+                    Header = fileName                    
+                };
+                newMenuItem.Click += AutoOpen_Click;
+                RecentFilesMenuItem.Items.Add(newMenuItem);
+            }
         }
 
         /// <summary>
@@ -46,12 +63,8 @@ namespace S1xxViewerWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AppOpen_Click(object sender, RoutedEventArgs e)
+        public void AppOpen_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.ItemsSource = null;
-            MyMapView.Map.OperationalLayers.Clear();
-            _dataPackages.Clear();
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "XML/GML files (*.xml;*.gml)|*.xml;*.gml|All files (*.*)|*.*";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -59,14 +72,100 @@ namespace S1xxViewerWPF
             if (openFileDialog.ShowDialog() == true)
             {
                 var fileName = openFileDialog.FileName;
+                LoadFile(fileName);                
+            }
+        }
 
-                var xmlDoc = new XmlDocument();
-                xmlDoc.Load(fileName);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void AutoOpen_Click(object sender, RoutedEventArgs e)
+        {
+            var fileName = ((MenuItem)sender).Header.ToString();
+            LoadFile(fileName);
+        }
 
-                var dataParser = _container.Resolve<IDataPackageParser>();
-                IS1xxDataPackage dataPackage = dataParser.Parse(xmlDoc);
-                _dataPackages.Add(dataPackage);
-                CreateFeatureCollection(dataPackage);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        private void LoadFile(string fileName)
+        {
+            dataGrid.ItemsSource = null;
+            MyMapView.Map.OperationalLayers.Clear();
+            _dataPackages.Clear();
+
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(fileName);
+            SaveRecentFile(fileName);
+
+            var dataParser = _container.Resolve<IDataPackageParser>();
+            IS1xxDataPackage dataPackage = dataParser.Parse(xmlDoc);
+            _dataPackages.Add(dataPackage);
+            CreateFeatureCollection(dataPackage);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>string[]</returns>
+        private string[] RetrieveRecentFiles()
+        {
+            var tempPath = Path.GetTempPath();
+            var recentFileFileName = $@"{tempPath}\recentfiles.txt";
+
+            if (File.Exists(recentFileFileName))
+            {
+                string[] fileContent = File.ReadAllLines(recentFileFileName);
+                return fileContent;
+            }
+
+            return new string[0];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        private void SaveRecentFile(string fileName)
+        {
+            var tempPath = Path.GetTempPath();
+            var fileContent = new string[0];
+
+            var recentFileFileName = $@"{tempPath}\recentfiles.txt";
+            if (File.Exists(recentFileFileName))
+            {
+                fileContent = File.ReadAllLines(recentFileFileName);
+            }
+
+            lock (this)
+            {
+                if (!fileContent.ToList().Contains(fileName))
+                {
+                    var newFileNames = new List<string>() { fileName };
+                    for (int j = 0; j < (fileContent.Length > 4 ? 4 : fileContent.Length); j++)
+                    {
+                        newFileNames.Add(fileContent[j]);
+                    }
+
+                    File.Delete(recentFileFileName);
+                    File.WriteAllLines(recentFileFileName, newFileNames);
+
+                    RecentFilesMenuItem.Items.Clear();
+                    int i = 1;
+                    foreach (var newFileName in newFileNames)
+                    {
+                        var newMenuItem = new MenuItem
+                        {
+                            Name = $"MenuItem{i++}",
+                            Header = newFileName
+                        };
+                        newMenuItem.Click += AutoOpen_Click;
+                        RecentFilesMenuItem.Items.Add(newMenuItem);
+                    }
+                }
             }
         }
 

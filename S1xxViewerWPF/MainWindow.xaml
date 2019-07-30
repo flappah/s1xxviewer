@@ -15,13 +15,14 @@
             <Menu Width="Auto" Height="20">
                 <MenuItem Header="_File">
                     <MenuItem x:Name="AppOpen" Header="_Open" HorizontalAlignment="Left" Width="140" Click="AppOpen_Click"/>
+                    <MenuItem x:Name="RecentFilesMenuItem" Header="_Recent Files"></MenuItem>
                     <MenuItem x:Name="AppExit" Header="E_xit" HorizontalAlignment="Left" Width="140" Click="AppExit_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Tools">
-                    <MenuItem x:Name="Options" Header="_Options" HorizontalAlignment="Left" Width="140"/>
+                    <MenuItem x:Name="Options" Header="O_ptions" HorizontalAlignment="Left" Width="140"/>
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem x:Name="About" Header="&amp;About" HorizontalAlignment="Left" Width="140"/>
+                    <MenuItem x:Name="About" Header="_About" HorizontalAlignment="Left" Width="140"/>
                 </MenuItem>
             </Menu>
 
