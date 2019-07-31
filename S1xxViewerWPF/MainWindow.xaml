@@ -25,7 +25,6 @@
                     <MenuItem x:Name="About" Header="_About" HorizontalAlignment="Left" Width="140"/>
                 </MenuItem>
             </Menu>
-
         </StackPanel>
         <esri:MapView x:Name="MyMapView" Margin="0,21,0,191.5">
             <esri:Map>

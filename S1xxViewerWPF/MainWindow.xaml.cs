@@ -10,11 +10,12 @@ using S1xxViewer.Types.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Windows;
-using System.Xml;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
 
 namespace S1xxViewerWPF
 {
@@ -23,29 +24,34 @@ namespace S1xxViewerWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IContainer _container;
-        private FeatureCollectionLayer _collectionLayer;
+        private readonly Autofac.IContainer _container;
         private List<IS1xxDataPackage> _dataPackages = new List<IS1xxDataPackage>();
 
         public MainWindow()
         {
             InitializeComponent();
             _container = AutofacInitializer.Initialize();
-
-            var fileNames = RetrieveRecentFiles();
             RecentFilesMenuItem.Items.Clear();
 
-            int i = 1;
-            foreach(var fileName in fileNames)
+            Task.Factory.StartNew(() =>
             {
-                var newMenuItem = new MenuItem
+                var fileNames = RetrieveRecentFiles();
+                int i = 1;
+                foreach (var fileName in fileNames)
                 {
-                    Name = $"MenuItem{i++}",
-                    Header = fileName                    
-                };
-                newMenuItem.Click += AutoOpen_Click;
-                RecentFilesMenuItem.Items.Add(newMenuItem);
-            }
+                    Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        var newMenuItem = new MenuItem
+                        {
+                            Name = $"MenuItem{i++}",
+                            Header = fileName
+                        };
+                        newMenuItem.Click += AutoOpen_Click;
+
+                        RecentFilesMenuItem.Items.Add(newMenuItem);
+                    });
+                }
+            });
         }
 
         /// <summary>
@@ -103,8 +109,9 @@ namespace S1xxViewerWPF
 
             var dataParser = _container.Resolve<IDataPackageParser>();
             IS1xxDataPackage dataPackage = dataParser.Parse(xmlDoc);
-            _dataPackages.Add(dataPackage);
             CreateFeatureCollection(dataPackage);
+
+            _dataPackages.Add(dataPackage);
         }
 
         /// <summary>
@@ -242,7 +249,7 @@ namespace S1xxViewerWPF
                }";
 
             // Create a label definition from the JSON string. 
-            LabelDefinition highwaysLabelDefinition = LabelDefinition.FromJson(theJSON_String);
+            LabelDefinition idLabelDefinition = LabelDefinition.FromJson(theJSON_String);
             
             List<Field> polyFields = new List<Field>();
             Field idField = new Field(FieldType.Text, "FeatureId", "Id", 50);
@@ -260,12 +267,15 @@ namespace S1xxViewerWPF
 
             FeatureCollectionTable polysTable = new FeatureCollectionTable(polyFields, GeometryType.Polygon, SpatialReferences.Wgs84);
             polysTable.Renderer = CreateRenderer(GeometryType.Polygon);
+            polysTable.DisplayName = "Polygons";
 
             FeatureCollectionTable linesTable = new FeatureCollectionTable(lineFields, GeometryType.Polyline, SpatialReferences.Wgs84);
             linesTable.Renderer = CreateRenderer(GeometryType.Polyline);
+            linesTable.DisplayName = "Lines";
 
             FeatureCollectionTable pointTable = new FeatureCollectionTable(pointFields, GeometryType.Point, SpatialReferences.Wgs84);
             pointTable.Renderer = CreateRenderer(GeometryType.Point);
+            pointTable.DisplayName = "Points";
 
             foreach (IFeature feature in dataPackage.GeoFeatures)
             {
@@ -302,6 +312,8 @@ namespace S1xxViewerWPF
             }
 
             FeatureCollection featuresCollection = new FeatureCollection();
+            featuresCollection.Tables.Clear();
+
             if (pointTable.Count() > 0)
             {
                 featuresCollection.Tables.Add(pointTable);
@@ -314,26 +326,27 @@ namespace S1xxViewerWPF
             {
                 featuresCollection.Tables.Add(linesTable);
             }
-            _collectionLayer = new FeatureCollectionLayer(featuresCollection);
+
+            var collectionLayer = new FeatureCollectionLayer(featuresCollection);
 
             // When the layer loads, zoom the map view to the extent of the feature collection
-            _collectionLayer.Loaded += (s, e) => Dispatcher.Invoke(() => 
+            collectionLayer.Loaded += (s, e) => Dispatcher.Invoke(() => 
             {
                 try
                 {
-                    MyMapView.SetViewpointAsync(new Viewpoint(_collectionLayer.FullExtent));
-
-                    foreach(FeatureLayer layer in _collectionLayer.Layers)
+                    foreach(FeatureLayer layer in collectionLayer.Layers)
                     {
-                        layer.LabelDefinitions.Add(highwaysLabelDefinition);
+                        layer.LabelDefinitions.Add(idLabelDefinition);
                         layer.LabelsEnabled = true;
+
+                        MyMapView.SetViewpointAsync(new Viewpoint(layer.FullExtent));
                     }
                 }
-                catch(Exception) { }
+                catch (Exception) { }
             });
 
             // Add the layer to the Map's Operational Layers collection
-            MyMapView.Map.OperationalLayers.Add(_collectionLayer);
+            MyMapView.Map.OperationalLayers.Add(collectionLayer);
             MyMapView.GeoViewTapped += OnMapViewTapped;
         }
 
@@ -350,82 +363,94 @@ namespace S1xxViewerWPF
                 System.Windows.Point tapScreenPoint = e.Position;
 
                 // Specify identify properties.
-                double pixelTolerance = 20.0;
+                double pixelTolerance = 1.0;
                 bool returnPopupsOnly = false;
                 int maxResults = 5;
 
                 // Identify a  group layer using MapView, passing in the layer, the tap point, tolerance, types to return, and max results.
-                IdentifyLayerResult groupLayerResult = 
-                    await MyMapView.IdentifyLayerAsync(_collectionLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResults);
 
-                // Iterate each set of child layer results.
-                foreach (IdentifyLayerResult subLayerResult in groupLayerResult.SublayerResults)
+                foreach (Layer operationalLayer in MyMapView.Map.OperationalLayers)
                 {
-                    // Display the name of the sublayer.
-                    Console.WriteLine("\nResults for child layer: " + subLayerResult.LayerContent.Name);
-                    // Iterate each geoelement in the child layer result set.
-                    foreach (GeoElement idElement in subLayerResult.GeoElements)
+                    var collectionLayer = operationalLayer as FeatureCollectionLayer;
+
+                    IdentifyLayerResult groupLayerResult =
+                        await MyMapView.IdentifyLayerAsync(collectionLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResults);
+
+                    if (groupLayerResult.SublayerResults.Count > 0)
                     {
-                        // cast the result GeoElement to Feature
-                        Feature idFeature = idElement as Feature;
-                        // select this feature in the feature layer
-                        foreach (FeatureLayer layer in _collectionLayer.Layers)
+                        // Iterate each set of child layer results.
+                        foreach (IdentifyLayerResult subLayerResult in groupLayerResult.SublayerResults)
                         {
-                            layer.ClearSelection();
-                            layer.SelectFeature(idFeature);
-                        }
-
-                        if (idElement.Attributes.ContainsKey("FeatureId"))
-                        {
-                            if (!String.IsNullOrEmpty(idElement.Attributes["FeatureId"]?.ToString()))
+                            // Display the name of the sublayer.
+                            Console.WriteLine("\nResults for child layer: " + subLayerResult.LayerContent.Name);
+                            // Iterate each geoelement in the child layer result set.
+                            foreach (GeoElement idElement in subLayerResult.GeoElements)
                             {
-                                IFeature feature = FindFeature(idElement.Attributes["FeatureId"].ToString());
-                                if (feature != null)
-                                {
-                                    DataTable featureAttributesDataTable = feature.GetData();
-                                    dataGrid.ItemsSource = featureAttributesDataTable.AsDataView();                                     
-                                } 
-                            }
-                        }
+                                // cast the result GeoElement to Feature
+                                Feature idFeature = idElement as Feature;
 
-                        // Loop through and display the attribute values.
-                        Console.WriteLine("  ** Attributes **");
-                        foreach (KeyValuePair<string, object> attribute in idElement.Attributes)
-                        {
-                            Console.WriteLine("    - " + attribute.Key + " = " + attribute.Value?.ToString());
+
+                                // select this feature in the feature layer
+                                foreach (FeatureLayer layer in collectionLayer?.Layers)
+                                {
+                                    layer.ClearSelection();
+                                    layer.SelectFeature(idFeature);
+                                }
+
+                                if (idElement.Attributes.ContainsKey("FeatureId"))
+                                {
+                                    if (!String.IsNullOrEmpty(idElement.Attributes["FeatureId"]?.ToString()))
+                                    {
+                                        IFeature feature = FindFeature(idElement.Attributes["FeatureId"].ToString());
+                                        if (feature != null)
+                                        {
+                                            DataTable featureAttributesDataTable = feature.GetData();
+                                            dataGrid.ItemsSource = featureAttributesDataTable.AsDataView();
+                                        }
+                                    }
+                                }
+
+                                // Loop through and display the attribute values.
+                                Console.WriteLine("  ** Attributes **");
+                                foreach (KeyValuePair<string, object> attribute in idElement.Attributes)
+                                {
+                                    Console.WriteLine("    - " + attribute.Key + " = " + attribute.Value?.ToString());
+                                }
+                            }
                         }
                     }
                 }
-                        //// Define the selection tolerance (half the marker symbol size so that any click on the symbol will select the feature)
-                        //double tolerance = 10;
 
-                        //// Convert the tolerance to map units
-                        //double mapTolerance = tolerance * MyMapView.UnitsPerPixel;
+                //// Define the selection tolerance (half the marker symbol size so that any click on the symbol will select the feature)
+                //double tolerance = 0.1;
 
-                        //// Get the tapped point
-                        //MapPoint geometry = e.Location;
+                //// Convert the tolerance to map units
+                //double mapTolerance = tolerance * MyMapView.UnitsPerPixel;
 
-                        //// Normalize the geometry if wrap-around is enabled
-                        ////    This is necessary because of how wrapped-around map coordinates are handled by Runtime
-                        ////    Without this step, querying may fail because wrapped-around coordinates are out of bounds.
-                        //if (MyMapView.IsWrapAroundEnabled) { geometry = GeometryEngine.NormalizeCentralMeridian(geometry) as MapPoint; }
+                //// Get the tapped point
+                //MapPoint geometry = e.Location;
 
-                        //// Define the envelope around the tap location for selecting features
-                        //var selectionEnvelope = new Envelope(geometry.X - mapTolerance, geometry.Y - mapTolerance, geometry.X + mapTolerance,
-                        //    geometry.Y + mapTolerance, MyMapView.Map.SpatialReference);
+                //// Normalize the geometry if wrap-around is enabled
+                ////    This is necessary because of how wrapped-around map coordinates are handled by Runtime
+                ////    Without this step, querying may fail because wrapped-around coordinates are out of bounds.
+                //if (MyMapView.IsWrapAroundEnabled) { geometry = GeometryEngine.NormalizeCentralMeridian(geometry) as MapPoint; }
 
-                        //// Define the query parameters for selecting features
-                        //var queryParams = new QueryParameters();
+                //// Define the envelope around the tap location for selecting features
+                //var selectionEnvelope = new Envelope(geometry.X - mapTolerance, geometry.Y - mapTolerance, geometry.X + mapTolerance,
+                //    geometry.Y + mapTolerance, MyMapView.Map.SpatialReference);
 
-                        //// Set the geometry to selection envelope for selection by geometry
-                        //queryParams.Geometry = selectionEnvelope;
+                //// Define the query parameters for selecting features
+                //var queryParams = new QueryParameters();
 
-                        //// Select the features based on query parameters defined above
-                        //foreach (FeatureLayer layer in _collectionLayer.Layers)
-                        //{
-                        //    var result = await layer.SelectFeaturesAsync(queryParams, Esri.ArcGISRuntime.Mapping.SelectionMode.New);
-                        //}
-                    }
+                //// Set the geometry to selection envelope for selection by geometry
+                //queryParams.Geometry = selectionEnvelope;
+
+                //// Select the features based on query parameters defined above
+                //foreach (FeatureLayer layer in _collectionLayer.Layers)
+                //{
+                //    var result = await layer.SelectFeaturesAsync(queryParams, Esri.ArcGISRuntime.Mapping.SelectionMode.New);
+                //}
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("Sample error", ex.ToString());
