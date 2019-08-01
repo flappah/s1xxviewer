@@ -424,10 +424,11 @@ namespace S1xxViewerWPF
                                             DataTable featureAttributesDataTable = feature.GetData();
                                             string key = (feature is IGeoFeature ? ((IGeoFeature)feature).FeatureName.First()?.Name : feature.Id.ToString()) ?? "No named feature";
 
-                                            int i = 1;
-                                            while (results.ContainsKey(key))
+                                            int i = 0;
+                                            if (results.ContainsKey(key))
                                             {
-                                                key = $"{key} ({i++})";
+                                                while (results.ContainsKey($"{key} ({++i})")) ;
+                                                key = $"{key} ({i})";
                                             }
                                            
                                             results.Add(key, featureAttributesDataTable);
