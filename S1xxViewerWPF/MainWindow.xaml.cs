@@ -383,17 +383,20 @@ namespace S1xxViewerWPF
                         {
                             // Display the name of the sublayer.
                             Console.WriteLine("\nResults for child layer: " + subLayerResult.LayerContent.Name);
+
+                            // clear featureselection in all layers
+                            collectionLayer?.Layers.ToList().ForEach(l => l.ClearSelection());
+                            
                             // Iterate each geoelement in the child layer result set.
                             foreach (GeoElement idElement in subLayerResult.GeoElements)
                             {
                                 // cast the result GeoElement to Feature
                                 Feature idFeature = idElement as Feature;
 
-
                                 // select this feature in the feature layer
-                                foreach (FeatureLayer layer in collectionLayer?.Layers)
+                                var layer = subLayerResult.LayerContent as FeatureLayer;
+                                if (layer != null)
                                 {
-                                    layer.ClearSelection();
                                     layer.SelectFeature(idFeature);
                                 }
 
