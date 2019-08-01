@@ -7,6 +7,7 @@ namespace S1xxViewer.Types.ComplexTypes
     {
         public string CategoryOfRxn { get; set; }
         public string ActionOrActivity { get; set; }
+        public string Headline { get; set; }
 
         /// <summary>
         /// 
@@ -17,7 +18,8 @@ namespace S1xxViewer.Types.ComplexTypes
             return new RxnCode
             {
                 CategoryOfRxn = CategoryOfRxn,
-                ActionOrActivity = ActionOrActivity
+                ActionOrActivity = ActionOrActivity,
+                Headline = Headline
             };
         }
 
@@ -39,6 +41,12 @@ namespace S1xxViewer.Types.ComplexTypes
             if (actionOrActivityNode != null && actionOrActivityNode.HasChildNodes)
             {
                 ActionOrActivity = actionOrActivityNode.FirstChild.InnerText;
+            }
+
+            var headlineNode = node.SelectSingleNode("headline");
+            if (headlineNode != null && headlineNode.HasChildNodes)
+            {
+                Headline = headlineNode.FirstChild.InnerText;
             }
 
             return this;

@@ -1,4 +1,5 @@
 ﻿using S1xxViewer.Types.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -6,12 +7,12 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class Telecommunications : ComplexTypeBase, ITelecommunications
     {
-        public string TelecommunicationsIdentifier { get; set; }
-        public string[] TelecommunicationsService { get; set; }
         public string CategoryOfCommPref { get; set; }
-        public string ContactInstructions { get; set; }
+        public string TelecommunicationsIdentifier { get; set; }
         public string TelcomCarrier { get; set; }
-        public IScheduleByDoW ScheduleByDoW { get; set; }
+        public string ContactInstructions { get; set; }
+        public string[] TelecommunicationsService { get; set; }
+        public IScheduleByDoW[] ScheduleByDoW { get; set; }
 
         /// <summary>
         /// 
@@ -24,8 +25,8 @@ namespace S1xxViewer.Types.ComplexTypes
                 CategoryOfCommPref = CategoryOfCommPref,
                 ContactInstructions = ContactInstructions,
                 ScheduleByDoW = ScheduleByDoW == null   
-                    ? new ScheduleByDoW()
-                    : ScheduleByDoW.DeepClone() as IScheduleByDoW,
+                    ? new ScheduleByDoW[0]
+                    : Array.ConvertAll(ScheduleByDoW, s => s.DeepClone() as IScheduleByDoW),
                 TelcomCarrier = TelcomCarrier,
                 TelecommunicationsIdentifier = TelecommunicationsIdentifier,
                 TelecommunicationsService = TelecommunicationsService
@@ -78,11 +79,20 @@ namespace S1xxViewer.Types.ComplexTypes
                 TelcomCarrier = telcomCarrierNode.FirstChild.InnerText;
             }
 
-            var scheduleByDoWNode = node.SelectSingleNode("scheduleByDoW", mgr);
-            if (scheduleByDoWNode != null && scheduleByDoWNode.HasChildNodes)
+            var scheduleByDoWNodes = node.SelectNodes("scheduleByDoW", mgr);
+            if (scheduleByDoWNodes != null && scheduleByDoWNodes.Count > 0)
             {
-                ScheduleByDoW = new ScheduleByDoW();
-                ScheduleByDoW.FromXml(scheduleByDoWNode, mgr);
+                var nodes = new List<ScheduleByDoW>();
+                foreach(XmlNode scheduleByDoWNode in scheduleByDoWNodes)
+                {
+                    if (scheduleByDoWNode != null && scheduleByDoWNode.HasChildNodes)
+                    {
+                        var scheduleByDoW = new ScheduleByDoW();
+                        scheduleByDoW.FromXml(scheduleByDoWNode, mgr);
+                        nodes.Add(scheduleByDoW);
+                    }
+                }
+                ScheduleByDoW = nodes.ToArray();
             }
 
             return this;

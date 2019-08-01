@@ -4,5 +4,6 @@
     {
         string ActionOrActivity { get; set; }
         string CategoryOfRxn { get; set; }
+        string Headline { get; set; }
     }
 }

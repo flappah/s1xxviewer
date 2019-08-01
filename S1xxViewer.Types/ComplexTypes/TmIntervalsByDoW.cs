@@ -1,5 +1,6 @@
 ﻿using S1xxViewer.Types.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
@@ -9,8 +10,8 @@ namespace S1xxViewer.Types.ComplexTypes
         public int DayOfWeek { get; set; }
         public bool DayOfWeekIsRange { get; set; }
         public string TimeReference { get; set; }
-        public DateTime TimeOfDayStart { get; set; }
-        public DateTime TimeOfDayEnd { get; set; }
+        public DateTime[] TimeOfDayStart { get; set; }
+        public DateTime[] TimeOfDayEnd { get; set; }
 
         /// <summary>
         /// 
@@ -23,8 +24,12 @@ namespace S1xxViewer.Types.ComplexTypes
                 DayOfWeek = DayOfWeek,
                 DayOfWeekIsRange = DayOfWeekIsRange,
                 TimeReference = TimeReference,
-                TimeOfDayEnd = TimeOfDayEnd,
-                TimeOfDayStart = TimeOfDayStart
+                TimeOfDayEnd = TimeOfDayEnd == null
+                    ? new DateTime[0]
+                    : Array.ConvertAll(TimeOfDayEnd, t => t),
+                TimeOfDayStart = TimeOfDayStart == null
+                    ? new DateTime[0]
+                    : Array.ConvertAll(TimeOfDayStart, t => t)
             };
         }
 
@@ -64,26 +69,42 @@ namespace S1xxViewer.Types.ComplexTypes
                 TimeReference = timeReferenceNode.FirstChild.InnerText;
             }
 
-            var timeOfDayStartNode = node.SelectSingleNode("timeOfDayStart", mgr);
-            if (timeOfDayStartNode != null && timeOfDayStartNode.HasChildNodes)
+            var timeOfDayStartNodes = node.SelectNodes("timeOfDayStart", mgr);
+            if (timeOfDayStartNodes != null && timeOfDayStartNodes.Count > 0)
             {
-                DateTime timeOfDayStart;
-                if (!DateTime.TryParse(timeOfDayStartNode.FirstChild.InnerText, out timeOfDayStart))
+                var times = new List<DateTime>();
+                foreach (XmlNode timeOfDayStartNode in timeOfDayStartNodes)
                 {
-                    timeOfDayStart = DateTime.MinValue;
+                    if (timeOfDayStartNode != null && timeOfDayStartNode.HasChildNodes)
+                    {
+                        DateTime timeOfDayStart;
+                        if (!DateTime.TryParse(timeOfDayStartNode.FirstChild.InnerText, out timeOfDayStart))
+                        {
+                            timeOfDayStart = DateTime.MinValue;
+                        }
+                        times.Add(timeOfDayStart);
+                    }
                 }
-                TimeOfDayStart = timeOfDayStart;
+                TimeOfDayStart = times.ToArray(); 
             }
 
-            var timeOfDayEndNode = node.SelectSingleNode("timeOfDayEnd", mgr);
-            if (timeOfDayEndNode != null && timeOfDayEndNode.HasChildNodes)
+            var timeOfDayEndNodes = node.SelectNodes("timeOfDayEnd", mgr);
+            if (timeOfDayEndNodes != null && timeOfDayEndNodes.Count > 0)
             {
-                DateTime timeOfDayEnd;
-                if (!DateTime.TryParse(timeOfDayEndNode.FirstChild.InnerText, out timeOfDayEnd))
+                var times = new List<DateTime>();
+                foreach (XmlNode timeOfDayEndNode in timeOfDayStartNodes)
                 {
-                    timeOfDayEnd = DateTime.MinValue;
+                    if (timeOfDayEndNode != null && timeOfDayEndNode.HasChildNodes)
+                    {
+                        DateTime timeOfDayEnd;
+                        if (!DateTime.TryParse(timeOfDayEndNode.FirstChild.InnerText, out timeOfDayEnd))
+                        {
+                            timeOfDayEnd = DateTime.MinValue;
+                        }
+                        times.Add(timeOfDayEnd);
+                    }
                 }
-                TimeOfDayEnd = timeOfDayEnd;
+                TimeOfDayEnd = times.ToArray(); 
             }
 
             return this;

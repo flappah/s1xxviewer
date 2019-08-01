@@ -7,6 +7,6 @@
         string TelcomCarrier { get; set; }
         string TelecommunicationsIdentifier { get; set; }
         string[] TelecommunicationsService { get; set; }
-        IScheduleByDoW ScheduleByDoW { get; set; }
+        IScheduleByDoW[] ScheduleByDoW { get; set; }
     }
 }

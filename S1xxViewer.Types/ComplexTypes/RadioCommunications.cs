@@ -8,7 +8,7 @@ namespace S1xxViewer.Types.ComplexTypes
     public class RadioCommunications : ComplexTypeBase, IRadioCommunications
     {
         public string CategoryOfCommPref { get; set; }
-        public string CommunicationChannel { get; set; }
+        public string[] CommunicationChannel { get; set; }
         public string ContactInstructions { get; set; }
         public IFrequencyPair[] FrequencyPair { get; set; }
         public ITmIntervalsByDoW[] TmIntervalsByDoW { get; set; }
@@ -22,7 +22,9 @@ namespace S1xxViewer.Types.ComplexTypes
             return new RadioCommunications
             {
                 CategoryOfCommPref = CategoryOfCommPref,
-                CommunicationChannel = CommunicationChannel,
+                CommunicationChannel = CommunicationChannel == null 
+                    ? new string[0]
+                    : Array.ConvertAll(CommunicationChannel, s => s),
                 ContactInstructions = ContactInstructions,
                 FrequencyPair = FrequencyPair == null
                     ? new FrequencyPair[0]
@@ -47,10 +49,19 @@ namespace S1xxViewer.Types.ComplexTypes
                 CategoryOfCommPref = categoryOfCommPrefNode.FirstChild.InnerText;
             }
 
-            var communicationChannelNode = node.SelectSingleNode("communicationChannel", mgr);
-            if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
+            var communicationChannelNodes = node.SelectNodes("communicationChannel", mgr);
+            if (communicationChannelNodes != null && communicationChannelNodes.Count > 0)
             {
-                CommunicationChannel = communicationChannelNode.FirstChild.InnerText;
+                var nodes = new List<string>();
+                foreach(XmlNode communicationChannelNode in communicationChannelNodes)
+                {
+                    if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
+                    {
+                        nodes.Add(communicationChannelNode.FirstChild.InnerText);
+                    }
+                }
+
+                CommunicationChannel = nodes.ToArray();
             }
 
             var contactInstructionsNode = node.SelectSingleNode("contactInstructions", mgr);
