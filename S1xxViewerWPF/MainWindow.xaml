@@ -36,6 +36,9 @@
                 </esri:Map.Basemap>
             </esri:Map>
         </esri:MapView>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch" Height="186" Margin="0,0,0,0.5" VerticalAlignment="Bottom" />
+        <DockPanel>
+            <TreeView x:Name="treeView" DockPanel.Dock="Left" HorizontalAlignment="Left" Height="190" Width="250" VerticalAlignment="Bottom" />
+            <DataGrid x:Name="dataGrid" DockPanel.Dock="Right" HorizontalAlignment="Stretch" Height="190" Margin="0,0,0,0" VerticalAlignment="Bottom" />
+        </DockPanel>
     </Grid>
 </Window>

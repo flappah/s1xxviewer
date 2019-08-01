@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using System.Collections;
 
 namespace S1xxViewerWPF
 {
@@ -31,7 +32,6 @@ namespace S1xxViewerWPF
         {
             InitializeComponent();
             _container = AutofacInitializer.Initialize();
-            RecentFilesMenuItem.Items.Clear();
 
             Task.Factory.StartNew(() =>
             {
@@ -96,10 +96,26 @@ namespace S1xxViewerWPF
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="snder"></param>
+        /// <param name="e"></param>
+        public void TreeviewItem_Click(object sender, RoutedEventArgs e)
+        {
+            var itemDataTable = ((TreeViewItem)sender).Tag as DataTable;
+            if (itemDataTable != null)
+            {
+                dataGrid.ItemsSource = itemDataTable.AsDataView();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="fileName"></param>
         private void LoadFile(string fileName)
         {
             dataGrid.ItemsSource = null;
+            treeView.Items.Clear();
+
             MyMapView.Map.OperationalLayers.Clear();
             _dataPackages.Clear();
 
@@ -369,6 +385,7 @@ namespace S1xxViewerWPF
 
                 // Identify a  group layer using MapView, passing in the layer, the tap point, tolerance, types to return, and max results.
 
+                var results = new Dictionary<string, DataTable>();
                 foreach (Layer operationalLayer in MyMapView.Map.OperationalLayers)
                 {
                     var collectionLayer = operationalLayer as FeatureCollectionLayer;
@@ -381,9 +398,6 @@ namespace S1xxViewerWPF
                         // Iterate each set of child layer results.
                         foreach (IdentifyLayerResult subLayerResult in groupLayerResult.SublayerResults)
                         {
-                            // Display the name of the sublayer.
-                            Console.WriteLine("\nResults for child layer: " + subLayerResult.LayerContent.Name);
-
                             // clear featureselection in all layers
                             collectionLayer?.Layers.ToList().ForEach(l => l.ClearSelection());
                             
@@ -408,51 +422,44 @@ namespace S1xxViewerWPF
                                         if (feature != null)
                                         {
                                             DataTable featureAttributesDataTable = feature.GetData();
-                                            dataGrid.ItemsSource = featureAttributesDataTable.AsDataView();
+                                            string key = (feature is IGeoFeature ? ((IGeoFeature)feature).FeatureName.First()?.Name : feature.Id.ToString()) ?? "No named feature";
+
+                                            int i = 1;
+                                            while (results.ContainsKey(key))
+                                            {
+                                                key = $"{key} ({i++})";
+                                            }
+                                           
+                                            results.Add(key, featureAttributesDataTable);
                                         }
                                     }
-                                }
-
-                                // Loop through and display the attribute values.
-                                Console.WriteLine("  ** Attributes **");
-                                foreach (KeyValuePair<string, object> attribute in idElement.Attributes)
-                                {
-                                    Console.WriteLine("    - " + attribute.Key + " = " + attribute.Value?.ToString());
                                 }
                             }
                         }
                     }
                 }
 
-                //// Define the selection tolerance (half the marker symbol size so that any click on the symbol will select the feature)
-                //double tolerance = 0.1;
+                if (results != null && results.Count > 0)
+                {
+                    dataGrid.ItemsSource = results.First().Value.AsDataView();
+                    treeView.Items.Clear();
 
-                //// Convert the tolerance to map units
-                //double mapTolerance = tolerance * MyMapView.UnitsPerPixel;
+                    var parentTreeNode = new TreeViewItem();
+                    parentTreeNode.Header = $"Selected feature{(results.Count == 1 ? "" : "s")}";
+                    parentTreeNode.Tag = null;
+                    parentTreeNode.IsExpanded = true;
+                    treeView.Items.Add(parentTreeNode);
 
-                //// Get the tapped point
-                //MapPoint geometry = e.Location;
+                    foreach (var result in results)
+                    {
+                        TreeViewItem treeNode = new TreeViewItem();
+                        treeNode.MouseUp += TreeviewItem_Click;
+                        treeNode.Header = result.Key;
+                        treeNode.Tag = result.Value;
 
-                //// Normalize the geometry if wrap-around is enabled
-                ////    This is necessary because of how wrapped-around map coordinates are handled by Runtime
-                ////    Without this step, querying may fail because wrapped-around coordinates are out of bounds.
-                //if (MyMapView.IsWrapAroundEnabled) { geometry = GeometryEngine.NormalizeCentralMeridian(geometry) as MapPoint; }
-
-                //// Define the envelope around the tap location for selecting features
-                //var selectionEnvelope = new Envelope(geometry.X - mapTolerance, geometry.Y - mapTolerance, geometry.X + mapTolerance,
-                //    geometry.Y + mapTolerance, MyMapView.Map.SpatialReference);
-
-                //// Define the query parameters for selecting features
-                //var queryParams = new QueryParameters();
-
-                //// Set the geometry to selection envelope for selection by geometry
-                //queryParams.Geometry = selectionEnvelope;
-
-                //// Select the features based on query parameters defined above
-                //foreach (FeatureLayer layer in _collectionLayer.Layers)
-                //{
-                //    var result = await layer.SelectFeaturesAsync(queryParams, Esri.ArcGISRuntime.Mapping.SelectionMode.New);
-                //}
+                        parentTreeNode.Items.Add(treeNode);
+                    }
+                }
             }
             catch (Exception ex)
             {
