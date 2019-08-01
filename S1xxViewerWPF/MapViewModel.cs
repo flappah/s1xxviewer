@@ -1,19 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.Geometry;
-using Esri.ArcGISRuntime.Location;
 using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.Security;
-using Esri.ArcGISRuntime.Symbology;
-using Esri.ArcGISRuntime.Tasks;
-using Esri.ArcGISRuntime.UI;
-using System.Threading;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace S1xxViewerWPF
 {
@@ -26,6 +14,10 @@ namespace S1xxViewerWPF
         {
             Task.Factory.StartNew(() =>
             {
+                //string licenseKey =
+                //    "runtimelite,1000,rud#########,day-month-year,####################";
+                //Esri.ArcGISRuntime.ArcGISRuntimeEnvironment.SetLicense(licenseKey);
+
                 _map = new Map(Basemap.CreateOceans());
             });
         }
