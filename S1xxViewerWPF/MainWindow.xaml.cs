@@ -456,10 +456,12 @@ namespace S1xxViewerWPF
                         TreeViewItem treeNode = new TreeViewItem();
                         treeNode.MouseUp += TreeviewItem_Click;
                         treeNode.Header = result.Key;
-                        treeNode.Tag = result.Value;
+                        treeNode.Tag = result.Value;                        
 
                         parentTreeNode.Items.Add(treeNode);
                     }
+
+                    ((TreeViewItem)parentTreeNode.Items[0]).IsSelected = true;
                 }
             }
             catch (Exception ex)
