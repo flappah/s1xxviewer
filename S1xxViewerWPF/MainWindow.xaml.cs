@@ -5,6 +5,7 @@ using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.Symbology;
 using Esri.ArcGISRuntime.UI.Controls;
 using Microsoft.Win32;
+using S1xxViewer.Base;
 using S1xxViewer.Model.Interfaces;
 using S1xxViewer.Types.Interfaces;
 using System;
@@ -16,7 +17,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
-using System.Collections;
 
 namespace S1xxViewerWPF
 {
@@ -113,6 +113,7 @@ namespace S1xxViewerWPF
         /// <param name="fileName"></param>
         private void LoadFile(string fileName)
         {
+            Title = $"S1xx Viewer ({fileName.LastPart(@"\")})";
             dataGrid.ItemsSource = null;
             treeView.Items.Clear();
 
@@ -424,9 +425,9 @@ namespace S1xxViewerWPF
                                             DataTable featureAttributesDataTable = feature.GetData();
                                             string key = (feature is IGeoFeature ? ((IGeoFeature)feature).FeatureName.First()?.Name : feature.Id.ToString()) ?? "No named feature";
 
-                                            int i = 0;
                                             if (results.ContainsKey(key))
                                             {
+                                                int i = 0;
                                                 while (results.ContainsKey($"{key} ({++i})")) ;
                                                 key = $"{key} ({i})";
                                             }
@@ -445,10 +446,12 @@ namespace S1xxViewerWPF
                     dataGrid.ItemsSource = results.First().Value.AsDataView();
                     treeView.Items.Clear();
 
-                    var parentTreeNode = new TreeViewItem();
-                    parentTreeNode.Header = $"Selected feature{(results.Count == 1 ? "" : "s")}";
-                    parentTreeNode.Tag = null;
-                    parentTreeNode.IsExpanded = true;
+                    var parentTreeNode = new TreeViewItem
+                    {
+                        Header = $"Selected feature{(results.Count == 1 ? "" : "s")}",
+                        Tag = null,
+                        IsExpanded = true
+                    };
                     treeView.Items.Add(parentTreeNode);
 
                     foreach (var result in results)
