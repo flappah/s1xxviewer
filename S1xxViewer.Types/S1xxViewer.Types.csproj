@@ -59,6 +59,10 @@
     <Compile Include="ComplexTypes\FrequencyPair.cs" />
     <Compile Include="ComplexTypes\Graphic.cs" />
     <Compile Include="ComplexTypes\HorizontalPositionalUncertainty.cs" />
+    <Compile Include="Interfaces\ITextPlacement.cs" />
+    <Compile Include="Features\TextPlacement.cs" />
+    <Compile Include="Interfaces\ISpatialQuality.cs" />
+    <Compile Include="Features\SpatialQuality.cs" />
     <Compile Include="Interfaces\IFeatureName.cs" />
     <Compile Include="FeatureBase.cs" />
     <Compile Include="Features\CatalogueOfNauticalProduct.cs" />

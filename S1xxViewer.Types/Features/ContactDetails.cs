@@ -12,13 +12,12 @@ namespace S1xxViewer.Types.Features
         public string CallName { get; set; }
         public string CallSign { get; set; }
         public string CategoryOfCommPref { get; set; }
-        public string CommunicationChannel { get; set; }
-        public string ContactInstructions { get; set; }
-        public int MMsiCode { get; set; }
-
+        public string[] CommunicationChannel { get; set; }
         public IContactAddress[] ContactAddress { get; set; }
-        public IInformation[] Information { get; set; }
+        public string ContactInstructions { get; set; }
         public IFrequencyPair[] FrequencyPair { get; set; }
+        public IInformation[] Information { get; set; }
+        public int MMsiCode { get; set; }
         public IOnlineResource[] OnlineResource { get; set; }
         public IRadioCommunications[] RadioCommunications { get; set; }
         public ITelecommunications[] Telecommunications { get; set; }
@@ -47,7 +46,9 @@ namespace S1xxViewer.Types.Features
                 CallName = CallName,
                 CallSign = CallSign,
                 CategoryOfCommPref= CategoryOfCommPref,
-                CommunicationChannel = CommunicationChannel,
+                CommunicationChannel = CommunicationChannel == null
+                    ? new string[0]
+                    : Array.ConvertAll(CommunicationChannel, s => s),
                 ContactInstructions = ContactInstructions,
                 MMsiCode  = MMsiCode,
                 ContactAddress = ContactAddress == null 
@@ -157,10 +158,19 @@ namespace S1xxViewer.Types.Features
                 CategoryOfCommPref = categoryOfCommPrefNode.FirstChild.InnerText;
             }
 
-            var communicationChannelNode = node.FirstChild.SelectSingleNode("communicationChannel", mgr);
-            if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
+            var communicationChannelNodes = node.FirstChild.SelectNodes("communicationChannel", mgr);
+            if (communicationChannelNodes != null && communicationChannelNodes.Count > 0)
             {
-                CommunicationChannel = communicationChannelNode.FirstChild.InnerText;
+                var channels = new List<string>();
+                foreach(XmlNode communicationChannelNode in communicationChannelNodes)
+                {
+                    if (communicationChannelNode != null && communicationChannelNode.HasChildNodes)
+                    {
+                        channels.Add(communicationChannelNode.FirstChild.InnerText);
+                    }
+                }
+
+                CommunicationChannel = channels.ToArray();
             }
 
             var contactInstructionsNode = node.FirstChild.SelectSingleNode("contactInstructions", mgr);

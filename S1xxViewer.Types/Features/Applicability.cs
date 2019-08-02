@@ -14,10 +14,10 @@ namespace S1xxViewer.Types.Features
         public string[] CategoryOfDangerousOrHazardousCargo { get; set; }
         public string CategoryOfVessel { get; set; }
         public string CategoryOfVesselRegistry { get; set; }
-        public IInformation[] Information { get; set; }
         public string LogicalConnectives { get; set; }
         public int ThicknessOfIceCapability { get; set; }
         public IVesselsMeasurement[] VesselsMeasurements { get; set; }
+        public IInformation[] Information { get; set; }
         public string VesselPerformance { get; set; }
 
         /// <summary>

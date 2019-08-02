@@ -8,6 +8,6 @@ namespace S1xxViewer.Types.Interfaces
         string[] CategoryOfRestrictedArea { get; set; }
         string Jurisdiction { get; set; }
         string[] Restriction { get; set; }
-        string Status { get; set; }
+        string[] Status { get; set; }
     }
 }

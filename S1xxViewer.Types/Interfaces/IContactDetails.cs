@@ -5,7 +5,7 @@
         string CallName { get; set; }
         string CallSign { get; set; }
         string CategoryOfCommPref { get; set; }
-        string CommunicationChannel { get; set; }
+        string[] CommunicationChannel { get; set; }
         string ContactInstructions { get; set; }
         int MMsiCode { get; set; }
 

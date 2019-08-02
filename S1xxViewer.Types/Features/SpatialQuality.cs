@@ -7,10 +7,11 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ServiceHours : InformationFeatureBase, IServiceHours, IS122Feature
+    public class SpatialQuality : InformationFeatureBase, ISpatialQuality, IS122Feature
     {
-        public IScheduleByDoW[] ScheduleByDoW { get; set; }
-        public IInformation[] Information { get; set; }
+        public string CategoryOfTemporalVariation { get; set; }
+        public string QualityOfHorizontalMeasurement { get; set; }
+        public IHorizontalPositionalUncertainty HorizontalPositionalUncertainty { get; set; }
 
         /// <summary>
         /// 
@@ -18,7 +19,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new ServiceHours
+            return new SpatialQuality
             {
                 FeatureName = FeatureName == null
                     ? new[] { new FeatureName() }
@@ -29,16 +30,15 @@ namespace S1xxViewer.Types.Features
                 Id = Id,
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
-                    : Array.ConvertAll(PeriodicDateRange, pdr => pdr.DeepClone() as IDateRange),
+                    : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
                 SourceIndication = SourceIndication == null
                     ? new SourceIndication[0]
-                    : Array.ConvertAll(SourceIndication, si => si.DeepClone() as ISourceIndication),
-                ScheduleByDoW = ScheduleByDoW == null 
-                    ? new ScheduleByDoW[0]
-                    : Array.ConvertAll(ScheduleByDoW, sdow => sdow.DeepClone() as IScheduleByDoW),
-                Information = Information == null
-                    ? new Information[0]
-                    : Array.ConvertAll(Information, i => i.DeepClone() as IInformation),
+                    : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
+                CategoryOfTemporalVariation = CategoryOfTemporalVariation,
+                QualityOfHorizontalMeasurement = QualityOfHorizontalMeasurement,
+                HorizontalPositionalUncertainty = HorizontalPositionalUncertainty == null
+                    ? new HorizontalPositionalUncertainty()
+                    : HorizontalPositionalUncertainty.DeepClone() as IHorizontalPositionalUncertainty,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -110,33 +110,23 @@ namespace S1xxViewer.Types.Features
                 SourceIndication = sourceIndications.ToArray();
             }
 
-            var informationNodes = node.FirstChild.SelectNodes("information", mgr);
-            if (informationNodes != null && informationNodes.Count > 0)
+            var categoryOfTemporalVariationNode = node.FirstChild.SelectSingleNode("categoryOfTemporalVariation", mgr);
+            if (categoryOfTemporalVariationNode != null && categoryOfTemporalVariationNode.HasChildNodes)
             {
-                var informations = new List<Information>();
-                foreach (XmlNode informationNode in informationNodes)
-                {
-                    var newInformation = new Information();
-                    newInformation.FromXml(informationNode, mgr);
-                    informations.Add(newInformation);
-                }
-                Information = informations.ToArray();
+                CategoryOfTemporalVariation = categoryOfTemporalVariationNode.FirstChild.InnerText;
             }
 
-            var scheduleByDoWNodes = node.FirstChild.SelectNodes("scheduleByDoW", mgr);
-            if (scheduleByDoWNodes != null && scheduleByDoWNodes.Count > 0)
+            var qualityOfHorizontalMeasurementNode = node.FirstChild.SelectSingleNode("qualityOfHorizontalMeasurement", mgr);
+            if (qualityOfHorizontalMeasurementNode != null && qualityOfHorizontalMeasurementNode.HasChildNodes)
             {
-                var schedules = new List<ScheduleByDoW>();
-                foreach (XmlNode scheduleByDoWNode in scheduleByDoWNodes)
-                {
-                    if (scheduleByDoWNode != null && scheduleByDoWNode.HasChildNodes)
-                    {
-                        var scheduleByDoW = new ScheduleByDoW();
-                        scheduleByDoW.FromXml(scheduleByDoWNode, mgr);
-                        schedules.Add(scheduleByDoW);
-                    }
-                }
-                ScheduleByDoW = schedules.ToArray();
+                QualityOfHorizontalMeasurement = qualityOfHorizontalMeasurementNode.FirstChild.InnerText;
+            }
+
+            var horizontalPositionalUncertaintyNode = node.FirstChild.SelectSingleNode("horizontalPositionalUncertainty", mgr);
+            if (horizontalPositionalUncertaintyNode != null && horizontalPositionalUncertaintyNode.HasChildNodes)
+            {
+                HorizontalPositionalUncertainty = new HorizontalPositionalUncertainty();
+                HorizontalPositionalUncertainty.FromXml(horizontalPositionalUncertaintyNode.FirstChild, mgr);
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

@@ -7,14 +7,13 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class MarineProtectedArea : GeoFeatureBase, IMarineProtectedArea, IS122Feature
+    public class TextPlacement : GeoFeatureBase, ITextPlacement, IS122Feature
     {
-        // data
-        public string CategoryOfMarineProtectedArea { get; set; }
-        public string[] CategoryOfRestrictedArea { get; set; }
-        public string Jurisdiction { get; set; }
-        public string[] Restriction { get; set; }
-        public string[] Status { get; set; }
+        public double FlipBearing { get; set; }
+        public int ScaleMinimum { get; set; }
+        public string TextJustification { get; set; }
+        public string Text { get; set; }
+        public string TextType { get; set; }
 
         /// <summary>
         /// 
@@ -22,7 +21,7 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new MarineProtectedArea
+            return new TextPlacement
             {
                 FeatureName = FeatureName == null
                     ? new[] { new FeatureName() }
@@ -41,14 +40,11 @@ namespace S1xxViewer.Types.Features
                     ? new TextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfMarineProtectedArea = CategoryOfMarineProtectedArea ?? "",
-                CategoryOfRestrictedArea = CategoryOfRestrictedArea == null
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfRestrictedArea, s => s),
-                Jurisdiction = Jurisdiction ?? "",
-                Status = Status == null
-                    ? new string[0]
-                    : Array.ConvertAll(Status, s => s),
+                FlipBearing = FlipBearing,
+                ScaleMinimum = ScaleMinimum,
+                TextJustification = TextJustification,
+                Text = Text,
+                TextType = TextType,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -58,7 +54,8 @@ namespace S1xxViewer.Types.Features
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="xmlDoc"></param>
+        /// <param name="node"></param>
+        /// <param name="mgr"></param>
         /// <returns></returns>
         public override IFeature FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
@@ -126,66 +123,51 @@ namespace S1xxViewer.Types.Features
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfMarineProtectedAreaNode = node.FirstChild.SelectSingleNode("categoryOfMarineProtectedArea", mgr);
-            if (categoryOfMarineProtectedAreaNode != null)
+            var flipBearingNode = node.FirstChild.SelectSingleNode("flipBearing", mgr);
+            if (flipBearingNode != null && flipBearingNode.HasChildNodes)
             {
-                CategoryOfMarineProtectedArea = categoryOfMarineProtectedAreaNode.FirstChild.InnerText;
-            }
-
-            var categoryOfRestrictedAreaNodes = node.FirstChild.SelectNodes("categoryOfRestrictedArea", mgr);
-            if (categoryOfRestrictedAreaNodes != null && categoryOfRestrictedAreaNodes.Count > 0)
-            {
-                var categories = new List<string>();
-                foreach(XmlNode categoryOfRestrictedAreaNode in categoryOfRestrictedAreaNodes)
+                double flipBearing;
+                if (!double.TryParse(flipBearingNode.FirstChild.InnerText, out flipBearing))
                 {
-                    if (categoryOfRestrictedAreaNode != null && categoryOfRestrictedAreaNode.HasChildNodes)
-                    {
-                        categories.Add(categoryOfRestrictedAreaNode.FirstChild.InnerText);
-                    }
+                    flipBearing = 0.0;
                 }
-                CategoryOfRestrictedArea = categories.ToArray();
+                FlipBearing = flipBearing;
             }
 
-            var jurisdictionNode = node.FirstChild.SelectSingleNode("jurisdiction", mgr);
-            if (jurisdictionNode != null && jurisdictionNode.HasChildNodes)
-
+            var scaleMinimumNode = node.FirstChild.SelectSingleNode("scaleMinimum", mgr);
+            if (scaleMinimumNode != null && scaleMinimumNode.HasChildNodes)
             {
-                Jurisdiction = jurisdictionNode.FirstChild.InnerText;
-            }
-
-            var restrictionNodes = node.FirstChild.SelectNodes("restriction", mgr);
-            if (restrictionNodes != null && restrictionNodes.Count > 0)
-            {
-                var restrictions = new List<string>();
-                foreach (XmlNode restrictionNode in restrictionNodes)
+                int scaleMinimum;
+                if (!int.TryParse(scaleMinimumNode.FirstChild.InnerText, out scaleMinimum))
                 {
-                    if (restrictionNode != null && restrictionNode.HasChildNodes)
-                    {
-                        restrictions.Add(restrictionNode.FirstChild.InnerText);
-                    }
+                    scaleMinimum = 0;
                 }
-                Restriction = restrictions.ToArray();
+                ScaleMinimum = scaleMinimum;
             }
 
-            var statusNodes = node.FirstChild.SelectNodes("status", mgr);
-            if (statusNodes != null && statusNodes.Count > 0)
+            var textJustificationNode = node.FirstChild.SelectSingleNode("textJustification", mgr);
+            if (textJustificationNode != null && textJustificationNode.HasChildNodes)
             {
-                var statuses = new List<string>();
-                foreach (XmlNode statusNode in statusNodes)
-                {
-                    if (statusNode != null && statusNode.HasChildNodes)
-                    {
-                        statuses.Add(statusNode.FirstChild.InnerText);
-                    }
-                }
-                Status = statuses.ToArray();
+                TextJustification = textJustificationNode.FirstChild.InnerText;
+            }
+
+            var textNode = node.FirstChild.SelectSingleNode("text", mgr);
+            if (textNode != null && textNode.HasChildNodes)
+            {
+                Text = textNode.FirstChild.InnerText;
+            }
+
+            var textTypeNode = node.FirstChild.SelectSingleNode("textType", mgr);
+            if (textTypeNode != null && textTypeNode.HasChildNodes)
+            {
+                TextType = textTypeNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
             if (linkNodes != null && linkNodes.Count > 0)
             {
                 var links = new List<Link>();
-                foreach(XmlNode linkNode in linkNodes)
+                foreach (XmlNode linkNode in linkNodes)
                 {
                     var newLink = new Link();
                     newLink.FromXml(linkNode, mgr);
