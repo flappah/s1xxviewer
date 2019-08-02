@@ -9,7 +9,7 @@ using S1xxViewer.Types.Links;
 
 namespace S1xxViewer.Types.Features
 {
-    public class QualityOfNonBathymetricData : MetaFeatureBase, IQualityOfNonBathymetricData, IS122Feature
+    public class QualityOfNonBathymetricData : MetaFeatureBase, IQualityOfNonBathymetricData, IS122Feature, IS123Feature
     {
         public string CategoryOfTemporalVariation { get; set; }
         public string DataAssessment { get; set; }

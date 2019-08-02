@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ElectronicChart : ChartProductBase, IElectronicChart
+    public class ElectronicChart : ChartProductBase, IElectronicChart, IS128Feature
     {
         public string[] DatasetName { get; set; }
         public string UpdateDate { get; set; }

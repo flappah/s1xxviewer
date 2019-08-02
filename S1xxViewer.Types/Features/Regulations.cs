@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Regulations : InformationFeatureBase, IRegulations, IS122Feature
+    public class Regulations : InformationFeatureBase, IRegulations, IS122Feature, IS123Feature
     {
         public string CategoryOfAuthority { get; set; }
         public IGraphic[] Graphic { get; set; }

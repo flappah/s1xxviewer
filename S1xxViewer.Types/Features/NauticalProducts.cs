@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class NauticalProducts : ProductBase, INauticalProducts
+    public class NauticalProducts : ProductBase, INauticalProducts, IS128Feature
     {
         public string PublicationNumber { get; set; }
         public string DataSetName { get; set; }

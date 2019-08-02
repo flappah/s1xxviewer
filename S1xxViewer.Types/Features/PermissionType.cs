@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class PermissionType : InformationFeatureBase, IPermissionType, IS122Feature
+    public class PermissionType : InformationFeatureBase, IPermissionType, IS122Feature, IS123Feature
     {
         public string CategoryOfRelationShip { get; set; }
 

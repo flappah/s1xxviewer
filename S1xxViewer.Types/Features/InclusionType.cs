@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class InclusionType : InformationFeatureBase, IInclusionType, IS122Feature
+    public class InclusionType : InformationFeatureBase, IInclusionType, IS122Feature, IS123Feature
     {
         public string Membership { get; set; }
 

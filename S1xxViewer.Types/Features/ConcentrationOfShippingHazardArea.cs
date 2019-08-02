@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ConcentrationOfShippingHazardArea : GeoFeatureBase, IConcentrationOfShippingHazardArea
+    public class ConcentrationOfShippingHazardArea : GeoFeatureBase, IConcentrationOfShippingHazardArea, IS127Feature
     {
         public string[] CategoryOfConcentrationOfShippingHazardArea { get; set; }
         public string[] Status { get; set; }

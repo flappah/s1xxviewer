@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class CatalogueOfNauticalProduct : GeoFeatureBase, ICatalogueOfNauticalProduct
+    public class CatalogueOfNauticalProduct : GeoFeatureBase, ICatalogueOfNauticalProduct, IS128Feature
     {
         public IGraphic[] Graphic { get; set; }
         public string IssueDate { get; set; }

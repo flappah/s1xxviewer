@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class PaperChart : ChartProductBase, IPaperChart
+    public class PaperChart : ChartProductBase, IPaperChart, IS128Feature
     {
         public string FrameDimensions { get; set; }
         public IPrintInformation PrintInformation { get; set; }
