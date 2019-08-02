@@ -9,7 +9,7 @@ namespace S1xxViewer.Types.Features
 {
     public class PermissionType : InformationFeatureBase, IPermissionType, IS122Feature, IS123Feature
     {
-        public string CategoryOfRelationShip { get; set; }
+        public string CategoryOfRelationship { get; set; }
 
         /// <summary>
         /// 
@@ -32,7 +32,7 @@ namespace S1xxViewer.Types.Features
                 SourceIndication = SourceIndication == null
                     ? new SourceIndication[0]
                     : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
-                CategoryOfRelationShip = CategoryOfRelationShip,
+                CategoryOfRelationship = CategoryOfRelationship,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -98,10 +98,10 @@ namespace S1xxViewer.Types.Features
                 SourceIndication = sourceIndications.ToArray();
             }
 
-            var categoryOfRelationShipNode = node.FirstChild.SelectSingleNode("categoryOfRelationShip");
+            var categoryOfRelationShipNode = node.FirstChild.SelectSingleNode("categoryOfRelationship");
             if (categoryOfRelationShipNode != null && categoryOfRelationShipNode.HasChildNodes)
             {
-                CategoryOfRelationShip = categoryOfRelationShipNode.FirstChild.InnerText;
+                CategoryOfRelationship = categoryOfRelationShipNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
