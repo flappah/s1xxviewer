@@ -10,8 +10,8 @@ namespace S1xxViewer.Types.ComplexTypes
         public int DayOfWeek { get; set; }
         public bool DayOfWeekIsRange { get; set; }
         public string TimeReference { get; set; }
-        public DateTime[] TimeOfDayStart { get; set; }
-        public DateTime[] TimeOfDayEnd { get; set; }
+        public string[] TimeOfDayStart { get; set; }
+        public string[] TimeOfDayEnd { get; set; }
 
         /// <summary>
         /// 
@@ -25,10 +25,10 @@ namespace S1xxViewer.Types.ComplexTypes
                 DayOfWeekIsRange = DayOfWeekIsRange,
                 TimeReference = TimeReference,
                 TimeOfDayEnd = TimeOfDayEnd == null
-                    ? new DateTime[0]
+                    ? new string[0]
                     : Array.ConvertAll(TimeOfDayEnd, t => t),
                 TimeOfDayStart = TimeOfDayStart == null
-                    ? new DateTime[0]
+                    ? new string[0]
                     : Array.ConvertAll(TimeOfDayStart, t => t)
             };
         }
@@ -72,16 +72,12 @@ namespace S1xxViewer.Types.ComplexTypes
             var timeOfDayStartNodes = node.SelectNodes("timeOfDayStart", mgr);
             if (timeOfDayStartNodes != null && timeOfDayStartNodes.Count > 0)
             {
-                var times = new List<DateTime>();
+                var times = new List<string>();
                 foreach (XmlNode timeOfDayStartNode in timeOfDayStartNodes)
                 {
                     if (timeOfDayStartNode != null && timeOfDayStartNode.HasChildNodes)
                     {
-                        DateTime timeOfDayStart;
-                        if (!DateTime.TryParse(timeOfDayStartNode.FirstChild.InnerText, out timeOfDayStart))
-                        {
-                            timeOfDayStart = DateTime.MinValue;
-                        }
+                        string timeOfDayStart = timeOfDayStartNode.FirstChild.InnerText;
                         times.Add(timeOfDayStart);
                     }
                 }
@@ -91,16 +87,12 @@ namespace S1xxViewer.Types.ComplexTypes
             var timeOfDayEndNodes = node.SelectNodes("timeOfDayEnd", mgr);
             if (timeOfDayEndNodes != null && timeOfDayEndNodes.Count > 0)
             {
-                var times = new List<DateTime>();
-                foreach (XmlNode timeOfDayEndNode in timeOfDayStartNodes)
+                var times = new List<string>();
+                foreach (XmlNode timeOfDayEndNode in timeOfDayEndNodes)
                 {
                     if (timeOfDayEndNode != null && timeOfDayEndNode.HasChildNodes)
                     {
-                        DateTime timeOfDayEnd;
-                        if (!DateTime.TryParse(timeOfDayEndNode.FirstChild.InnerText, out timeOfDayEnd))
-                        {
-                            timeOfDayEnd = DateTime.MinValue;
-                        }
+                        string timeOfDayEnd = timeOfDayEndNode.FirstChild.InnerText;
                         times.Add(timeOfDayEnd);
                     }
                 }

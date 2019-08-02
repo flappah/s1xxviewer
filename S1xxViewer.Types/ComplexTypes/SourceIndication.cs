@@ -10,7 +10,7 @@ namespace S1xxViewer.Types.ComplexTypes
         public string CategoryOfAuthority { get; set; }
         public string Country { get; set; }
         public IFeatureName[] FeatureName { get; set; }
-        public DateTime ReportedDate { get; set; }
+        public string ReportedDate { get; set; }
         public string Source { get; set; }
         public string SourceType { get; set; }
 
@@ -67,16 +67,10 @@ namespace S1xxViewer.Types.ComplexTypes
                     FeatureName = featureNames.ToArray();
                 }
 
-                var reportedDate = node.SelectSingleNode("reportedDate", mgr);
-                if (reportedDate != null)
+                var reportedDateNode = node.SelectSingleNode("reportedDate", mgr);
+                if (reportedDateNode != null && reportedDateNode.HasChildNodes)
                 {
-                    var reportedDateString = reportedDate.InnerText;
-                    DateTime reportedDateTime;
-                    if (!DateTime.TryParse(reportedDateString, out reportedDateTime))
-                    {
-                        reportedDateTime = DateTime.MinValue;
-                    }
-                    ReportedDate = reportedDateTime;
+                    ReportedDate = reportedDateNode.FirstChild.InnerText;
                 }
 
                 var source = node.SelectSingleNode("source", mgr);

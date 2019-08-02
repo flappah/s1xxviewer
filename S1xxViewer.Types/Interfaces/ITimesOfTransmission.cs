@@ -8,6 +8,6 @@ namespace S1xxViewer.Types.Interfaces
         int MinutePastEveryHours { get; set; }
         int MinutePastOddHours { get; set; }
         string TimeReference { get; set; }
-        DateTime[] TransmissionTime { get; set; }
+        string[] TransmissionTime { get; set; }
     }
 }

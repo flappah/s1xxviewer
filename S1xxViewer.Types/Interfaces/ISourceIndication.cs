@@ -8,7 +8,7 @@ namespace S1xxViewer.Types.Interfaces
         string CategoryOfAuthority { get; set; }
         string Country { get; set; }
         IFeatureName[] FeatureName { get; set; }
-        DateTime ReportedDate { get; set; }
+        string ReportedDate { get; set; }
         string Source { get; set; }
         string SourceType { get; set; }
     }

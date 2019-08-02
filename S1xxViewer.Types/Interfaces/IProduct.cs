@@ -9,7 +9,7 @@ namespace S1xxViewer.Types.Interfaces
         string HorizontalDatumReference { get; set; }
         double HorizontalDatumValue { get; set; }
         IInformation[] Information { get; set; }
-        DateTime IssueDate { get; set; }
+        string IssueDate { get; set; }
         string MaximumDisplayScale { get; set; }
         string MinimumDisplayScale { get; set; }
         IPrice[] Price { get; set; }

@@ -1,13 +1,12 @@
 ﻿using S1xxViewer.Types.Interfaces;
-using System;
 using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
     public class SurveyDateRange : ComplexTypeBase, ISurveyDateRange
     {
-        public DateTime DateEnd { get; set; }
-        public DateTime DateStart { get; set; }
+        public string DateEnd { get; set; }
+        public string DateStart { get; set; }
 
         /// <summary>
         /// 
@@ -31,27 +30,15 @@ namespace S1xxViewer.Types.ComplexTypes
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             var dateEndNode = node.SelectSingleNode("dateEnd", mgr);
-            if (dateEndNode != null)
+            if (dateEndNode != null && dateEndNode.HasChildNodes)
             {
-                var dateEndString = dateEndNode.InnerText;
-                DateTime dateEnd;
-                if (!DateTime.TryParse(dateEndString, out dateEnd))
-                {
-                    dateEnd = DateTime.MinValue;
-                }
-                DateEnd = dateEnd;
+                DateEnd = dateEndNode.FirstChild.InnerText;
             }
 
             var dateStartNode = node.SelectSingleNode("dateStart", mgr);
-            if (dateStartNode != null)
+            if (dateStartNode != null && dateStartNode.HasChildNodes)
             {
-                var dateStartString = dateStartNode.InnerText;
-                DateTime dateStart;
-                if (!DateTime.TryParse(dateStartString, out dateStart))
-                {
-                    dateStart = DateTime.MinValue;
-                }
-                DateStart = dateStart;
+                DateStart = dateStartNode.InnerText;
             }
 
             return this;

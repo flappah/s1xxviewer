@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace S1xxViewer.Types.Interfaces
+﻿namespace S1xxViewer.Types.Interfaces
 {
     public interface ISurveyDateRange : IComplexType
     {
-        DateTime DateEnd { get; set; }
-        DateTime DateStart { get; set; }
+        string DateEnd { get; set; }
+        string DateStart { get; set; }
     }
 }

@@ -8,6 +8,6 @@ namespace S1xxViewer.Types.Interfaces
         string[] PictorialRepresentation { get; set; }
         string PictureCaption { get; set; }
         string PictureInformation { get; set; }
-        DateTime SourceDate { get; set; }
+        string SourceDate { get; set; }
     }
 }

@@ -142,11 +142,6 @@ namespace S1xxViewer.Types.Features
             var issueDateNode = node.FirstChild.SelectSingleNode("issueDate", mgr);
             if (issueDateNode != null && issueDateNode.HasChildNodes)
             {
-                //DateTime issueDate;
-                //if (!DateTime.TryParse(issueDateNode.FirstChild.InnerText, out issueDate))
-                //{
-                //    issueDate = DateTime.MinValue;
-                //}
                 IssueDate = issueDateNode.FirstChild.InnerText;
             }
 

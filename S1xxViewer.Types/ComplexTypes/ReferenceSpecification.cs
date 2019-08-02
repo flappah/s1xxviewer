@@ -1,5 +1,4 @@
 ﻿using S1xxViewer.Types.Interfaces;
-using System;
 using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
@@ -8,7 +7,7 @@ namespace S1xxViewer.Types.ComplexTypes
     {
         public string Name { get; set; }
         public string Version { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         /// <summary>
         /// 
@@ -47,12 +46,7 @@ namespace S1xxViewer.Types.ComplexTypes
             var dateNode = node.SelectSingleNode("date");
             if (dateNode != null && dateNode.HasChildNodes)
             {
-                DateTime date;
-                if (!DateTime.TryParse(node.FirstChild.InnerText, out date))
-                {
-                    date = DateTime.MinValue;
-                }
-                Date = date;
+                Date = dateNode.FirstChild.InnerText;
             }
 
             return this;

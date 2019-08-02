@@ -127,6 +127,10 @@ namespace S1xxViewer.Types
                             {
                                 arrayAsStrings = Array.ConvertAll((float[])value, v => v.ToString() ?? "");
                             }
+                            else if (value is DateTime[])
+                            {
+                                arrayAsStrings = Array.ConvertAll((DateTime[])value, v => v.ToString("yyyy-MM-dd HH:mm:ss") ?? "");
+                            }
                             else
                             {
                                 arrayAsStrings = Array.ConvertAll((object[])value, v => v.ToString() ?? "");

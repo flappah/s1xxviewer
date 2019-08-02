@@ -4,7 +4,7 @@ namespace S1xxViewer.Types.Interfaces
 {
     public interface IReferenceSpecification : IComplexType
     {
-        DateTime Date { get; set; }
+        string Date { get; set; }
         string Name { get; set; }
         string Version { get; set; }
     }

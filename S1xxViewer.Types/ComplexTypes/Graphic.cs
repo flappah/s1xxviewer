@@ -9,7 +9,7 @@ namespace S1xxViewer.Types.ComplexTypes
     {
         public string[] PictorialRepresentation { get; set; }
         public string PictureCaption { get; set; }
-        public DateTime SourceDate { get; set; }
+        public string SourceDate { get; set; }
         public string PictureInformation { get; set; }
         public IBearingInformation BearingInformation { get; set; }
 
@@ -65,12 +65,7 @@ namespace S1xxViewer.Types.ComplexTypes
             var sourceDateNode = node.SelectSingleNode("sourceDate");
             if (sourceDateNode != null && sourceDateNode.HasChildNodes)
             {
-                DateTime sourceDate;
-                if (!DateTime.TryParse(sourceDateNode.FirstChild.InnerText, out sourceDate))
-                {
-                    sourceDate = DateTime.MinValue;
-                }
-                SourceDate = sourceDate;
+                SourceDate = sourceDateNode.FirstChild.InnerText;
             }
 
             var pictureInformationNode = node.SelectSingleNode("pictureInformation");

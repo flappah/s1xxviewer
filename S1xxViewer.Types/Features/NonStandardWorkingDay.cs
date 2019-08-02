@@ -12,7 +12,7 @@ namespace S1xxViewer.Types.Features
 {
     public class NonStandardWorkingDay : InformationFeatureBase, INonStandardWorkingDay, IS122Feature
     {
-        public DateTime[] DateFixed { get; set; }
+        public string[] DateFixed { get; set; }
         public string[] DateVariable { get; set; }
         public IInformation[] Information { get; set; }
 
@@ -38,8 +38,8 @@ namespace S1xxViewer.Types.Features
                     ? new SourceIndication[0]
                     : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
                 DateFixed = DateFixed == null
-                    ? new DateTime[0]
-                    : Array.ConvertAll(DateFixed, df => df),
+                    ? new string[0]
+                    : Array.ConvertAll(DateFixed, s => s),
                 DateVariable = DateVariable == null
                     ? new string[0]
                     : Array.ConvertAll(DateVariable, dv => dv),
@@ -113,17 +113,12 @@ namespace S1xxViewer.Types.Features
             var dateFixedNodes = node.FirstChild.SelectNodes("dateFixed", mgr);
             if (dateFixedNodes != null && dateFixedNodes.Count > 0)
             {
-                var datesFixed = new List<DateTime>();
+                var datesFixed = new List<string>();
                 foreach (XmlNode dateFixedNode in dateFixedNodes)
                 {
                     if (dateFixedNode != null && dateFixedNode.HasChildNodes)
                     {
-                        DateTime newDateFixed;
-                        if (!DateTime.TryParse(dateFixedNode.FirstChild.InnerText, out newDateFixed))
-                        {
-                            newDateFixed = DateTime.MinValue;
-                        }
-                        datesFixed.Add(newDateFixed);
+                        datesFixed.Add(dateFixedNode.FirstChild.InnerText);
                     }
                 }
                 DateFixed = datesFixed.ToArray();

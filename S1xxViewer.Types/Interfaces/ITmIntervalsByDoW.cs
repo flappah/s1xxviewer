@@ -6,8 +6,8 @@ namespace S1xxViewer.Types.Interfaces
     {
         int DayOfWeek { get; set; }
         bool DayOfWeekIsRange { get; set; }
-        DateTime[] TimeOfDayEnd { get; set; }
-        DateTime[] TimeOfDayStart { get; set; }
+        string[] TimeOfDayEnd { get; set; }
+        string[] TimeOfDayStart { get; set; }
         string TimeReference { get; set; }
     }
 }

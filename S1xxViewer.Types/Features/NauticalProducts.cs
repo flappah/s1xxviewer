@@ -222,12 +222,7 @@ namespace S1xxViewer.Types.Features
             var issueDateNode = node.FirstChild.SelectSingleNode("issueDate", mgr);
             if (issueDateNode != null && issueDateNode.HasChildNodes)
             {
-                DateTime issueDate;
-                if (!DateTime.TryParse(issueDateNode.FirstChild.InnerText, out issueDate))
-                {
-                    issueDate = DateTime.MinValue;
-                }
-                IssueDate = issueDate;
+                IssueDate = issueDateNode.FirstChild.InnerText;
             }
 
             var purposeNode = node.FirstChild.SelectSingleNode("purpose", mgr);

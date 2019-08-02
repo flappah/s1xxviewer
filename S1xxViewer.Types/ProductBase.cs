@@ -14,7 +14,7 @@ namespace S1xxViewer.Types
         public string SoundingDatum { get; set; }
         public string ProductType { get; set; }
         public string MinimumDisplayScale { get; set; }
-        public DateTime IssueDate { get; set; }
+        public string IssueDate { get; set; }
         public string Purpose { get; set; }
 
         public IInformation[] Information { get; set; }

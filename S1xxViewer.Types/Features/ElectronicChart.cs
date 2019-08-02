@@ -10,7 +10,7 @@ namespace S1xxViewer.Types.Features
     public class ElectronicChart : ChartProductBase, IElectronicChart
     {
         public string[] DatasetName { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public string UpdateDate { get; set; }
         public int UpdateNumber { get; set; }
 
         public IReferenceSpecification ProductSpecification { get; set; }
@@ -215,12 +215,7 @@ namespace S1xxViewer.Types.Features
             var issueDateNode = node.FirstChild.SelectSingleNode("issueDate", mgr);
             if (issueDateNode != null && issueDateNode.HasChildNodes)
             {
-                DateTime issueDate;
-                if (!DateTime.TryParse(issueDateNode.FirstChild.InnerText, out issueDate))
-                {
-                    issueDate = DateTime.MinValue;
-                }
-                IssueDate = issueDate;
+                IssueDate = issueDateNode.FirstChild.InnerText;
             }
 
             var purposeNode = node.FirstChild.SelectSingleNode("purpose", mgr);
@@ -332,12 +327,7 @@ namespace S1xxViewer.Types.Features
             var updateDateNode = node.FirstChild.SelectSingleNode("updateDate", mgr);
             if (updateDateNode != null && updateDateNode.HasChildNodes)
             {
-                DateTime updateDate;
-                if (!DateTime.TryParse(updateDateNode.FirstChild.InnerText, out updateDate))
-                {
-                    updateDate = DateTime.MinValue;
-                }
-                UpdateDate = updateDate;
+                UpdateDate = updateDateNode.FirstChild.InnerText;
             }
 
             var updateNumberNode = node.FirstChild.SelectSingleNode("updateNumber", mgr);

@@ -11,7 +11,7 @@ namespace S1xxViewer.Types.ComplexTypes
         public int MinutePastEveryHours { get; set; }
         public int MinutePastOddHours { get; set; }
         public string TimeReference { get; set; }
-        public DateTime[] TransmissionTime { get; set; }
+        public string[] TransmissionTime { get; set; }
 
         /// <summary>
         /// 
@@ -26,8 +26,8 @@ namespace S1xxViewer.Types.ComplexTypes
                 MinutePastOddHours = MinutePastOddHours,
                 TimeReference = TimeReference,
                 TransmissionTime = TransmissionTime == null
-                    ? new DateTime[0]
-                    : Array.ConvertAll(TransmissionTime, tt => tt)
+                    ? new string[0]
+                    : Array.ConvertAll(TransmissionTime, s => s)
             };
         }
 
@@ -81,17 +81,12 @@ namespace S1xxViewer.Types.ComplexTypes
             var transmissionTimeNodes = node.SelectNodes("transmissionTime");
             if (transmissionTimeNodes != null && transmissionTimeNodes.Count > 0)
             {
-                var transmissionTimes = new List<DateTime>();
+                var transmissionTimes = new List<string>();
                 foreach(XmlNode transmissionTimeNode in transmissionTimeNodes)
                 {
                     if (transmissionTimeNode != null && transmissionTimeNode.HasChildNodes)
                     {
-                        DateTime transmissionTime;
-                        if (!DateTime.TryParse(transmissionTimeNode.FirstChild.InnerText, out transmissionTime))
-                        {
-                            transmissionTime = DateTime.MinValue;
-                        }
-                        transmissionTimes.Add(transmissionTime);
+                        transmissionTimes.Add(transmissionTimeNode.FirstChild.InnerText);
                     }
                 }
                 TransmissionTime = transmissionTimes.ToArray();
