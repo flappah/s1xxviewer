@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class TextPlacement : GeoFeatureBase, ITextPlacement, IS122Feature, IS123Feature
+    public class TextPlacement : GeoFeatureBase, ITextPlacement, IS122Feature, IS123Feature, IS127Feature
     {
         public double FlipBearing { get; set; }
         public int ScaleMinimum { get; set; }
