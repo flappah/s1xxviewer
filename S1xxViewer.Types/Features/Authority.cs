@@ -8,7 +8,7 @@ using System.Xml;
 namespace S1xxViewer.Types.Features
 {
     [Serializable]
-    public class Authority : InformationFeatureBase, IAuthority, IS122Feature
+    public class Authority : InformationFeatureBase, IAuthority, IS122Feature, IS123Feature, IS127Feature
     {
         public string CategoryOfAuthority { get; set; }
         public ITextContent TextContent { get; set; }

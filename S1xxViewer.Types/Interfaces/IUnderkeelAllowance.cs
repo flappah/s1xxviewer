@@ -5,5 +5,6 @@
         double UnderkeelAllowanceFixed { get; set; }
         double UnderkeelAllowanceVariableBeamBased { get; set; }
         double UnderkeelAllowanceVariableDraughtBased { get; set; }
-    }
+        string Operation { get; set; }
+}
 }

@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ContactDetails : InformationFeatureBase, IContactDetails, IS122Feature, IS123Feature
+    public class ContactDetails : InformationFeatureBase, IContactDetails, IS122Feature, IS123Feature, IS127Feature
     {
         public string CallName { get; set; }
         public string CallSign { get; set; }

@@ -8,6 +8,7 @@ namespace S1xxViewer.Types.ComplexTypes
         public double UnderkeelAllowanceFixed { get; set; }
         public double UnderkeelAllowanceVariableBeamBased { get; set; }
         public double UnderkeelAllowanceVariableDraughtBased { get; set; }
+        public string Operation { get; set; }
 
         /// <summary>
         /// 
@@ -19,7 +20,8 @@ namespace S1xxViewer.Types.ComplexTypes
             {
                 UnderkeelAllowanceFixed = UnderkeelAllowanceFixed,
                 UnderkeelAllowanceVariableBeamBased = UnderkeelAllowanceVariableBeamBased,
-                UnderkeelAllowanceVariableDraughtBased = UnderkeelAllowanceVariableDraughtBased
+                UnderkeelAllowanceVariableDraughtBased = UnderkeelAllowanceVariableDraughtBased,
+                Operation = Operation
             };
         }
 
@@ -62,6 +64,12 @@ namespace S1xxViewer.Types.ComplexTypes
                     underkeelAllowance = 0.0;
                 }
                 UnderkeelAllowanceVariableDraughtBased = underkeelAllowance;
+            }
+
+            var operationNode = node.SelectSingleNode("operation", mgr);
+            if (operationNode != null && operationNode.HasChildNodes)
+            {
+                Operation = operationNode.FirstChild.InnerText;
             }
 
             return this;

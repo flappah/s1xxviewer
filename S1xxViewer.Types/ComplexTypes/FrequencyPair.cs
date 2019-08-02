@@ -1,12 +1,15 @@
 ﻿using S1xxViewer.Types.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
     public class FrequencyPair : ComplexTypeBase, IFrequencyPair
     {
-        public int FrequencyShoreStationReceives { get; set; }
-        public int FrequencyShoreStationTransmits { get; set; }
+        public int[] FrequencyShoreStationReceives { get; set; }
+        public int[] FrequencyShoreStationTransmits { get; set; }
+        public string[] ContactInstructions { get; set; }
 
         /// <summary>
         /// 
@@ -16,8 +19,15 @@ namespace S1xxViewer.Types.ComplexTypes
         {
             return new FrequencyPair
             {
-                FrequencyShoreStationReceives = FrequencyShoreStationReceives,
-                FrequencyShoreStationTransmits = FrequencyShoreStationTransmits
+                FrequencyShoreStationReceives = FrequencyShoreStationReceives == null
+                    ? new int[0]
+                    : Array.ConvertAll(FrequencyShoreStationReceives, i => i),
+                FrequencyShoreStationTransmits = FrequencyShoreStationTransmits == null
+                    ? new int[0]
+                    : Array.ConvertAll(FrequencyShoreStationTransmits, i => i),
+                ContactInstructions = ContactInstructions == null
+                    ? new string[0]
+                    : Array.ConvertAll(ContactInstructions, s => s)
             };
         }
         
@@ -29,26 +39,44 @@ namespace S1xxViewer.Types.ComplexTypes
         /// <returns></returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var frequencyShoreStationReceivesNode = node.SelectSingleNode("frequencyShoreStationReceives");
-            if (frequencyShoreStationReceivesNode != null && frequencyShoreStationReceivesNode.HasChildNodes)
+            var frequencyShoreStationReceivesNodes = node.SelectNodes("frequencyShoreStationReceives");
+            if (frequencyShoreStationReceivesNodes != null && frequencyShoreStationReceivesNodes.Count > 0)
             {
-                int frequencyShoreStationReceives;
-                if (!int.TryParse(frequencyShoreStationReceivesNode.FirstChild.InnerText, out frequencyShoreStationReceives))
+                var frequencies = new List<int>();
+                foreach(XmlNode frequencyShoreStationReceivesNode in frequencyShoreStationReceivesNodes)
                 {
-                    frequencyShoreStationReceives = 0;
+                    if (frequencyShoreStationReceivesNode != null && frequencyShoreStationReceivesNode.HasChildNodes)
+                    {
+                        int frequencyShoreStationReceives;
+                        if (!int.TryParse(frequencyShoreStationReceivesNode.FirstChild.InnerText, out frequencyShoreStationReceives))
+                        {
+                            frequencyShoreStationReceives = 0;
+                        }
+                        frequencies.Add(frequencyShoreStationReceives);
+                    }
                 }
-                FrequencyShoreStationReceives = frequencyShoreStationReceives;
+
+                FrequencyShoreStationReceives = frequencies.ToArray();
             }
 
-            var frequencyShoreStationTransmitsNode = node.SelectSingleNode("frequencyShoreStationTransmits");
-            if (frequencyShoreStationTransmitsNode != null && frequencyShoreStationTransmitsNode.HasChildNodes)
+            var frequencyShoreStationTransmitsNodes = node.SelectNodes("frequencyShoreStationTransmits");
+            if (frequencyShoreStationTransmitsNodes != null && frequencyShoreStationTransmitsNodes.Count > 0)
             {
-                int frequencyShoreStationTransmits;
-                if (!int.TryParse(frequencyShoreStationTransmitsNode.FirstChild.InnerText, out frequencyShoreStationTransmits))
+                var frequencies = new List<int>();
+                foreach (XmlNode frequencyShoreStationTransmitsNode in frequencyShoreStationTransmitsNodes)
                 {
-                    frequencyShoreStationTransmits = 0;
+                    if (frequencyShoreStationTransmitsNode != null && frequencyShoreStationTransmitsNode.HasChildNodes)
+                    {
+                        int frequencyShoreStationTransmits;
+                        if (!int.TryParse(frequencyShoreStationTransmitsNode.FirstChild.InnerText, out frequencyShoreStationTransmits))
+                        {
+                            frequencyShoreStationTransmits = 0;
+                        }
+                        frequencies.Add(frequencyShoreStationTransmits);
+                    }
                 }
-                FrequencyShoreStationTransmits = frequencyShoreStationTransmits;
+
+                FrequencyShoreStationTransmits = frequencies.ToArray();
             }
 
             return this;

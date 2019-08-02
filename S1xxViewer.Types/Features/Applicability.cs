@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Applicability : InformationFeatureBase, IApplicability, IS122Feature
+    public class Applicability : InformationFeatureBase, IApplicability, IS122Feature, IS123Feature, IS127Feature
     {
         public bool Ballast { get; set; }
         public string[] CategoryOfCargo { get; set; }
