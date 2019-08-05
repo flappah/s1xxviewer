@@ -228,7 +228,7 @@
     <Compile Include="MetaFeatureBase.cs" />
     <Compile Include="ComplexTypes\DateRange.cs" />
     <Compile Include="ComplexTypes\RxnCode.cs" />
-    <Compile Include="PrintInformation.cs" />
+    <Compile Include="ComplexTypes\PrintInformation.cs" />
     <Compile Include="ProductBase.cs" />
     <Compile Include="S1xxDataPackage.cs" />
     <Compile Include="Enumerations.cs" />

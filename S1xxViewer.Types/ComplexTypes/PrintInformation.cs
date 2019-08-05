@@ -1,7 +1,7 @@
 ﻿using S1xxViewer.Types.Interfaces;
 using System.Xml;
 
-namespace S1xxViewer.Types
+namespace S1xxViewer.Types.ComplexTypes
 {
     public class PrintInformation : ComplexTypeBase, IPrintInformation
     {
