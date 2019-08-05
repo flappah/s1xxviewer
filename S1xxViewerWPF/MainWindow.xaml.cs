@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using Esri.ArcGISRuntime.Hydrography;
 
 namespace S1xxViewerWPF
 {
@@ -72,13 +73,21 @@ namespace S1xxViewerWPF
         public void AppOpen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "XML/GML files (*.xml;*.gml)|*.xml;*.gml|All files (*.*)|*.*";
+            openFileDialog.Filter = "XML/GML files (*.xml;*.gml)|*.xml;*.gml|ENC (*.000)|*.031|All files (*.*)|*.*";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
+            
             if (openFileDialog.ShowDialog() == true)
             {
                 var fileName = openFileDialog.FileName;
-                LoadFile(fileName);                
+
+                if (fileName.Contains(".xml") || fileName.Contains(".gml"))
+                {
+                    LoadGMLFile(fileName);
+                }
+                else if (fileName.Contains(".031"))
+                {
+                    LoadENCFile(fileName);
+                }
             }
         }
 
@@ -90,7 +99,15 @@ namespace S1xxViewerWPF
         public void AutoOpen_Click(object sender, RoutedEventArgs e)
         {
             var fileName = ((MenuItem)sender).Header.ToString();
-            LoadFile(fileName);
+
+            if (fileName.Contains(".xml") || fileName.Contains(".gml"))
+            {
+                LoadGMLFile(fileName);
+            }
+            else
+            {
+                LoadENCFile(fileName);
+            }
         }
 
         /// <summary>
@@ -107,18 +124,64 @@ namespace S1xxViewerWPF
             }
         }
 
+        private async void LoadENCFile(string fileName)
+        {
+            List<Layer> nonEncLayers =
+                MyMapView.Map.OperationalLayers.ToList().FindAll(tp => !tp.GetType().ToString().Contains("EncLayer"));
+            MyMapView.Map.OperationalLayers.Clear();
+
+            var myEncExchangeSet = new EncExchangeSet(fileName);
+            // Wait for the exchange set to load
+            await myEncExchangeSet.LoadAsync();
+
+            // Store a list of data set extent's - will be used to zoom the mapview to the full extent of the Exchange Set
+            List<Envelope> dataSetExtents = new List<Envelope>();
+
+            // Add each data set as a layer
+            foreach (EncDataset myEncDataset in myEncExchangeSet.Datasets)
+            {
+                // Create the cell and layer
+                EncLayer myEncLayer = new EncLayer(new EncCell(myEncDataset));
+
+                // Add the layer to the map
+                MyMapView.Map.OperationalLayers.Add(myEncLayer);
+
+                // Wait for the layer to load
+                await myEncLayer.LoadAsync();
+
+                // Add the extent to the list of extents
+                dataSetExtents.Add(myEncLayer.FullExtent);
+            }
+
+            if (nonEncLayers.Any())
+            {
+                foreach (var nonEncLayer in nonEncLayers)
+                {
+                    MyMapView.Map.OperationalLayers.Add(nonEncLayer);
+                }
+            }
+
+            // Use the geometry engine to compute the full extent of the ENC Exchange Set
+            Envelope fullExtent = GeometryEngine.CombineExtents(dataSetExtents);
+
+            // Set the viewpoint
+            MyMapView.SetViewpoint(new Viewpoint(fullExtent));
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="fileName"></param>
-        private void LoadFile(string fileName)
+        private void LoadGMLFile(string fileName)
         {
             Title = $"S1xx Viewer ({fileName.LastPart(@"\")})";
+            _dataPackages.Clear();
             dataGrid.ItemsSource = null;
             treeView.Items.Clear();
 
+            Layer encLayer = MyMapView.Map.OperationalLayers.ToList().Find(tp => tp.GetType().ToString().Contains("EncLayer"));
             MyMapView.Map.OperationalLayers.Clear();
-            _dataPackages.Clear();
+            MyMapView.Map.OperationalLayers.Add(encLayer);
 
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(fileName);
@@ -390,49 +453,51 @@ namespace S1xxViewerWPF
                 foreach (Layer operationalLayer in MyMapView.Map.OperationalLayers)
                 {
                     var collectionLayer = operationalLayer as FeatureCollectionLayer;
-
-                    IdentifyLayerResult groupLayerResult =
-                        await MyMapView.IdentifyLayerAsync(collectionLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResults);
-
-                    if (groupLayerResult.SublayerResults.Count > 0)
+                    if (collectionLayer != null)
                     {
-                        // Iterate each set of child layer results.
-                        foreach (IdentifyLayerResult subLayerResult in groupLayerResult.SublayerResults)
+                        IdentifyLayerResult groupLayerResult =
+                            await MyMapView.IdentifyLayerAsync(collectionLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResults);
+
+                        if (groupLayerResult.SublayerResults.Count > 0)
                         {
-                            // clear featureselection in all layers
-                            collectionLayer?.Layers.ToList().ForEach(l => l.ClearSelection());
-                            
-                            // Iterate each geoelement in the child layer result set.
-                            foreach (GeoElement idElement in subLayerResult.GeoElements)
+                            // Iterate each set of child layer results.
+                            foreach (IdentifyLayerResult subLayerResult in groupLayerResult.SublayerResults)
                             {
-                                // cast the result GeoElement to Feature
-                                Feature idFeature = idElement as Feature;
+                                // clear featureselection in all layers
+                                collectionLayer?.Layers.ToList().ForEach(l => l.ClearSelection());
 
-                                // select this feature in the feature layer
-                                var layer = subLayerResult.LayerContent as FeatureLayer;
-                                if (layer != null)
+                                // Iterate each geoelement in the child layer result set.
+                                foreach (GeoElement idElement in subLayerResult.GeoElements)
                                 {
-                                    layer.SelectFeature(idFeature);
-                                }
+                                    // cast the result GeoElement to Feature
+                                    Feature idFeature = idElement as Feature;
 
-                                if (idElement.Attributes.ContainsKey("FeatureId"))
-                                {
-                                    if (!String.IsNullOrEmpty(idElement.Attributes["FeatureId"]?.ToString()))
+                                    // select this feature in the feature layer
+                                    var layer = subLayerResult.LayerContent as FeatureLayer;
+                                    if (layer != null)
                                     {
-                                        IFeature feature = FindFeature(idElement.Attributes["FeatureId"].ToString());
-                                        if (feature != null)
-                                        {
-                                            DataTable featureAttributesDataTable = feature.GetData();
-                                            string key = (feature is IGeoFeature ? ((IGeoFeature)feature).FeatureName.First()?.Name : feature.Id.ToString()) ?? "No named feature";
+                                        layer.SelectFeature(idFeature);
+                                    }
 
-                                            if (results.ContainsKey(key))
+                                    if (idElement.Attributes.ContainsKey("FeatureId"))
+                                    {
+                                        if (!String.IsNullOrEmpty(idElement.Attributes["FeatureId"]?.ToString()))
+                                        {
+                                            IFeature feature = FindFeature(idElement.Attributes["FeatureId"].ToString());
+                                            if (feature != null)
                                             {
-                                                int i = 0;
-                                                while (results.ContainsKey($"{key} ({++i})")) ;
-                                                key = $"{key} ({i})";
+                                                DataTable featureAttributesDataTable = feature.GetData();
+                                                string key = (feature is IGeoFeature ? ((IGeoFeature)feature).FeatureName.First()?.Name : feature.Id.ToString()) ?? "No named feature";
+
+                                                if (results.ContainsKey(key))
+                                                {
+                                                    int i = 0;
+                                                    while (results.ContainsKey($"{key} ({++i})")) ;
+                                                    key = $"{key} ({i})";
+                                                }
+
+                                                results.Add(key, featureAttributesDataTable);
                                             }
-                                           
-                                            results.Add(key, featureAttributesDataTable);
                                         }
                                     }
                                 }
@@ -499,7 +564,7 @@ namespace S1xxViewerWPF
                 case GeometryType.Polygon:
                     // Create a fill symbol
                     var lineSym = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.DarkGray, 1);
-                    sym = new SimpleFillSymbol(SimpleFillSymbolStyle.Solid, System.Drawing.Color.FromArgb(50, System.Drawing.Color.LightGray), lineSym);
+                    sym = new SimpleFillSymbol(SimpleFillSymbolStyle.Solid, System.Drawing.Color.FromArgb(150, System.Drawing.Color.LightGray), lineSym);
                    
                     break;
                 default:
