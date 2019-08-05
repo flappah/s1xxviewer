@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.Geometry;
+using Esri.ArcGISRuntime.Hydrography;
 using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.Symbology;
 using Esri.ArcGISRuntime.UI.Controls;
@@ -17,7 +18,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
-using Esri.ArcGISRuntime.Hydrography;
 
 namespace S1xxViewerWPF
 {
@@ -73,7 +73,7 @@ namespace S1xxViewerWPF
         public void AppOpen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "XML/GML files (*.xml;*.gml)|*.xml;*.gml|ENC (*.000)|*.031|All files (*.*)|*.*";
+            openFileDialog.Filter = "XML/GML files (*.xml;*.gml)|*.xml;*.gml|ENC files (*.000)|*.031|All files (*.*)|*.*";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             
             if (openFileDialog.ShowDialog() == true)
@@ -99,14 +99,9 @@ namespace S1xxViewerWPF
         public void AutoOpen_Click(object sender, RoutedEventArgs e)
         {
             var fileName = ((MenuItem)sender).Header.ToString();
-
             if (fileName.Contains(".xml") || fileName.Contains(".gml"))
             {
                 LoadGMLFile(fileName);
-            }
-            else
-            {
-                LoadENCFile(fileName);
             }
         }
 
@@ -124,6 +119,10 @@ namespace S1xxViewerWPF
             }
         }
 
+        /// <summary>
+        /// Loads the specified ENC file
+        /// </summary>
+        /// <param name="fileName">fileName</param>
         private async void LoadENCFile(string fileName)
         {
             List<Layer> nonEncLayers =
@@ -169,9 +168,9 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// 
+        /// Loads the specified GML file
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">fileName</param>
         private void LoadGMLFile(string fileName)
         {
             Title = $"S1xx Viewer ({fileName.LastPart(@"\")})";
@@ -195,7 +194,7 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// 
+        /// Retrieve recent file from recentfiles.txt
         /// </summary>
         /// <returns>string[]</returns>
         private string[] RetrieveRecentFiles()
@@ -213,7 +212,7 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// 
+        /// Save entry to the recent files
         /// </summary>
         /// <param name="fileName"></param>
         private void SaveRecentFile(string fileName)
@@ -257,11 +256,11 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// 
+        /// Finds the specified feature in the S1xx datapackage
         /// </summary>
-        /// <param name="featureId"></param>
-        /// <returns></returns>
-        private S1xxViewer.Types.Interfaces.IFeature FindFeature(string featureId)
+        /// <param name="featureId">Id value of the feature</param>
+        /// <returns>IFeature</returns>
+        private IFeature FindFeature(string featureId)
         {
             foreach(IS1xxDataPackage dataPackage in _dataPackages)
             {
@@ -294,9 +293,9 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// 
+        /// Creation a feature collection for rendering on the map
         /// </summary>
-        /// <param name="dataPackage"></param>
+        /// <param name="dataPackage">S1xx dataPackage</param>
         private async void CreateFeatureCollection (IS1xxDataPackage dataPackage)
         {
             string theJSON_String =
@@ -431,7 +430,7 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// 
+        /// If the mapview is tapped
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -539,7 +538,7 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// 
+        /// Creates the renderer for features on the map
         /// </summary>
         /// <param name="rendererType"></param>
         /// <returns></returns>
@@ -574,6 +573,7 @@ namespace S1xxViewerWPF
             // Return a new renderer that uses the symbol created above
             return new SimpleRenderer(sym);
         }
+
         // Map initialization logic is contained in MapViewModel.cs
     }
 }
