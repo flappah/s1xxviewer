@@ -18,6 +18,9 @@
                     <MenuItem x:Name="RecentFilesMenuItem" Header="_Recent Files"></MenuItem>
                     <MenuItem x:Name="AppExit" Header="E_xit" HorizontalAlignment="Left" Width="140" Click="AppExit_Click"/>
                 </MenuItem>
+                <MenuItem Header="_Layers">
+                    <MenuItem x:Name="ResetLayers" Header="_Reset" HorizontalAlignment="Left" Width="140" Click="ResetLayers_Click" />
+                </MenuItem>
                 <MenuItem Header="_Tools">
                     <MenuItem x:Name="Options" Header="O_ptions" HorizontalAlignment="Left" Width="140"/>
                 </MenuItem>

@@ -92,6 +92,19 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
+        /// Clears all layers and resets to initial program open
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ResetLayers_Click(object sender, RoutedEventArgs e)
+        {
+            _dataPackages.Clear();
+            dataGrid.ItemsSource = null;
+            treeView.Items.Clear();
+            MyMapView.Map.OperationalLayers.Clear();
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
@@ -562,7 +575,7 @@ namespace S1xxViewerWPF
                     break;
                 case GeometryType.Polygon:
                     // Create a fill symbol
-                    var lineSym = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.DarkGray, 1);
+                    var lineSym = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.FromArgb(255, 50, 50, 50), 1);
                     sym = new SimpleFillSymbol(SimpleFillSymbolStyle.Solid, System.Drawing.Color.FromArgb(150, System.Drawing.Color.LightGray), lineSym);
                    
                     break;
