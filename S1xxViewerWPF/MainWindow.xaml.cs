@@ -199,7 +199,11 @@ namespace S1xxViewerWPF
 
             Layer encLayer = MyMapView.Map.OperationalLayers.ToList().Find(tp => tp.GetType().ToString().Contains("EncLayer"));
             MyMapView.Map.OperationalLayers.Clear();
-            MyMapView.Map.OperationalLayers.Add(encLayer);
+
+            if (encLayer != null)
+            {
+                MyMapView.Map.OperationalLayers.Add(encLayer);
+            }
 
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(fileName);
