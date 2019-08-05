@@ -55,6 +55,8 @@ namespace S1xxViewerWPF
             });
         }
 
+        #region Menu Handlers
+
         /// <summary>
         /// 
         /// </summary>
@@ -131,6 +133,10 @@ namespace S1xxViewerWPF
                 dataGrid.ItemsSource = itemDataTable.AsDataView();
             }
         }
+
+        #endregion
+
+        #region UI logic
 
         /// <summary>
         /// Loads the specified ENC file
@@ -304,6 +310,10 @@ namespace S1xxViewerWPF
 
             return null;
         }
+
+        #endregion
+
+        #region Methods that have connections to ArcGIS
 
         /// <summary>
         /// Creation a feature collection for rendering on the map
@@ -586,6 +596,8 @@ namespace S1xxViewerWPF
             // Return a new renderer that uses the symbol created above
             return new SimpleRenderer(sym);
         }
+
+        #endregion
 
         // Map initialization logic is contained in MapViewModel.cs
     }
