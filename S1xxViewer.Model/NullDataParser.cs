@@ -1,6 +1,7 @@
 ﻿using S1xxViewer.Model.Interface;
 using S1xxViewer.Types;
 using S1xxViewer.Types.Interfaces;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace S1xxViewer.Model
@@ -20,6 +21,23 @@ namespace S1xxViewer.Model
                 RawData = xmlDocument,
                 GeoFeatures = new IGeoFeature[0],
                 MetaFeatures = new IMetaFeature [0],
+                InformationFeatures = new IInformationFeature[0]
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDocument"></param>
+        /// <returns></returns>
+        public async override Task<IS1xxDataPackage> ParseAsync(XmlDocument xmlDocument)
+        {
+            return new S1xxDataPackage
+            {
+                Type = S1xxTypes.Null,
+                RawData = xmlDocument,
+                GeoFeatures = new IGeoFeature[0],
+                MetaFeatures = new IMetaFeature[0],
                 InformationFeatures = new IInformationFeature[0]
             };
         }

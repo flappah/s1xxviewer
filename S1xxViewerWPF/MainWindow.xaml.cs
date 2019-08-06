@@ -82,7 +82,7 @@ namespace S1xxViewerWPF
             {
                 var fileName = openFileDialog.FileName;
 
-                if (fileName.Contains(".xml") || fileName.Contains(".gml"))
+                if (fileName.ToLower().Contains(".xml") || fileName.ToLower().Contains(".gml"))
                 {
                     LoadGMLFile(fileName);
                 }
@@ -114,7 +114,7 @@ namespace S1xxViewerWPF
         public void AutoOpen_Click(object sender, RoutedEventArgs e)
         {
             var fileName = ((MenuItem)sender).Header.ToString();
-            if (fileName.Contains(".xml") || fileName.Contains(".gml"))
+            if (fileName.ToLower().Contains(".xml") || fileName.ToLower().Contains(".gml"))
             {
                 LoadGMLFile(fileName);
             }
@@ -190,7 +190,7 @@ namespace S1xxViewerWPF
         /// Loads the specified GML file
         /// </summary>
         /// <param name="fileName">fileName</param>
-        private void LoadGMLFile(string fileName)
+        private async void LoadGMLFile(string fileName)
         {
             Title = $"S1xx Viewer ({fileName.LastPart(@"\")})";
             _dataPackages.Clear();
@@ -210,7 +210,7 @@ namespace S1xxViewerWPF
             SaveRecentFile(fileName);
 
             var dataParser = _container.Resolve<IDataPackageParser>();
-            IS1xxDataPackage dataPackage = dataParser.Parse(xmlDoc);
+            IS1xxDataPackage dataPackage = await dataParser.ParseAsync(xmlDoc);
             CreateFeatureCollection(dataPackage);
 
             _dataPackages.Add(dataPackage);

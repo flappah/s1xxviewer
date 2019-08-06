@@ -2,6 +2,7 @@
 using S1xxViewer.Types.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace S1xxViewer.Model
@@ -9,10 +10,18 @@ namespace S1xxViewer.Model
     public abstract class DataParserBase : IDataParser
     {
         /// <summary>
-        /// Parses specified XMLDocument
+        /// Parses specified XMLDocument. Async version
         /// </summary>
         /// <param name="xmlDocument">XmlDocument</param>
         /// <returns>IS1xxDataPackage</returns>
+        public abstract Task<IS1xxDataPackage> ParseAsync(XmlDocument xmlDocument);
+
+        /// <summary>
+        /// Parses specified XMLDocument. 
+        /// </summary>
+        /// <param name="xmlDocument">XmlDocument</param>
+        /// <returns>IS1xxDataPackage</returns>
+
         public abstract IS1xxDataPackage Parse(XmlDocument xmlDocument);
 
         /// <summary>

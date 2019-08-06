@@ -1,5 +1,6 @@
-﻿using System.Xml;
-using S1xxViewer.Types.Interfaces;
+﻿using S1xxViewer.Types.Interfaces;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace S1xxViewer.Model.Interfaces
 {
@@ -7,6 +8,7 @@ namespace S1xxViewer.Model.Interfaces
     {
         IDataParser[] DataParsers { get; set; }
 
+        Task<IS1xxDataPackage> ParseAsync(XmlDocument xmlDocument);
         IS1xxDataPackage Parse(XmlDocument xmlDocument);
     }
 }
