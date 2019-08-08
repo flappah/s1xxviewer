@@ -9,6 +9,6 @@ namespace S1xxViewer.Types.Interfaces
         INoticeTime NoticeTime { get; set; }
         string PilotQualification { get; set; }
         string PilotRequest { get; set; }
-        bool RemotePilot { get; set; }
+        string RemotePilot { get; set; }
     }
 }

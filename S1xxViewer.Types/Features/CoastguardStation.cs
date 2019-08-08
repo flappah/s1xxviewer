@@ -10,7 +10,7 @@ namespace S1xxViewer.Types.Features
     public class CoastguardStation : GeoFeatureBase, ICoastguardStation, IS123Feature
     {
         public string[] CommunicationsChannel { get; set; }
-        public bool IsMRCC { get; set; }
+        public string IsMRCC { get; set; }
         public string[] Status { get; set; }
 
         /// <summary>
@@ -141,12 +141,7 @@ namespace S1xxViewer.Types.Features
             var ismrccNode = node.FirstChild.SelectSingleNode("isMRCC", mgr);
             if (ismrccNode != null && ismrccNode.HasChildNodes)
             {
-                bool isMRCC;
-                if (bool.TryParse(ismrccNode.FirstChild.InnerText, out isMRCC))
-                {
-                    isMRCC = false;
-                }
-                IsMRCC = isMRCC;
+                IsMRCC = ismrccNode.FirstChild.InnerText;
             }
 
             var statusNodes = node.FirstChild.SelectNodes("status", mgr);

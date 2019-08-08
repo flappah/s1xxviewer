@@ -10,6 +10,6 @@
         string TimeReference { get; set; }
         string TransmissionPower { get; set; }
         string TxIdentChar { get; set; }
-        bool TxTrafficList { get; set; }
+        string TxTrafficList { get; set; }
     }
 }

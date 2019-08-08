@@ -2,7 +2,7 @@
 {
     public interface IFeatureName : IComplexType
     {
-        bool DisplayName { get; set; }
+        string DisplayName { get; set; }
         string Language { get; set; }
         string Name { get; set; }
     }

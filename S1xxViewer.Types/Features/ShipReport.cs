@@ -10,7 +10,7 @@ namespace S1xxViewer.Types.Features
     public class ShipReport : InformationFeatureBase, IShipReport, IS122Feature
     {
         public string[] CategoryOfShipReport { get; set; }
-        public bool ImoFormatForReporting { get; set; }
+        public string ImoFormatForReporting { get; set; }
         public INoticeTime[] NoticeTime { get; set; }
         public ITextContent TextContent { get; set; }
 
@@ -133,12 +133,7 @@ namespace S1xxViewer.Types.Features
             var imoFormatForReportingNode = node.FirstChild.SelectSingleNode("imoFormatForReporting", mgr);
             if (imoFormatForReportingNode != null && imoFormatForReportingNode.HasChildNodes)
             {
-                bool imoFormatForReporting;
-                if (!bool.TryParse(imoFormatForReportingNode.FirstChild.InnerText, out imoFormatForReporting))
-                {
-                    imoFormatForReporting = false;
-                }
-                ImoFormatForReporting = imoFormatForReporting;
+                ImoFormatForReporting = imoFormatForReportingNode.FirstChild.InnerText;
             }
 
             var noticeTimeNodes = node.FirstChild.SelectNodes("noticeTime");

@@ -12,7 +12,7 @@ namespace S1xxViewer.Types.Features
         public string[] CategoryOfPilot { get; set; }
         public string PilotQualification { get; set; }
         public string PilotRequest { get; set; }
-        public bool RemotePilot { get; set; }
+        public string RemotePilot { get; set; }
         public INoticeTime NoticeTime { get; set; }
 
         /// <summary>
@@ -154,12 +154,7 @@ namespace S1xxViewer.Types.Features
             var remotePilotNode = node.FirstChild.SelectSingleNode("remotePilot", mgr);
             if (remotePilotNode != null && remotePilotNode.HasChildNodes)
             {
-                bool remotePilot;
-                if (!bool.TryParse(remotePilotNode.FirstChild.InnerText, out remotePilot))
-                {
-                    remotePilot = false;
-                }
-                RemotePilot = remotePilot;
+                RemotePilot = remotePilotNode.FirstChild.InnerText;
             }
 
             var noticeTimeNode = node.FirstChild.SelectSingleNode("noticeTime", mgr);

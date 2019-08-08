@@ -9,7 +9,7 @@ namespace S1xxViewer.Types.Features
 {
     public class Applicability : InformationFeatureBase, IApplicability, IS122Feature, IS123Feature, IS127Feature
     {
-        public bool Ballast { get; set; }
+        public string Ballast { get; set; }
         public string[] CategoryOfCargo { get; set; }
         public string[] CategoryOfDangerousOrHazardousCargo { get; set; }
         public string CategoryOfVessel { get; set; }
@@ -140,12 +140,7 @@ namespace S1xxViewer.Types.Features
             var ballastNode = node.FirstChild.SelectSingleNode("ballast", mgr);
             if (ballastNode != null && ballastNode.HasChildNodes)
             {
-                bool ballast;
-                if (!bool.TryParse(ballastNode.FirstChild.InnerText, out ballast))
-                {
-                    ballast = false;
-                }
-                Ballast = ballast;
+                Ballast = ballastNode.FirstChild.InnerText;
             }
 
             var categoryOfCargoNodes = node.FirstChild.SelectNodes("categoryOfCargo", mgr);

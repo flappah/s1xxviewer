@@ -2,7 +2,7 @@
 {
     public interface IApplicability : IInformationFeature
     {
-        bool Ballast { get; set; }
+        string Ballast { get; set; }
         string[] CategoryOfCargo { get; set; }
         string[] CategoryOfDangerousOrHazardousCargo { get; set; }
         string CategoryOfVessel { get; set; }

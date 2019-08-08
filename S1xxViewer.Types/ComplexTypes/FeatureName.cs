@@ -5,7 +5,7 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class FeatureName : ComplexTypeBase, IFeatureName
     {
-        public bool DisplayName { get; set; }
+        public string DisplayName { get; set; }
         public string Language { get; set; }
         public string Name { get; set; }
 
@@ -33,13 +33,8 @@ namespace S1xxViewer.Types.ComplexTypes
         {
             var displayNameNode = node.SelectSingleNode("displayName", mgr);
             if (displayNameNode != null && displayNameNode.HasChildNodes)
-            {
-                bool displayName;
-                if (!bool.TryParse(displayNameNode.FirstChild.InnerText, out displayName))
-                {
-                    displayName = false;
-                }
-                DisplayName = displayName;
+            {                
+                DisplayName = displayNameNode.FirstChild.InnerText;
             }
 
             var languageNode = node.SelectSingleNode("language", mgr);

@@ -3,7 +3,6 @@ using S1xxViewer.Types.Interfaces;
 using S1xxViewer.Types.Links;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Xml;
 
 namespace S1xxViewer.Types.Features
@@ -18,7 +17,7 @@ namespace S1xxViewer.Types.Features
         public string TimeReference { get; set; }
         public string TransmissionPower { get; set; }
         public string TxIdentChar { get; set; }
-        public bool TxTrafficList { get; set; }
+        public string TxTrafficList { get; set; }
 
         /// <summary>
         /// 
@@ -195,12 +194,7 @@ namespace S1xxViewer.Types.Features
             var txTrafficListNode = node.FirstChild.SelectSingleNode("txTrafficList", mgr);
             if (txTrafficListNode != null && txTrafficListNode.HasChildNodes)
             {
-                bool trafficLists;
-                if (bool.TryParse(txTrafficListNode.FirstChild.InnerText, out trafficLists))
-                {
-                    trafficLists = false;
-                }
-                TxTrafficList = trafficLists;
+                TxTrafficList = txTrafficListNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
