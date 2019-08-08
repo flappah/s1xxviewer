@@ -8,7 +8,7 @@
         IRadioCommunications[] RadioCommunications { get; set; }
         string Status { get; set; }
         string TimeReference { get; set; }
-        double TransmissionPower { get; set; }
+        string TransmissionPower { get; set; }
         string TxIdentChar { get; set; }
         bool TxTrafficList { get; set; }
     }

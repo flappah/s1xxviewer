@@ -173,12 +173,7 @@ namespace S1xxViewer.Types.Features
             var horizontalDatumValueNode = node.FirstChild.SelectSingleNode("horizontalDatumValue");
             if (horizontalDatumValueNode != null && horizontalDatumValueNode.HasChildNodes)
             {
-                double value;
-                if (!double.TryParse(horizontalDatumValueNode.FirstChild.InnerText, out value))
-                {
-                    value = -1.0;
-                }
-                HorizontalDatumValue = value;
+                HorizontalDatumValue = horizontalDatumValueNode.FirstChild.InnerText;
             }
 
             var verticalDatumNode = node.FirstChild.SelectSingleNode("verticalDatum");
@@ -277,12 +272,7 @@ namespace S1xxViewer.Types.Features
             var editionNumberNode = node.FirstChild.SelectSingleNode("editionNumber");
             if (editionNumberNode != null && editionNumberNode.HasChildNodes)
             {
-                int editionNumber;
-                if (!int.TryParse(editionNumberNode.FirstChild.InnerText, out editionNumber))
-                {
-                    editionNumber = -1;
-                }
-                EditionNumber = editionNumber;
+                EditionNumber = editionNumberNode.FirstChild.InnerText;
             }
 
             var specificUsageNode = node.FirstChild.SelectSingleNode("specificUsage");
@@ -313,7 +303,7 @@ namespace S1xxViewer.Types.Features
             if (printInformationNode != null && printInformationNode.HasChildNodes)
             {
                 PrintInformation = new PrintInformation();
-                PrintInformation.FromXml(printInformationNode.FirstChild, mgr);
+                PrintInformation.FromXml(printInformationNode, mgr);
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

@@ -16,7 +16,7 @@ namespace S1xxViewer.Types.Features
         public IRadioCommunications[] RadioCommunications { get; set; }
         public string Status { get; set; }
         public string TimeReference { get; set; }
-        public double TransmissionPower { get; set; }
+        public string TransmissionPower { get; set; }
         public string TxIdentChar { get; set; }
         public bool TxTrafficList { get; set; }
 
@@ -183,12 +183,7 @@ namespace S1xxViewer.Types.Features
             var transmissionPowerNode = node.FirstChild.SelectSingleNode("transmissionPower", mgr);
             if (transmissionPowerNode != null && transmissionPowerNode.HasChildNodes)
             {
-                double power;
-                if (!double.TryParse(transmissionPowerNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out power))
-                {
-                    power = 0.0;
-                }
-                TransmissionPower = power;
+                TransmissionPower = transmissionPowerNode.FirstChild.InnerText;
             }
 
             var txIdentCharNode = node.FirstChild.SelectSingleNode("txIdentChar", mgr);

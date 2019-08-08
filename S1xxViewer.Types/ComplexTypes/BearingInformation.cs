@@ -1,7 +1,6 @@
 ﻿using S1xxViewer.Types.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
@@ -9,10 +8,10 @@ namespace S1xxViewer.Types.ComplexTypes
     public class BearingInformation : ComplexTypeBase, IBearingInformation
     {
         public string CardinalDirection { get; set; }
-        public double Distance { get; set; }
+        public string Distance { get; set; }
         public IInformation[] Information { get; set; }
         public IOrientation Orientation { get; set; }
-        public double[] SectorBearing { get; set; }
+        public string[] SectorBearing { get; set; }
 
         /// <summary>
         /// 
@@ -31,7 +30,7 @@ namespace S1xxViewer.Types.ComplexTypes
                     ? new Orientation()
                     : Orientation.DeepClone() as IOrientation,
                 SectorBearing = SectorBearing == null
-                    ? new double[0]
+                    ? new string[0]
                     : Array.ConvertAll(SectorBearing, sb => sb)
             };
         }
@@ -53,12 +52,7 @@ namespace S1xxViewer.Types.ComplexTypes
             var distanceNode = node.SelectSingleNode("distance", mgr);
             if (distanceNode != null && distanceNode.HasChildNodes)
             {
-                double distance;
-                if (!double.TryParse(distanceNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out distance))
-                {
-                    distance = 0.0;
-                }
-                Distance = distance;
+                Distance = distanceNode.FirstChild.InnerText;
             }
 
             var informationNodes = node.SelectNodes("information", mgr);
@@ -87,17 +81,12 @@ namespace S1xxViewer.Types.ComplexTypes
             var sectorBearingNodes = node.SelectNodes("sectorBearing", mgr);
             if (sectorBearingNodes != null && sectorBearingNodes.Count > 0)
             {
-                var bearings = new List<double>();
+                var bearings = new List<string>();
                 foreach(XmlNode sectorBearingNode in sectorBearingNodes)
                 {
                     if (sectorBearingNode != null && sectorBearingNode.HasChildNodes)
                     {
-                        double bearing;
-                        if (!double.TryParse(sectorBearingNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out bearing))
-                        {
-                            bearing = 0.0;
-                        }
-                        bearings.Add(bearing);
+                        bearings.Add(sectorBearingNode.FirstChild.InnerText);
                     }
                 }
                 SectorBearing = bearings.ToArray();

@@ -2,9 +2,9 @@
 {
     public interface IUnderkeelAllowance : IComplexType
     {
-        double UnderkeelAllowanceFixed { get; set; }
-        double UnderkeelAllowanceVariableBeamBased { get; set; }
-        double UnderkeelAllowanceVariableDraughtBased { get; set; }
+        string UnderkeelAllowanceFixed { get; set; }
+        string UnderkeelAllowanceVariableBeamBased { get; set; }
+        string UnderkeelAllowanceVariableDraughtBased { get; set; }
         string Operation { get; set; }
 }
 }

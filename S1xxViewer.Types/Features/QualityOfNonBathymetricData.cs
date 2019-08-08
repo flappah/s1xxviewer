@@ -1,11 +1,9 @@
 ﻿using S1xxViewer.Types.ComplexTypes;
 using S1xxViewer.Types.Interfaces;
-using System.Xml;
+using S1xxViewer.Types.Links;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Globalization;
-using S1xxViewer.Types.Links;
+using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
@@ -14,9 +12,9 @@ namespace S1xxViewer.Types.Features
         public string CategoryOfTemporalVariation { get; set; }
         public string DataAssessment { get; set; }
         public ISourceIndication SourceIndication { get; set; }
-        public double[] HorizontalDistanceUncertainty { get; set; }
+        public string[] HorizontalDistanceUncertainty { get; set; }
         public IHorizontalPositionalUncertainty HorizontalPositionalUncertainty { get; set; }
-        public double DirectionUncertainty { get; set; }
+        public string DirectionUncertainty { get; set; }
         public ISurveyDateRange SurveyDateRange { get; set; }
         public IInformation Information { get; set; }
 
@@ -37,7 +35,7 @@ namespace S1xxViewer.Types.Features
                     ? new FeatureObjectIdentifier()
                     : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,
                 HorizontalDistanceUncertainty = HorizontalDistanceUncertainty == null
-                    ? new double[0]
+                    ? new string[0]
                     : Array.ConvertAll(HorizontalDistanceUncertainty, hdu => hdu),
                 HorizontalPositionalUncertainty = HorizontalPositionalUncertainty == null   
                     ? new HorizontalPositionalUncertainty()
@@ -98,17 +96,12 @@ namespace S1xxViewer.Types.Features
                 var horizontalDistanceUncertaintyNodes = node.FirstChild.SelectNodes("horizontalDistanceUncertainty", mgr);
                 if (horizontalDistanceUncertaintyNodes != null && horizontalDistanceUncertaintyNodes.Count > 0)
                 {
-                    var distanceUncertainties = new List<double>();
+                    var distanceUncertainties = new List<string>();
                     foreach(XmlNode horizontalDistanceUncertaintyNode in horizontalDistanceUncertaintyNodes )
                     {
                         if (horizontalDistanceUncertaintyNode != null && horizontalDistanceUncertaintyNode.HasChildNodes)
                         {
-                            double uncertainty;
-                            if (!double.TryParse(horizontalDistanceUncertaintyNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out uncertainty))
-                            {
-                                uncertainty = 0.0;
-                            }
-                            distanceUncertainties.Add(uncertainty);
+                            distanceUncertainties.Add(horizontalDistanceUncertaintyNode.FirstChild.InnerText);
                         }
                     }
                     HorizontalDistanceUncertainty = distanceUncertainties.ToArray();
@@ -118,32 +111,27 @@ namespace S1xxViewer.Types.Features
                 if (horizontalPositionalUncertaintyNode != null && horizontalPositionalUncertaintyNode.HasChildNodes)
                 {
                     HorizontalPositionalUncertainty = new HorizontalPositionalUncertainty();
-                    HorizontalPositionalUncertainty.FromXml(horizontalPositionalUncertaintyNode.FirstChild, mgr);
+                    HorizontalPositionalUncertainty.FromXml(horizontalPositionalUncertaintyNode, mgr);
                 }
 
                 var directionUncertaintyNode = node.FirstChild.SelectSingleNode("directionUncertainty", mgr);
                 if (directionUncertaintyNode != null && directionUncertaintyNode.HasChildNodes)
                 {
-                    double uncertainty;
-                    if (!double.TryParse(directionUncertaintyNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out uncertainty))
-                    {
-                        uncertainty = 0.0;
-                    }
-                    DirectionUncertainty = uncertainty;
+                    DirectionUncertainty = directionUncertaintyNode.FirstChild.InnerText;
                 }
 
                 var surveyDateRangeNode = node.FirstChild.SelectSingleNode("surveyDateRange", mgr);
                 if (surveyDateRangeNode != null && surveyDateRangeNode.HasChildNodes)
                 {
                     SurveyDateRange = new SurveyDateRange();
-                    SurveyDateRange.FromXml(surveyDateRangeNode.FirstChild, mgr);
+                    SurveyDateRange.FromXml(surveyDateRangeNode, mgr);
                 }
 
                 var informationNode = node.FirstChild.SelectSingleNode("information", mgr);
                 if (informationNode != null && informationNode.HasChildNodes)
                 {
                     Information = new Information();
-                    Information.FromXml(informationNode.FirstChild, mgr);
+                    Information.FromXml(informationNode, mgr);
                 }
             }
 

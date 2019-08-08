@@ -1,13 +1,12 @@
 ﻿using S1xxViewer.Types.Interfaces;
-using System.Globalization;
 using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
 {
     public class Orientation : ComplexTypeBase, IOrientation
     {
-        public double OrientationUncertainty { get; set; }
-        public double OrientationValue { get; set; }
+        public string OrientationUncertainty { get; set; }
+        public string OrientationValue { get; set; }
 
         public override IComplexType DeepClone()
         {
@@ -29,23 +28,13 @@ namespace S1xxViewer.Types.ComplexTypes
             var orientationUncertaintyNode = node.SelectSingleNode("orientationUncertainty", mgr);
             if (orientationUncertaintyNode != null && orientationUncertaintyNode.HasChildNodes)
             {
-                double uncertainty;
-                if (!double.TryParse(orientationUncertaintyNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out uncertainty))
-                {
-                    uncertainty = 0.0;
-                }
-                OrientationUncertainty = uncertainty;
+                OrientationUncertainty = orientationUncertaintyNode.FirstChild.InnerText;
             }
 
             var orientationValueNode = node.SelectSingleNode("orientationValue", mgr);
             if (orientationValueNode != null && orientationValueNode.HasChildNodes)
             {
-                double value;
-                if (!double.TryParse(orientationValueNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out value))
-                {
-                    value = 0.0;
-                }
-                OrientationValue = value;
+                OrientationValue = orientationValueNode.FirstChild.InnerText;
             }
 
             return this;

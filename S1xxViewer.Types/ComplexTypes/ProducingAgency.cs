@@ -65,21 +65,21 @@ namespace S1xxViewer.Types.ComplexTypes
             if (contactAddressNode != null && contactAddressNode.HasChildNodes)
             {
                 ContactAddress = new ContactAddress();
-                ContactAddress.FromXml(contactAddressNode.FirstChild, mgr);
+                ContactAddress.FromXml(contactAddressNode, mgr);
             }
 
             var onlineResourceNode = node.SelectSingleNode("onlineResource");
             if (onlineResourceNode != null && onlineResourceNode.HasChildNodes)
             {
                 OnlineResource = new OnlineResource();
-                OnlineResource.FromXml(onlineResourceNode.FirstChild, mgr);
+                OnlineResource.FromXml(onlineResourceNode, mgr);
             }
 
             var telecommunicationsNode = node.SelectSingleNode("telecommunications");
             if (telecommunicationsNode != null && telecommunicationsNode.HasChildNodes)
             {
                 Telecommunications = new Telecommunications();
-                Telecommunications.FromXml(telecommunicationsNode.FirstChild, mgr);
+                Telecommunications.FromXml(telecommunicationsNode, mgr);
             }
 
             return this;

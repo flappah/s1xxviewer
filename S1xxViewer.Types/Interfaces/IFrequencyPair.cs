@@ -2,8 +2,8 @@
 {
     public interface IFrequencyPair : IComplexType
     {
-        int[] FrequencyShoreStationReceives { get; set; }
-        int[] FrequencyShoreStationTransmits { get; set; }
+        string[] FrequencyShoreStationReceives { get; set; }
+        string[] FrequencyShoreStationTransmits { get; set; }
         string[] ContactInstructions { get; set; }
     }
 }

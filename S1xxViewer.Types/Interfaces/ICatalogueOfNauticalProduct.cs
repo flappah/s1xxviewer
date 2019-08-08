@@ -2,9 +2,9 @@
 {
     public interface ICatalogueOfNauticalProduct : IGeoFeature
     {
-        int EditionNumber { get; set; }
+        string EditionNumber { get; set; }
         IGraphic[] Graphic { get; set; }
         string IssueDate { get; set; }
-        int MarineResourceName { get; set; }
+        string MarineResourceName { get; set; }
     }
 }

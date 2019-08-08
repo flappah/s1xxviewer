@@ -5,7 +5,7 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class Price : ComplexTypeBase, IPrice
     {
-        public int PriceNumber { get; set; }
+        public string PriceNumber { get; set; }
         public string Currency { get; set; }
 
         /// <summary>
@@ -32,12 +32,7 @@ namespace S1xxViewer.Types.ComplexTypes
             var priceNumberNode = node.SelectSingleNode("priceNumber");
             if (priceNumberNode != null && priceNumberNode.HasChildNodes)
             {
-                int price;
-                if (!int.TryParse(priceNumberNode.FirstChild.InnerText, out price))
-                {
-                    price = -1;
-                }
-                PriceNumber = price;
+                PriceNumber = priceNumberNode.FirstChild.InnerText;
             }
 
             var currencyNode = node.SelectSingleNode("currency");

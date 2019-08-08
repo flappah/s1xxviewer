@@ -3,9 +3,9 @@
     public interface IBearingInformation : IComplexType
      {
         string CardinalDirection { get; set; }
-        double Distance { get; set; }
+        string Distance { get; set; }
         IInformation[] Information { get; set; }
         IOrientation Orientation { get; set; }
-        double[] SectorBearing { get; set; }
+        string[] SectorBearing { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace S1xxViewer.Types.Features
         public string CategoryOfVessel { get; set; }
         public string CategoryOfVesselRegistry { get; set; }
         public string LogicalConnectives { get; set; }
-        public int ThicknessOfIceCapability { get; set; }
+        public string ThicknessOfIceCapability { get; set; }
         public IVesselsMeasurement[] VesselsMeasurements { get; set; }
         public IInformation[] Information { get; set; }
         public string VesselPerformance { get; set; }
@@ -197,12 +197,7 @@ namespace S1xxViewer.Types.Features
             var thicknessOfIceCapabilityNode = node.FirstChild.SelectSingleNode("thicknessOfIceCapability", mgr);
             if (thicknessOfIceCapabilityNode != null && thicknessOfIceCapabilityNode.HasChildNodes)
             {
-                int thicknessOfIceCapability;
-                if (!int.TryParse(thicknessOfIceCapabilityNode.FirstChild.InnerText, out thicknessOfIceCapability))
-                {
-                    thicknessOfIceCapability = 0;
-                }
-                ThicknessOfIceCapability = thicknessOfIceCapability;
+                ThicknessOfIceCapability = thicknessOfIceCapabilityNode.FirstChild.InnerText;
             }
 
             var vesselsMeasurementsNodes = node.FirstChild.SelectNodes("vesselsMeasurements", mgr);
@@ -214,7 +209,7 @@ namespace S1xxViewer.Types.Features
                     if (vesselsMeasurementsNode != null && vesselsMeasurementsNode.HasChildNodes)
                     {
                         var newMeasurement = new VesselsMeasurement();
-                        newMeasurement.FromXml(vesselsMeasurementsNode.FirstChild, mgr);
+                        newMeasurement.FromXml(vesselsMeasurementsNode, mgr);
                         measurements.Add(newMeasurement);
                     }
                 }

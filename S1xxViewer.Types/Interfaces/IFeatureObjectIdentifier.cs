@@ -3,7 +3,7 @@
     public interface IFeatureObjectIdentifier : IComplexType
     {
         string Agency { get; set; }
-        int FeatureIdentificationNumber { get; set; }
-        int FeatureIdentificationSubdivision { get; set; }
+        string FeatureIdentificationNumber { get; set; }
+        string FeatureIdentificationSubdivision { get; set; }
     }
 }

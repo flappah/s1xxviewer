@@ -5,8 +5,8 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class FacsimileDrumSpeed : ComplexTypeBase, IFacsimileDrumSpeed
     {
-        public int DrumSpeed { get; set; }
-        public int IndexOfCooperation { get; set; }
+        public string DrumSpeed { get; set; }
+        public string IndexOfCooperation { get; set; }
 
         /// <summary>
         /// 
@@ -32,23 +32,13 @@ namespace S1xxViewer.Types.ComplexTypes
             var drumSpeedNode = node.SelectSingleNode("drumSpeed");
             if (drumSpeedNode != null && drumSpeedNode.HasChildNodes)
             {
-                int drumSpeed;
-                if (!int.TryParse(drumSpeedNode.FirstChild.InnerText, out drumSpeed))
-                {
-                    drumSpeed = 0;
-                }
-                DrumSpeed = drumSpeed;
+                DrumSpeed = drumSpeedNode.FirstChild.InnerText;
             }
 
             var indexOfCooperationNode = node.SelectSingleNode("indexOfCooperation");
             if (indexOfCooperationNode != null && indexOfCooperationNode.HasChildNodes)
             {
-                int index;
-                if (!int.TryParse(indexOfCooperationNode.FirstChild.InnerText, out index))
-                {
-                    index = 0;
-                }
-                IndexOfCooperation = index;
+                IndexOfCooperation = indexOfCooperationNode.FirstChild.InnerText;
             }
 
             return this;

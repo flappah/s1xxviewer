@@ -2,7 +2,7 @@
 {
     public interface IFacsimileDrumSpeed : IComplexType
     {
-        int DrumSpeed { get; set; }
-        int IndexOfCooperation { get; set; }
+        string DrumSpeed { get; set; }
+        string IndexOfCooperation { get; set; }
     }
 }

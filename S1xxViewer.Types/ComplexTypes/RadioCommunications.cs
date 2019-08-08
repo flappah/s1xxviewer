@@ -9,13 +9,14 @@ namespace S1xxViewer.Types.ComplexTypes
     {
         public string CategoryOfCommPref { get; set; }
         public string[] CategoryOfMaritimeBroadcast { get; set; }
+        public string[] CategoryOfRadioMethods { get; set; }
         public string[] CommunicationChannel { get; set; }
         public string ContactInstructions { get; set; }
         public IFacsimileDrumSpeed FacsimileDrumSpeed { get; set; }
         public IFrequencyPair[] FrequencyPair { get; set; }
         public ITmIntervalsByDoW[] TmIntervalsByDoW { get; set; }
-        public int SelectiveCallNumber { get; set; }
-        public int SignalFrequency { get; set; }
+        public string SelectiveCallNumber { get; set; }
+        public string SignalFrequency { get; set; }
         public ITimeOfObservation TimeOfObservation { get; set; }
         public ITimesOfTransmission TimesOfTransmission { get; set; }
         public string TransmissionContent { get; set; }
@@ -33,6 +34,9 @@ namespace S1xxViewer.Types.ComplexTypes
                 CategoryOfMaritimeBroadcast = CategoryOfMaritimeBroadcast == null
                     ? new string[0]
                     : Array.ConvertAll(CategoryOfMaritimeBroadcast, s => s),
+                CategoryOfRadioMethods = CategoryOfRadioMethods == null
+                    ? new string[0]
+                    : Array.ConvertAll(CategoryOfRadioMethods, s => s),
                 CommunicationChannel = CommunicationChannel == null
                     ? new string[0]
                     : Array.ConvertAll(CommunicationChannel, s => s),
@@ -86,6 +90,21 @@ namespace S1xxViewer.Types.ComplexTypes
                 CategoryOfMaritimeBroadcast = nodes.ToArray();
             }
 
+            var categoryOfRadioMethodsNodes = node.SelectNodes("categoryOfRadioMethods", mgr);
+            if (categoryOfRadioMethodsNodes != null && categoryOfRadioMethodsNodes.Count > 0)
+            {
+                var nodes = new List<string>();
+                foreach (XmlNode categoryOfRadioMethodsNode in categoryOfRadioMethodsNodes)
+                {
+                    if (categoryOfRadioMethodsNode != null && categoryOfRadioMethodsNode.HasChildNodes)
+                    {
+                        nodes.Add(categoryOfRadioMethodsNode.FirstChild.InnerText);
+                    }
+                }
+
+                CategoryOfRadioMethods = nodes.ToArray();
+            }
+
             var communicationChannelNodes = node.SelectNodes("communicationChannel", mgr);
             if (communicationChannelNodes != null && communicationChannelNodes.Count > 0)
             {
@@ -111,7 +130,7 @@ namespace S1xxViewer.Types.ComplexTypes
             if (facsimileDrumSpeedNode != null && facsimileDrumSpeedNode.HasChildNodes)
             {
                 FacsimileDrumSpeed = new FacsimileDrumSpeed();
-                FacsimileDrumSpeed.FromXml(facsimileDrumSpeedNode.FirstChild, mgr);
+                FacsimileDrumSpeed.FromXml(facsimileDrumSpeedNode, mgr);
             }
 
             var frequencyPairNodes = node.SelectNodes("frequencyPair", mgr);
@@ -149,37 +168,27 @@ namespace S1xxViewer.Types.ComplexTypes
             var selectiveCallNumberNode = node.SelectSingleNode("selectiveCallNumber");
             if (selectiveCallNumberNode != null && selectiveCallNumberNode.HasChildNodes)
             {
-                int number;
-                if (!int.TryParse(selectiveCallNumberNode.FirstChild.InnerText, out number))
-                {
-                    number = 0;
-                }
-                SelectiveCallNumber = number;
+                SelectiveCallNumber = selectiveCallNumberNode.FirstChild.InnerText;
             }
 
             var signalFrequencyNode = node.SelectSingleNode("signalFrequency");
             if (signalFrequencyNode != null && signalFrequencyNode.HasChildNodes)
             {
-                int frequency;
-                if (!int.TryParse(signalFrequencyNode.FirstChild.InnerText, out frequency))
-                {
-                    frequency = 0;
-                }
-                SignalFrequency = frequency;
+                SignalFrequency = signalFrequencyNode.FirstChild.InnerText;
             }
 
             var timeOfObservationNode = node.SelectSingleNode("timeOfObservation", mgr);
             if (timeOfObservationNode != null && timeOfObservationNode.HasChildNodes)
             {
                 TimeOfObservation = new TimeOfObservation();
-                TimeOfObservation.FromXml(timeOfObservationNode.FirstChild, mgr);
+                TimeOfObservation.FromXml(timeOfObservationNode, mgr);
             }
 
             var timesOfTransmissionNode = node.SelectSingleNode("timesOfTransmission", mgr);
             if (timesOfTransmissionNode != null && timesOfTransmissionNode.HasChildNodes)
             {
                 TimesOfTransmission = new TimesOfTransmission();
-                TimesOfTransmission.FromXml(timesOfTransmissionNode.FirstChild, mgr);
+                TimesOfTransmission.FromXml(timesOfTransmissionNode, mgr);
             }
 
             var transmissionContentNode = node.SelectSingleNode("transmissionContent", mgr);

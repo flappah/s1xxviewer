@@ -1,10 +1,6 @@
-﻿using System;
+﻿using S1xxViewer.Types.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using S1xxViewer.Types.Interfaces;
-using System.Globalization;
 using System.Xml;
 
 namespace S1xxViewer.Types.ComplexTypes
@@ -13,7 +9,7 @@ namespace S1xxViewer.Types.ComplexTypes
     {
         public string[] CategoryOfMaritimeBroadcast { get; set; }
         public string[] CommunicationChannel { get; set; }
-        public int SignalFrequency { get; set; }
+        public string SignalFrequency { get; set; }
         public string TransmissionContent { get; set; }
 
         /// <summary>
@@ -74,12 +70,7 @@ namespace S1xxViewer.Types.ComplexTypes
             var signalFrequencyNode = node.SelectSingleNode("signalFrequency");
             if (signalFrequencyNode != null && signalFrequencyNode.HasChildNodes)
             {
-                int frequency;
-                if (!int.TryParse(signalFrequencyNode.FirstChild.InnerText, out frequency))
-                {
-                    frequency = 0;
-                }
-                SignalFrequency = frequency;
+                SignalFrequency = signalFrequencyNode.FirstChild.InnerText;
             }
 
             var transmissionContentNode = node.SelectSingleNode("transmissionContent");

@@ -7,9 +7,9 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class TimesOfTransmission : ComplexTypeBase, ITimesOfTransmission
     {
-        public int MinutePastEvenHours { get; set; }
-        public int MinutePastEveryHours { get; set; }
-        public int MinutePastOddHours { get; set; }
+        public string MinutePastEvenHours { get; set; }
+        public string MinutePastEveryHours { get; set; }
+        public string MinutePastOddHours { get; set; }
         public string TimeReference { get; set; }
         public string[] TransmissionTime { get; set; }
 
@@ -42,34 +42,19 @@ namespace S1xxViewer.Types.ComplexTypes
             var minutePastEvenHoursNode = node.SelectSingleNode("minutePastEvenHours");
             if (minutePastEvenHoursNode != null && minutePastEvenHoursNode.HasChildNodes)
             {
-                int minuteValue;
-                if (!int.TryParse(minutePastEvenHoursNode.FirstChild.InnerText, out minuteValue))
-                {
-                    minuteValue = 0;
-                }
-                MinutePastEvenHours = minuteValue;
+                MinutePastEvenHours = minutePastEvenHoursNode.FirstChild.InnerText;
             }
 
             var minutePastEveryHoursNode = node.SelectSingleNode("minutePastEveryHours");
             if (minutePastEveryHoursNode != null && minutePastEveryHoursNode.HasChildNodes)
             {
-                int minuteValue;
-                if (!int.TryParse(minutePastEveryHoursNode.FirstChild.InnerText, out minuteValue))
-                {
-                    minuteValue = 0;
-                }
-                MinutePastEveryHours = minuteValue;
+                MinutePastEveryHours = minutePastEveryHoursNode.FirstChild.InnerText;
             }
 
             var minutePastOddHoursNode = node.SelectSingleNode("minutePastOddHours");
             if (minutePastOddHoursNode != null && minutePastOddHoursNode.HasChildNodes)
             {
-                int minuteValue;
-                if (!int.TryParse(minutePastOddHoursNode.FirstChild.InnerText, out minuteValue))
-                {
-                    minuteValue = 0;
-                }
-                MinutePastOddHours = minuteValue;
+                MinutePastOddHours = minutePastOddHoursNode.FirstChild.InnerText;
             }
 
             var timeReferenceNode = node.SelectSingleNode("timeReference");

@@ -166,7 +166,7 @@ namespace S1xxViewer.Types.Features
             if (noticeTimeNode != null && noticeTimeNode.HasChildNodes)
             {
                 NoticeTime = new NoticeTime();
-                NoticeTime.FromXml(noticeTimeNode.FirstChild, mgr);
+                NoticeTime.FromXml(noticeTimeNode, mgr);
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

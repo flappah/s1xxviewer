@@ -1,5 +1,4 @@
 ﻿using S1xxViewer.Types.Interfaces;
-using System;
 
 namespace S1xxViewer.Types
 {
@@ -9,7 +8,7 @@ namespace S1xxViewer.Types
         public string Copyright { get; set; }
         public string MaximumDisplayScale { get; set; }
         public string HorizontalDatumReference { get; set; }
-        public double HorizontalDatumValue { get; set; }
+        public string HorizontalDatumValue { get; set; }
         public string VerticalDatum { get; set; }
         public string SoundingDatum { get; set; }
         public string ProductType { get; set; }

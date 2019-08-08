@@ -11,8 +11,8 @@ namespace S1xxViewer.Types.Features
     {
         public IGraphic[] Graphic { get; set; }
         public string IssueDate { get; set; }
-        public int EditionNumber { get; set; }
-        public int MarineResourceName { get; set; }
+        public string EditionNumber { get; set; }
+        public string MarineResourceName { get; set; }
 
         /// <summary>
         /// 
@@ -148,24 +148,13 @@ namespace S1xxViewer.Types.Features
             var editionNumberNode = node.FirstChild.SelectSingleNode("editionNumber", mgr);
             if (editionNumberNode != null && editionNumberNode.HasChildNodes)
             {
-                int editionNumber;
-                if (!int.TryParse(editionNumberNode.FirstChild.InnerText, out editionNumber))
-                {
-                    editionNumber = -1;
-                }
-                EditionNumber = editionNumber;
+                EditionNumber = editionNumberNode.FirstChild.InnerText;
             }
 
             var marineResourceNameNode = node.FirstChild.SelectSingleNode("marineResourceName", mgr);
             if (marineResourceNameNode != null && marineResourceNameNode.HasChildNodes)
             {
-                //MarineResourceName = marineResourceNameNode.FirstChild.InnerText;
-                int marineResourceName;
-                if (!int.TryParse(marineResourceNameNode.FirstChild.InnerText, out marineResourceName))
-                {
-                    marineResourceName = -1;
-                }
-                MarineResourceName = marineResourceName;
+                MarineResourceName = marineResourceNameNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

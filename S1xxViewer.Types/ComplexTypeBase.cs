@@ -95,11 +95,9 @@ namespace S1xxViewer.Types
                     var value = GetPropertyValue(propertyInfo, propertyInfo.Name);
                     if (value != null)
                     {
-                        var row = results.NewRow();
+                        DataRow row = null;
                         if (propertyInfo.PropertyType.IsArray)
                         {
-                            row["Name"] = propertyInfo.Name;
-
                             string[] arrayAsStrings;
                             if (value is double[])
                             {
@@ -122,14 +120,41 @@ namespace S1xxViewer.Types
                                 arrayAsStrings = Array.ConvertAll((object[])value, v => v.ToString() ?? "");
                             }
 
-                            row["Value"] = String.Join(",", arrayAsStrings);
+                            if (arrayAsStrings.Length > 0)
+                            {
+                                row = results.NewRow();
+                                row["Name"] = propertyInfo.Name;
+                                row["Value"] = String.Join(",", arrayAsStrings);
+                            }
                         }
                         else
                         {
-                            row["Name"] = propertyInfo.Name;
-                            row["Value"] = value.ToString();
+                            bool rowEmpty = false;
+                            if (value is int)
+                            {
+                                rowEmpty = ((int)value) == int.MinValue;
+                            }
+                            else if (value is double)
+                            {
+                                rowEmpty = ((double)value) == double.NaN;
+                            }
+                            else
+                            {
+                                rowEmpty = String.IsNullOrEmpty(value.ToString());
+                            }
+
+                            if (!rowEmpty)
+                            {
+                                row = results.NewRow();
+                                row["Name"] = propertyInfo.Name;
+                                row["Value"] = value.ToString();
+                            }
                         }
-                        results.Rows.Add(row);
+
+                        if (row != null)
+                        {
+                            results.Rows.Add(row);
+                        }
                     }
                 }
             }            

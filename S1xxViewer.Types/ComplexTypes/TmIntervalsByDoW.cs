@@ -7,7 +7,7 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class TmIntervalsByDoW : ComplexTypeBase, ITmIntervalsByDoW
     {
-        public int DayOfWeek { get; set; }
+        public string DayOfWeek { get; set; }
         public bool DayOfWeekIsRange { get; set; }
         public string TimeReference { get; set; }
         public string[] TimeOfDayStart { get; set; }
@@ -44,12 +44,7 @@ namespace S1xxViewer.Types.ComplexTypes
             var dayOfWeekNode = node.SelectSingleNode("dayOfWeek");
             if (dayOfWeekNode != null && dayOfWeekNode.HasChildNodes)
             {
-                int dayOfWeek;
-                if (!int.TryParse(dayOfWeekNode.FirstChild.InnerText, out dayOfWeek))
-                {
-                    dayOfWeek = 0;
-                }
-                DayOfWeek = dayOfWeek;
+                DayOfWeek = dayOfWeekNode.FirstChild.InnerText;
             }
 
             var dayOfWeekIsRangeNode = node.SelectSingleNode("dayOfWeekIsRange", mgr);

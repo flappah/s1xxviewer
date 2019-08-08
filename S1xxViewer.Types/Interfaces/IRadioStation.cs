@@ -4,9 +4,9 @@
     {
         string CallSign { get; set; }
         string CategoryOfRadioStation { get; set; }
-        double EstimatedRangeOffTransmission { get; set; }
+        string EstimatedRangeOffTransmission { get; set; }
         IOrientation Orientation { get; set; }
-        IRadioStationCommunicationDescription[] RadioStationCommunicationDescription { get; set; }
+        IRadioCommunications[] RadioCommunications { get; set; }
         string Status { get; set; }
     }
 }

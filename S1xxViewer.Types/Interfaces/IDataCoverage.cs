@@ -2,7 +2,7 @@
 {
     public interface IDataCoverage : IMetaFeature
     {
-        int MaximumDisplayScale { get; set; }
-        int MinimumDisplayScale { get; set; }
+        string MaximumDisplayScale { get; set; }
+        string MinimumDisplayScale { get; set; }
     }
 }

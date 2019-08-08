@@ -123,7 +123,7 @@ namespace S1xxViewer.Types.Features
             if (underkeelAllowanceNode != null && underkeelAllowanceNode.HasChildNodes)
             {
                 UnderkeelAllowance = new UnderkeelAllowance();
-                UnderkeelAllowance.FromXml(underkeelAllowanceNode.FirstChild, mgr);
+                UnderkeelAllowance.FromXml(underkeelAllowanceNode, mgr);
             }
 
             var waterLevelTrendNode = node.FirstChild.SelectSingleNode("waterLevelTrend", mgr);

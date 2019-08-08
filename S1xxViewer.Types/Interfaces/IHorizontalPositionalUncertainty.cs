@@ -2,7 +2,7 @@
 {
     public interface IHorizontalPositionalUncertainty : IComplexType
     {
-        double UncertaintyFixed { get; set; }
-        double UncertaintyVariable { get; set; }
+        string UncertaintyFixed { get; set; }
+        string UncertaintyVariable { get; set; }
     }
 }

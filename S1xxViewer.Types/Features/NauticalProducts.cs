@@ -187,12 +187,7 @@ namespace S1xxViewer.Types.Features
             var horizontalDatumValueNode = node.FirstChild.SelectSingleNode("horizontalDatumValue", mgr);
             if (horizontalDatumValueNode != null && horizontalDatumValueNode.HasChildNodes)
             {
-                double value;
-                if (!double.TryParse(horizontalDatumValueNode.FirstChild.InnerText, out value))
-                {
-                    value = -1.0;
-                }
-                HorizontalDatumValue = value;
+                HorizontalDatumValue = horizontalDatumValueNode.FirstChild.InnerText;
             }
 
             var verticalDatumNode = node.FirstChild.SelectSingleNode("verticalDatum", mgr);

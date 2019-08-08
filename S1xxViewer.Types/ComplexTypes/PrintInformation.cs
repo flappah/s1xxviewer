@@ -8,7 +8,7 @@ namespace S1xxViewer.Types.ComplexTypes
         public string PrintAgency { get; set; }
         public string PrintNation { get; set; }
         public string PrintSize { get; set; }
-        public int PrintWeek { get; set; }
+        public string PrintWeek { get; set; }
         public string PrintYear { get; set; }
         public string ReprintEdition { get; set; }
         public string ReprintNation { get; set; }
@@ -60,12 +60,7 @@ namespace S1xxViewer.Types.ComplexTypes
             var printWeekNode = node.FirstChild.SelectSingleNode("printWeek");
             if (printWeekNode != null && printWeekNode.HasChildNodes)
             {
-                int printWeek;
-                if (!int.TryParse(printWeekNode.FirstChild.InnerText, out printWeek))
-                {
-                    printWeek = -1;
-                }
-                PrintWeek = printWeek;
+                PrintWeek = printWeekNode.FirstChild.InnerText;
             }
 
             var printYearNode = node.FirstChild.SelectSingleNode("printYear");

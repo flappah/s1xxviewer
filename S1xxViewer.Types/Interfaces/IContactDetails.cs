@@ -7,7 +7,7 @@
         string CategoryOfCommPref { get; set; }
         string[] CommunicationChannel { get; set; }
         string ContactInstructions { get; set; }
-        int MMsiCode { get; set; }
+        string MMsiCode { get; set; }
 
         IContactAddress[] ContactAddress { get; set; }
         IFrequencyPair[] FrequencyPair { get; set; }

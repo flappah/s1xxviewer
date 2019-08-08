@@ -7,6 +7,6 @@ namespace S1xxViewer.Types.Interfaces
         string[] DatasetName { get; set; }
         IReferenceSpecification ProductSpecification { get; set; }
         string UpdateDate { get; set; }
-        int UpdateNumber { get; set; }
+        string UpdateNumber { get; set; }
     }
 }

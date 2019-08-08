@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using S1xxViewer.Types.ComplexTypes;
 using S1xxViewer.Types.Interfaces;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using S1xxViewer.Types.ComplexTypes;
 using S1xxViewer.Types.Links;
+using System;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
     public class DataCoverage : MetaFeatureBase, IDataCoverage, IS122Feature, IS123Feature
     {
-        public int MaximumDisplayScale { get; set; }
-        public int MinimumDisplayScale { get; set; }
+        public string MaximumDisplayScale { get; set; }
+        public string MinimumDisplayScale { get; set; }
 
         /// <summary>
         /// 
@@ -70,23 +64,13 @@ namespace S1xxViewer.Types.Features
                 var maximumDisplayScaleNode = node.FirstChild.SelectSingleNode("maximumDisplayScale", mgr);
                 if (maximumDisplayScaleNode != null)
                 {
-                    int maximumDisplayScale;
-                    if (!int.TryParse(maximumDisplayScaleNode.InnerText, out maximumDisplayScale))
-                    {
-                        maximumDisplayScale = -1;
-                    }
-                    MaximumDisplayScale = maximumDisplayScale;
+                    MaximumDisplayScale = maximumDisplayScaleNode.InnerText;
                 }
 
                 var minimumDisplayScaleNode = node.FirstChild.SelectSingleNode("minimumDisplayScale",  mgr);
                 if (minimumDisplayScaleNode != null)
                 {
-                    int minimumDisplayScale;
-                    if (!int.TryParse(minimumDisplayScaleNode.InnerText, out minimumDisplayScale))
-                    {
-                        minimumDisplayScale = -1;
-                    }
-                    MinimumDisplayScale = minimumDisplayScale;
+                    MinimumDisplayScale = minimumDisplayScaleNode.InnerText;
                 }
 
                 var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

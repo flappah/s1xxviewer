@@ -17,7 +17,7 @@ namespace S1xxViewer.Types.Features
         public string ContactInstructions { get; set; }
         public IFrequencyPair[] FrequencyPair { get; set; }
         public IInformation[] Information { get; set; }
-        public int MMsiCode { get; set; }
+        public string MMsiCode { get; set; }
         public IOnlineResource[] OnlineResource { get; set; }
         public IRadioCommunications[] RadioCommunications { get; set; }
         public ITelecommunications[] Telecommunications { get; set; }
@@ -182,12 +182,7 @@ namespace S1xxViewer.Types.Features
             var mmsiCodeNode = node.FirstChild.SelectSingleNode("mMSICode", mgr);
             if (mmsiCodeNode != null && mmsiCodeNode.HasChildNodes)
             {
-                int mmsiCode;
-                if (int.TryParse(mmsiCodeNode.FirstChild.InnerText, out mmsiCode))
-                {
-                    mmsiCode = 0;
-                }
-                MMsiCode = mmsiCode;
+                MMsiCode = mmsiCodeNode.FirstChild.InnerText;
             }
 
             var contactAddressNodes = node.FirstChild.SelectNodes("contactAddress", mgr);
@@ -199,7 +194,7 @@ namespace S1xxViewer.Types.Features
                     if (contactAddressNode != null && contactAddressNode.HasChildNodes)
                     {
                         var newContactAddress = new ContactAddress();
-                        newContactAddress.FromXml(contactAddressNode.FirstChild, mgr);
+                        newContactAddress.FromXml(contactAddressNode, mgr);
                         contactAddresses.Add(newContactAddress);
                     }
                 }

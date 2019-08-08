@@ -7,7 +7,7 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class NoticeTime : ComplexTypeBase, INoticeTime
     {
-        public double[] NoticeTimeHours { get; set; }
+        public string[] NoticeTimeHours { get; set; }
         public string NoticeTimeText { get; set; }
         public string Operation { get; set; }
 
@@ -20,7 +20,7 @@ namespace S1xxViewer.Types.ComplexTypes
             return new NoticeTime
             {
                 NoticeTimeHours = NoticeTimeHours == null 
-                ? new double[0]
+                ? new string[0]
                 : Array.ConvertAll(NoticeTimeHours, n => n),
                 NoticeTimeText = NoticeTimeText ?? "",
                 Operation= Operation
@@ -38,17 +38,12 @@ namespace S1xxViewer.Types.ComplexTypes
             var noticeTimeHoursNodes = node.SelectNodes("noticeTimeHours");
             if (noticeTimeHoursNodes != null && noticeTimeHoursNodes.Count > 0)
             {
-                var noticeHours = new List<double>();
+                var noticeHours = new List<string>();
                 foreach (XmlNode noticeTimeHoursNode in noticeTimeHoursNodes)
                 {
                     if (noticeTimeHoursNode != null && noticeTimeHoursNode.HasChildNodes)
                     {
-                        double noticeTimeHours;
-                        if (!double.TryParse(noticeTimeHoursNode.FirstChild.InnerText, out noticeTimeHours))
-                        {
-                            noticeTimeHours = 0.0;
-                        }
-                        noticeHours.Add(noticeTimeHours);                        
+                        noticeHours.Add(noticeTimeHoursNode.FirstChild.InnerText);                        
                     }
                 }
                 NoticeTimeHours = noticeHours.ToArray();

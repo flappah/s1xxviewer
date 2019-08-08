@@ -11,7 +11,7 @@ namespace S1xxViewer.Types.Features
     {
         public string[] DatasetName { get; set; }
         public string UpdateDate { get; set; }
-        public int UpdateNumber { get; set; }
+        public string UpdateNumber { get; set; }
 
         public IReferenceSpecification ProductSpecification { get; set; }
 
@@ -180,12 +180,7 @@ namespace S1xxViewer.Types.Features
             var horizontalDatumValueNode = node.FirstChild.SelectSingleNode("horizontalDatumValue", mgr);
             if (horizontalDatumValueNode != null && horizontalDatumValueNode.HasChildNodes)
             {
-                double value;
-                if (!double.TryParse(horizontalDatumValueNode.FirstChild.InnerText, out value))
-                {
-                    value = -1.0;
-                }
-                HorizontalDatumValue = value;
+                HorizontalDatumValue = horizontalDatumValueNode.FirstChild.InnerText;
             }
 
             var verticalDatumNode = node.FirstChild.SelectSingleNode("verticalDatum", mgr);
@@ -284,12 +279,7 @@ namespace S1xxViewer.Types.Features
             var editionNumberNode = node.FirstChild.SelectSingleNode("editionNumber", mgr);
             if (editionNumberNode != null && editionNumberNode.HasChildNodes)
             {
-                int editionNumber;
-                if (!int.TryParse(editionNumberNode.FirstChild.InnerText, out editionNumber))
-                {
-                    editionNumber = -1;
-                }
-                EditionNumber = editionNumber;
+                EditionNumber = editionNumberNode.FirstChild.InnerText;
             }
 
             var specificUsageNode = node.FirstChild.SelectSingleNode("specificUsage", mgr);
@@ -333,12 +323,7 @@ namespace S1xxViewer.Types.Features
             var updateNumberNode = node.FirstChild.SelectSingleNode("updateNumber", mgr);
             if (updateNumberNode != null && updateNumberNode.HasChildNodes)
             {
-                int updateNumber;
-                if (!int.TryParse(updateNumberNode.FirstChild.InnerText, out updateNumber))
-                {
-                    updateNumber = -1;
-                }
-                UpdateNumber = updateNumber;
+                UpdateNumber = updateNumberNode.FirstChild.InnerText;
             }
 
             var productSpecificationNode = node.FirstChild.SelectSingleNode("productSpecification", mgr);

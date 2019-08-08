@@ -4,7 +4,7 @@ namespace S1xxViewer.Types.Interfaces
 {
     public interface ITmIntervalsByDoW : IComplexType
     {
-        int DayOfWeek { get; set; }
+        string DayOfWeek { get; set; }
         bool DayOfWeekIsRange { get; set; }
         string[] TimeOfDayEnd { get; set; }
         string[] TimeOfDayStart { get; set; }

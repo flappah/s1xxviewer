@@ -126,7 +126,7 @@ namespace S1xxViewer.Types.Features
             if (horizontalPositionalUncertaintyNode != null && horizontalPositionalUncertaintyNode.HasChildNodes)
             {
                 HorizontalPositionalUncertainty = new HorizontalPositionalUncertainty();
-                HorizontalPositionalUncertainty.FromXml(horizontalPositionalUncertaintyNode.FirstChild, mgr);
+                HorizontalPositionalUncertainty.FromXml(horizontalPositionalUncertaintyNode, mgr);
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

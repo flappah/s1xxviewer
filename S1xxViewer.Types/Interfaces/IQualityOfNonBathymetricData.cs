@@ -2,9 +2,9 @@
 {
     public interface IQualityOfNonBathymetricData : IMetaFeature
     {
-        double[] HorizontalDistanceUncertainty { get; set; }
+        string[] HorizontalDistanceUncertainty { get; set; }
         IHorizontalPositionalUncertainty HorizontalPositionalUncertainty { get; set; }
-        double DirectionUncertainty { get; set; }
+        string DirectionUncertainty { get; set; }
         ISourceIndication SourceIndication { get; set; }
         ISurveyDateRange SurveyDateRange { get; set; }
 

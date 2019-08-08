@@ -3,7 +3,6 @@ using S1xxViewer.Types.Interfaces;
 using S1xxViewer.Types.Links;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Xml;
 
 namespace S1xxViewer.Types.Features
@@ -12,9 +11,9 @@ namespace S1xxViewer.Types.Features
     {
         public string CallSign { get; set; }
         public string CategoryOfRadioStation { get; set; }
-        public double EstimatedRangeOffTransmission { get; set; }
+        public string EstimatedRangeOffTransmission { get; set; }
         public IOrientation Orientation { get; set; }
-        public IRadioStationCommunicationDescription[] RadioStationCommunicationDescription { get; set; }
+        public IRadioCommunications[] RadioCommunications { get; set; }
         public string Status { get; set; }
 
         /// <summary>
@@ -48,9 +47,9 @@ namespace S1xxViewer.Types.Features
                 Orientation = Orientation == null
                     ? new Orientation()
                     : Orientation.DeepClone() as IOrientation,
-                RadioStationCommunicationDescription = RadioStationCommunicationDescription == null
-                    ? new RadioStationCommunicationDescription[0]
-                    : Array.ConvertAll(RadioStationCommunicationDescription, rcd => rcd.DeepClone() as IRadioStationCommunicationDescription),
+                RadioCommunications = RadioCommunications == null
+                    ? new RadioCommunications[0]
+                    : Array.ConvertAll(RadioCommunications, rcd => rcd.DeepClone() as IRadioCommunications),
                 Status = Status,
                 Links = Links == null
                     ? new Link[0]
@@ -139,12 +138,7 @@ namespace S1xxViewer.Types.Features
             var estimatedRangeOffTransmissionNode = node.FirstChild.SelectSingleNode("estimatedRangeOffTransmission", mgr);
             if (estimatedRangeOffTransmissionNode != null && estimatedRangeOffTransmissionNode.HasChildNodes)
             {
-                double range;
-                if (!double.TryParse(estimatedRangeOffTransmissionNode.FirstChild.InnerText, NumberStyles.Float, new CultureInfo("en-US"), out range))
-                {
-                    range = 0.0;
-                }
-                EstimatedRangeOffTransmission = range;
+                EstimatedRangeOffTransmission = estimatedRangeOffTransmissionNode.FirstChild.InnerText;
             }
 
             var orientationNode = node.FirstChild.SelectSingleNode("orientation", mgr);
@@ -154,20 +148,20 @@ namespace S1xxViewer.Types.Features
                 Orientation.FromXml(orientationNode, mgr);
             }
 
-            var radioStationCommunicationDescriptionNodes = node.FirstChild.SelectNodes("radioStationCommunicationDescription", mgr);
-            if (radioStationCommunicationDescriptionNodes != null && radioStationCommunicationDescriptionNodes.Count > 0)
+            var radiocommunicationsNodes = node.FirstChild.SelectNodes("radiocommunications", mgr);
+            if (radiocommunicationsNodes != null && radiocommunicationsNodes.Count > 0)
             {
-                var rdoComDescriptions = new List<IRadioStationCommunicationDescription>();
-                foreach (XmlNode radioStationCommunicationDescriptionNode in radioStationCommunicationDescriptionNodes)
+                var rdoComDescriptions = new List<RadioCommunications>();
+                foreach (XmlNode radiocommunicationsNode in radiocommunicationsNodes)
                 {
-                    if (radioStationCommunicationDescriptionNode != null && radioStationCommunicationDescriptionNode.HasChildNodes)
+                    if (radiocommunicationsNode != null && radiocommunicationsNode.HasChildNodes)
                     {
-                        var rdoComDescription = new RadioStationCommunicationDescription();
-                        rdoComDescription.FromXml(radioStationCommunicationDescriptionNode, mgr);
+                        var rdoComDescription = new RadioCommunications();
+                        rdoComDescription.FromXml(radiocommunicationsNode, mgr);
                         rdoComDescriptions.Add(rdoComDescription);
                     }
                 }
-                RadioStationCommunicationDescription = rdoComDescriptions.ToArray();
+                RadioCommunications = rdoComDescriptions.ToArray();
             }
 
             var statusNode = node.FirstChild.SelectSingleNode("status", mgr);

@@ -7,7 +7,7 @@ namespace S1xxViewer.Types.Interfaces
         string Classification { get; set; }
         string Copyright { get; set; }
         string HorizontalDatumReference { get; set; }
-        double HorizontalDatumValue { get; set; }
+        string HorizontalDatumValue { get; set; }
         IInformation[] Information { get; set; }
         string IssueDate { get; set; }
         string MaximumDisplayScale { get; set; }

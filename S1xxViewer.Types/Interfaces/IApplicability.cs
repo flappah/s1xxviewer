@@ -8,7 +8,7 @@
         string CategoryOfVessel { get; set; }
         string CategoryOfVesselRegistry { get; set; }
         string LogicalConnectives { get; set; }
-        int ThicknessOfIceCapability { get; set; }
+        string ThicknessOfIceCapability { get; set; }
         IVesselsMeasurement[] VesselsMeasurements { get; set; }
         string VesselPerformance { get; set; }
     }

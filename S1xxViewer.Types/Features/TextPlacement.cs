@@ -9,8 +9,8 @@ namespace S1xxViewer.Types.Features
 {
     public class TextPlacement : GeoFeatureBase, ITextPlacement, IS122Feature, IS123Feature, IS127Feature
     {
-        public double FlipBearing { get; set; }
-        public int ScaleMinimum { get; set; }
+        public string FlipBearing { get; set; }
+        public string ScaleMinimum { get; set; }
         public string TextJustification { get; set; }
         public string Text { get; set; }
         public string TextType { get; set; }
@@ -126,23 +126,13 @@ namespace S1xxViewer.Types.Features
             var flipBearingNode = node.FirstChild.SelectSingleNode("flipBearing", mgr);
             if (flipBearingNode != null && flipBearingNode.HasChildNodes)
             {
-                double flipBearing;
-                if (!double.TryParse(flipBearingNode.FirstChild.InnerText, out flipBearing))
-                {
-                    flipBearing = 0.0;
-                }
-                FlipBearing = flipBearing;
+                FlipBearing = flipBearingNode.FirstChild.InnerText;
             }
 
             var scaleMinimumNode = node.FirstChild.SelectSingleNode("scaleMinimum", mgr);
             if (scaleMinimumNode != null && scaleMinimumNode.HasChildNodes)
             {
-                int scaleMinimum;
-                if (!int.TryParse(scaleMinimumNode.FirstChild.InnerText, out scaleMinimum))
-                {
-                    scaleMinimum = 0;
-                }
-                ScaleMinimum = scaleMinimum;
+                ScaleMinimum = scaleMinimumNode.FirstChild.InnerText;
             }
 
             var textJustificationNode = node.FirstChild.SelectSingleNode("textJustification", mgr);

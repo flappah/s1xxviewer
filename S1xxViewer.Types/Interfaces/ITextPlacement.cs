@@ -2,8 +2,8 @@
 {
     public interface ITextPlacement : IGeoFeature
     {
-        double FlipBearing { get; set; }
-        int ScaleMinimum { get; set; }
+        string FlipBearing { get; set; }
+        string ScaleMinimum { get; set; }
         string Text { get; set; }
         string TextJustification { get; set; }
         string TextType { get; set; }
