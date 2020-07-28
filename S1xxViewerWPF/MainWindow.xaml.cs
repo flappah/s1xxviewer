@@ -205,15 +205,22 @@ namespace S1xxViewerWPF
                 MyMapView.Map.OperationalLayers.Add(encLayer);
             }
 
-            var xmlDoc = new XmlDocument();
-            xmlDoc.Load(fileName);
-            SaveRecentFile(fileName);
+            try
+            {
+                var xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileName);
+                SaveRecentFile(fileName);
 
-            var dataParser = _container.Resolve<IDataPackageParser>();
-            IS1xxDataPackage dataPackage = await dataParser.ParseAsync(xmlDoc);
-            CreateFeatureCollection(dataPackage);
+                var dataParser = _container.Resolve<IDataPackageParser>();
+                IS1xxDataPackage dataPackage = await dataParser.ParseAsync(xmlDoc);
+                CreateFeatureCollection(dataPackage);
 
-            _dataPackages.Add(dataPackage);
+                _dataPackages.Add(dataPackage);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -590,7 +597,7 @@ namespace S1xxViewerWPF
                 case GeometryType.Polygon:
                     // Create a fill symbol
                     var lineSym = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.FromArgb(255, 50, 50, 50), 1);
-                    sym = new SimpleFillSymbol(SimpleFillSymbolStyle.Solid, System.Drawing.Color.FromArgb(150, System.Drawing.Color.LightGray), lineSym);
+                    sym = new SimpleFillSymbol(SimpleFillSymbolStyle.Solid, System.Drawing.Color.FromArgb(25, System.Drawing.Color.LightGray), lineSym);
                    
                     break;
                 default:
