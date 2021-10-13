@@ -148,6 +148,8 @@ namespace S1xxViewer.Types.Features
                         categories.Add(categoryOfMilitaryPracticeAreaNode.FirstChild.InnerText);
                     }
                 }
+
+                categories.Sort();
                 CategoryOfMilitaryPracticeArea = categories.ToArray();
             }
 
@@ -168,6 +170,8 @@ namespace S1xxViewer.Types.Features
                         restrictions.Add(restrictionNode.FirstChild.InnerText);
                     }
                 }
+
+                restrictions.Sort();
                 Restriction = restrictions.ToArray();
             }
 
@@ -183,6 +187,8 @@ namespace S1xxViewer.Types.Features
                         statuses.Add(status);
                     }
                 }
+
+                statuses.Sort();
                 Status = statuses.ToArray();
             }
 

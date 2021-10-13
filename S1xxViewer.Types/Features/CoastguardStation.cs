@@ -135,6 +135,8 @@ namespace S1xxViewer.Types.Features
                         communications.Add(communication);
                     }
                 }
+
+                communications.Sort();
                 CommunicationsChannel = communications.ToArray();
             }
 
@@ -156,6 +158,8 @@ namespace S1xxViewer.Types.Features
                         statuses.Add(status);
                     }
                 }
+
+                statuses.Sort();
                 Status = statuses.ToArray();
             }
 

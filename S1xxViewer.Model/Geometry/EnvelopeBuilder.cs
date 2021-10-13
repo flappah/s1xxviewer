@@ -12,15 +12,24 @@ namespace S1xxViewer.Model.Geometry
         {
             if (node != null && node.HasChildNodes)
             {
-                if (node.FirstChild.Attributes.Count > 0 &&
-                    node.FirstChild.Attributes[0].Name == "srsName")
+                XmlNode srsNode = null;
+                if (node.Attributes.Count > 0 && node.Attributes[0].Name == "srsName")
+                {
+                    srsNode = node;
+                }
+                else if (node.FirstChild.Attributes.Count > 0 && node.FirstChild.Attributes[0].Name == "srsName")
+                {
+                    srsNode = node.FirstChild;
+                }
+
+                if (srsNode != null)
                 {
                     int refSystem;
-                    if (!int.TryParse(node.FirstChild.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out refSystem))
+                    if (!int.TryParse(srsNode.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out refSystem))
                     {
                         refSystem = 0;
                     }
-                   _spatialReferenceSystem = refSystem;
+                    _spatialReferenceSystem = refSystem;
                 }
 
                 if (node.ChildNodes[0].ChildNodes.Count == 2)
@@ -55,7 +64,7 @@ namespace S1xxViewer.Model.Geometry
                     }
 
                     var createdEnvelope = 
-                        new Esri.ArcGISRuntime.Geometry.Envelope(llX, llY, urX, urY, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
+                        new Esri.ArcGISRuntime.Geometry.Envelope(llY, llX, urY, urX, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
                     return createdEnvelope;
                 }
             }

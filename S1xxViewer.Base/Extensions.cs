@@ -7,6 +7,39 @@ namespace S1xxViewer.Base
 {
     public static class Extensions
     {
+        /// <summary>
+        ///      Checks if one or more of the given itemstrings are contained in the target item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="ignoreCase"></param>
+        /// <param name="items"></param>
+        /// <returns>True if one of the list of string items is contained inside the specified string</returns>
+        public static bool Contains(this string item, bool ignoreCase = false, params string[] items)
+        {
+            if (items == null)
+                throw new ArgumentNullException("items");
+
+            foreach (string value in items)
+            {
+                if (ignoreCase)
+                {
+                    if (item.ToUpper().Contains(value.ToUpper()))
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (item.Contains(value))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public static bool In<T>(this T item, params T[] items)
         {
             if (items == null)

@@ -20,11 +20,20 @@ namespace S1xxViewer.Model.Geometry
         {
             if (node != null && node.HasChildNodes)
             {
-                if (node.FirstChild.Attributes.Count > 0 &&
-                    node.FirstChild.Attributes[0].Name == "srsName")
+                XmlNode srsNode = null;
+                if (node.Attributes.Count > 0 && node.Attributes[0].Name == "srsName")
+                {
+                    srsNode = node;
+                }
+                else if (node.FirstChild.Attributes.Count > 0 && node.FirstChild.Attributes[0].Name == "srsName")
+                {
+                    srsNode = node.FirstChild;
+                }
+
+                if (srsNode != null)
                 {
                     int refSystem;
-                    if (!int.TryParse(node.FirstChild.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out refSystem))
+                    if (!int.TryParse(srsNode.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out refSystem))
                     {
                         refSystem = 0;
                     }
@@ -48,7 +57,7 @@ namespace S1xxViewer.Model.Geometry
                         y = 0.0;
                     }
 
-                    return new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem));
+                    return new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem));
                 }
             }
 

@@ -62,7 +62,7 @@ namespace S1xxViewer.Model
                     }
                 }
                 return localInfoFeaturesList;
-            });
+            }).ConfigureAwait(false);
 
             // retrieve members
             var geoFeatures = new List<IGeoFeature>();
@@ -101,7 +101,7 @@ namespace S1xxViewer.Model
                         }
                     }
                 }
-            });
+            }).ConfigureAwait(false);
 
             // Populate links between features
             Parallel.ForEach(informationFeatures, (informationFeature) =>

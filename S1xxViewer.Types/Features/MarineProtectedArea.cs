@@ -46,6 +46,9 @@ namespace S1xxViewer.Types.Features
                     ? new string[0]
                     : Array.ConvertAll(CategoryOfRestrictedArea, s => s),
                 Jurisdiction = Jurisdiction ?? "",
+                Restriction = Restriction == null
+                    ? new string[0] 
+                    : Array.ConvertAll(Restriction, s => s),
                 Status = Status == null
                     ? new string[0]
                     : Array.ConvertAll(Status, s => s),
@@ -127,7 +130,7 @@ namespace S1xxViewer.Types.Features
             }
 
             var categoryOfMarineProtectedAreaNode = node.FirstChild.SelectSingleNode("categoryOfMarineProtectedArea", mgr);
-            if (categoryOfMarineProtectedAreaNode != null)
+            if (categoryOfMarineProtectedAreaNode != null && categoryOfMarineProtectedAreaNode.HasChildNodes)
             {
                 CategoryOfMarineProtectedArea = categoryOfMarineProtectedAreaNode.FirstChild.InnerText;
             }
@@ -143,6 +146,8 @@ namespace S1xxViewer.Types.Features
                         categories.Add(categoryOfRestrictedAreaNode.FirstChild.InnerText);
                     }
                 }
+
+                categories.Sort();
                 CategoryOfRestrictedArea = categories.ToArray();
             }
 
@@ -164,6 +169,8 @@ namespace S1xxViewer.Types.Features
                         restrictions.Add(restrictionNode.FirstChild.InnerText);
                     }
                 }
+
+                restrictions.Sort();
                 Restriction = restrictions.ToArray();
             }
 
@@ -178,6 +185,8 @@ namespace S1xxViewer.Types.Features
                         statuses.Add(statusNode.FirstChild.InnerText);
                     }
                 }
+
+                statuses.Sort();
                 Status = statuses.ToArray();
             }
 

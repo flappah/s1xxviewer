@@ -9,10 +9,10 @@ namespace S1xxViewer.Types.Features
 {
     public class CatalogueOfNauticalProduct : GeoFeatureBase, ICatalogueOfNauticalProduct, IS128Feature
     {
-        public IGraphic[] Graphic { get; set; }
-        public string IssueDate { get; set; }
         public string EditionNumber { get; set; }
+        public string IssueDate { get; set; }
         public string MarineResourceName { get; set; }
+        public IGraphic[] Graphic { get; set; }
 
         /// <summary>
         /// 
@@ -23,30 +23,16 @@ namespace S1xxViewer.Types.Features
             return new CatalogueOfNauticalProduct
             {
                 FeatureName = FeatureName == null
-                    ? new[] { new FeatureName() }
+                    ? new IFeatureName[] { new FeatureName() }
                     : Array.ConvertAll(FeatureName, fn => fn.DeepClone() as IFeatureName),
-                FixedDateRange = FixedDateRange == null
-                    ? new DateRange()
-                    : FixedDateRange.DeepClone() as IDateRange,
-                Id = Id,
-                PeriodicDateRange = PeriodicDateRange == null
-                    ? new DateRange[0]
-                    : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
-                SourceIndication = SourceIndication == null
-                    ? new SourceIndication()
-                    : SourceIndication.DeepClone() as ISourceIndication,
-                TextContent = TextContent == null
-                    ? new TextContent[0]
-                    : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
-                Geometry = Geometry,
                 Graphic = Graphic == null
-                    ? new Graphic[0]
+                    ? new IGraphic[0]
                     : Array.ConvertAll(Graphic, g => g.DeepClone() as IGraphic),
                 IssueDate = IssueDate,
                 EditionNumber = EditionNumber,
                 MarineResourceName = MarineResourceName,
                 Links = Links == null
-                    ? new Link[0]
+                    ? new ILink[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
@@ -59,32 +45,11 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            if (node != null && node.HasChildNodes)
-            {
-                if (node.FirstChild.Attributes.Count > 0)
-                {
-                    Id = node.FirstChild.Attributes["gml:id"].InnerText;
-                }
-            }
+            if (node == null || !node.HasChildNodes) return this;
 
-            var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
-            if (periodicDateRangeNodes != null && periodicDateRangeNodes.Count > 0)
+            if (node.FirstChild.Attributes != null && node.FirstChild.Attributes.Count > 0)
             {
-                var dateRanges = new List<DateRange>();
-                foreach (XmlNode periodicDateRangeNode in periodicDateRangeNodes)
-                {
-                    var newDateRange = new DateRange();
-                    newDateRange.FromXml(periodicDateRangeNode, mgr);
-                    dateRanges.Add(newDateRange);
-                }
-                PeriodicDateRange = dateRanges.ToArray();
-            }
-
-            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
-            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
-            {
-                FixedDateRange = new DateRange();
-                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
+                Id = node.FirstChild.Attributes["gml:id"].InnerText;
             }
 
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
@@ -98,29 +63,6 @@ namespace S1xxViewer.Types.Features
                     featureNames.Add(newFeatureName);
                 }
                 FeatureName = featureNames.ToArray();
-            }
-
-            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
-            if (sourceIndication != null && sourceIndication.HasChildNodes)
-            {
-                SourceIndication = new SourceIndication();
-                SourceIndication.FromXml(sourceIndication, mgr);
-            }
-
-            var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
-            if (textContentNodes != null && textContentNodes.Count > 0)
-            {
-                var textContents = new List<TextContent>();
-                foreach (XmlNode textContentNode in textContentNodes)
-                {
-                    if (textContentNode != null && textContentNode.HasChildNodes)
-                    {
-                        var content = new TextContent();
-                        content.FromXml(textContentNode, mgr);
-                        textContents.Add(content);
-                    }
-                }
-                TextContent = textContents.ToArray();
             }
 
             var graphicNodes = node.FirstChild.SelectNodes("graphic", mgr);

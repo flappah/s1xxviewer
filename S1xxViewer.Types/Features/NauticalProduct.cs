@@ -7,20 +7,28 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ElectronicChart : AbstractChartProduct, IElectronicChart, IS128Feature
+    public class NauticalProduct : CatalogueElements, INauticalProduct, IS128Feature
     {
         public IProductSpecification ProductSpecification { get; set; }
-        public string[] DatasetName { get; set; }
-        public string TnpUpdate { get; set; }
+        public IOnlineResource OnlineResource { get; set; }
+        // TextContent is defined in GeoFeatureBase as an array. NauticalProducts uses only element 0!
+        public IServiceSpecification ServiceSpecification { get; set; }
+        public string PublicationNumber { get; set; }
+        public string DataSetName { get; set; }
+        public string Version { get; set; }
+        public string ServiceStatus { get; set; }
+        public string Keyword { get; set; }
+        public string ServiceDesign { get; set; }
+        public string ISBN { get; set; }
         public string TypeOfProductFormat { get; set; }
 
         /// <summary>
-        /// 
+        ///     Provides a deepcloned version of the object
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IS1XxFeatureObject</returns>
         public override IFeature DeepClone()
         {
-            return new ElectronicChart
+            return new NauticalProduct
             {
                 Id = Id,
                 Geometry = Geometry,
@@ -57,20 +65,25 @@ namespace S1xxViewer.Types.Features
                 SupportFile = SupportFile == null
                     ? new ISupportFile[0]
                     : Array.ConvertAll(SupportFile, s => s.DeepClone() as ISupportFile),
-                ChartNumber = ChartNumber,
-                DistributionStatus = DistributionStatus,
-                CompilationScale = CompilationScale,
-                SpecificUsage = SpecificUsage,
-                ProducerCode = ProducerCode,
-                OriginalChartNumber = OriginalChartNumber,
-                ProducerNation = ProducerNation,
                 ProductSpecification = ProductSpecification == null
                     ? new ProductSpecification()
                     : ProductSpecification.DeepClone() as IProductSpecification,
-                DatasetName = DatasetName == null
-                    ? new string[0]
-                    : Array.ConvertAll(DatasetName, s => s),
-                TnpUpdate = TnpUpdate,
+                TextContent = TextContent == null || TextContent.Length == 0
+                    ? new TextContent[0]
+                    : new[] { TextContent[0] },
+                OnlineResource = OnlineResource == null
+                    ? new OnlineResource()
+                    : OnlineResource.DeepClone() as IOnlineResource,
+                ServiceSpecification = ServiceSpecification == null
+                    ? new ServiceSpecification()
+                    : ServiceSpecification.DeepClone() as IServiceSpecification,
+                PublicationNumber = PublicationNumber,
+                DataSetName = DataSetName,
+                Version = Version,
+                ServiceStatus = ServiceStatus,
+                Keyword = Keyword,
+                ServiceDesign = ServiceDesign,
+                ISBN = ISBN,
                 TypeOfProductFormat = TypeOfProductFormat,
                 Links = Links == null
                     ? new ILink[0]
@@ -103,28 +116,69 @@ namespace S1xxViewer.Types.Features
                 ProductSpecification.FromXml(productSpecificationNode, mgr);
             }
 
-            //public string[] DatasetName { get; set; }
-            var datasetNameNodes = node.FirstChild.SelectNodes("datasetName", mgr);
-            if (datasetNameNodes != null && datasetNameNodes.Count > 0)
+            //public IOnlineResource OnlineResource { get; set; }
+            var onlineResourceNode = node.FirstChild.SelectSingleNode("onlineResource", mgr);
+            if (onlineResourceNode != null && onlineResourceNode.HasChildNodes)
             {
-                var dataSetNames = new List<string>();
-                foreach (XmlNode datasetNameNode in datasetNameNodes)
-                {
-                    if (datasetNameNode != null && datasetNameNode.HasChildNodes)
-                    {
-                        var dataSetName = datasetNameNode.FirstChild.InnerText;
-                        dataSetNames.Add(dataSetName);
-                    }
-                }
-
-                DatasetName = dataSetNames.ToArray();
+                OnlineResource = new OnlineResource();
+                OnlineResource.FromXml(onlineResourceNode, mgr);
             }
 
-            //public string TnpUpdate { get; set; }
-            var tnpUpdateNode = node.FirstChild.SelectSingleNode("tnpUpdate", mgr);
-            if (tnpUpdateNode != null && tnpUpdateNode.HasChildNodes)
+            //public string ServiceSpecification { get; set; }
+            var serviceSpecificationNode = node.FirstChild.SelectSingleNode("serviceSpecification", mgr);
+            if (serviceSpecificationNode != null && serviceSpecificationNode.HasChildNodes)
             {
-                TnpUpdate = tnpUpdateNode.FirstChild.InnerText;
+                ServiceSpecification = new ServiceSpecification();
+                ServiceSpecification.FromXml(serviceSpecificationNode, mgr);
+            }
+
+            //public string PublicationNumber { get; set; }
+            var publicationNumberNode = node.FirstChild.SelectSingleNode("publicationNumber", mgr);
+            if (publicationNumberNode != null && publicationNumberNode.HasChildNodes)
+            {
+                PublicationNumber = publicationNumberNode.FirstChild.InnerText;
+            }
+
+            //public string DataSetName { get; set; }
+            var dataSetNameNode = node.FirstChild.SelectSingleNode("dataSetName", mgr);
+            if (dataSetNameNode != null && dataSetNameNode.HasChildNodes)
+            {
+                DataSetName = dataSetNameNode.FirstChild.InnerText;
+            }
+
+            //public string Version { get; set; }
+            var versionNode = node.FirstChild.SelectSingleNode("version", mgr);
+            if (versionNode != null && versionNode.HasChildNodes)
+            {
+                Version = versionNode.FirstChild.InnerText;
+            }
+
+            //public string ServiceStatus { get; set; }
+            var serviceStatusNode = node.FirstChild.SelectSingleNode("serviceStatus", mgr);
+            if (serviceStatusNode != null && serviceStatusNode.HasChildNodes)
+            {
+                ServiceStatus = serviceStatusNode.FirstChild.InnerText;
+            }
+
+            //public string Keyword { get; set; }
+            var keywordsNode = node.FirstChild.SelectSingleNode("keyword", mgr);
+            if (keywordsNode != null && keywordsNode.HasChildNodes)
+            {
+                Keyword = keywordsNode.FirstChild.InnerText;
+            }
+
+            //public string ServiceDesign { get; set; }
+            var serviceDesignNode = node.FirstChild.SelectSingleNode("serviceDesign", mgr);
+            if (serviceDesignNode != null && serviceDesignNode.HasChildNodes)
+            {
+                ServiceDesign = serviceDesignNode.FirstChild.InnerText;
+            }
+
+            //public string ISBN { get; set; }
+            var isbnNode = node.FirstChild.SelectSingleNode("ISBN", mgr);
+            if (isbnNode != null && isbnNode.HasChildNodes)
+            {
+                ISBN = isbnNode.FirstChild.InnerText;
             }
 
             //public string TypeOfProductFormat { get; set; }

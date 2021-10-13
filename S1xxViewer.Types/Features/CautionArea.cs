@@ -7,10 +7,11 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ConcentrationOfShippingHazardArea : GeoFeatureBase, IConcentrationOfShippingHazardArea, IS127Feature
+    [Serializable]
+    public class CautionArea : GeoFeatureBase, ICautionArea, IS127Feature
     {
-        public string[] CategoryOfConcentrationOfShippingHazardArea { get; set; }
-        public string[] Status { get; set; }
+        public string Condition { get; set; }
+        public string Status { get; set; }
 
         /// <summary>
         /// 
@@ -18,15 +19,15 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new ConcentrationOfShippingHazardArea
+            return new CautionArea
             {
                 FeatureName = FeatureName == null
-                    ? new[] { new FeatureName() }
+                    ? new IFeatureName[] { new FeatureName() }
                     : Array.ConvertAll(FeatureName, fn => fn.DeepClone() as IFeatureName),
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
                     : FixedDateRange.DeepClone() as IDateRange,
-                Id = Id ?? "",
+                Id = Id,
                 PeriodicDateRange = PeriodicDateRange == null
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
@@ -34,17 +35,13 @@ namespace S1xxViewer.Types.Features
                     ? new SourceIndication()
                     : SourceIndication.DeepClone() as ISourceIndication,
                 TextContent = TextContent == null
-                    ? new TextContent[0]
+                    ? new ITextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
                 Geometry = Geometry,
-                CategoryOfConcentrationOfShippingHazardArea = CategoryOfConcentrationOfShippingHazardArea == null
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfConcentrationOfShippingHazardArea, s => s),
-                Status = Status == null
-                    ? new string[0]
-                    : Array.ConvertAll(Status, s => s),
+                Condition = Condition,
+                Status = Status,
                 Links = Links == null
-                    ? new Link[0]
+                    ? new ILink[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
@@ -57,12 +54,11 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            if (node != null && node.HasChildNodes)
+            if (node == null || !node.HasChildNodes) return this;
+
+            if (node.FirstChild.Attributes != null && node.FirstChild.Attributes.Count > 0)
             {
-                if (node.FirstChild.Attributes.Count > 0)
-                {
-                    Id = node.FirstChild.Attributes["gml:id"].InnerText;
-                }
+                Id = node.FirstChild.Attributes["gml:id"].InnerText;
             }
 
             var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
@@ -95,6 +91,7 @@ namespace S1xxViewer.Types.Features
                     newFeatureName.FromXml(featureNameNode, mgr);
                     featureNames.Add(newFeatureName);
                 }
+
                 FeatureName = featureNames.ToArray();
             }
 
@@ -118,39 +115,20 @@ namespace S1xxViewer.Types.Features
                         textContents.Add(content);
                     }
                 }
+
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfConcentrationOfShippingHazardAreaNodes = node.FirstChild.SelectNodes("categoryOfConcentrationOfShippingHazardArea", mgr);
-            if (categoryOfConcentrationOfShippingHazardAreaNodes != null && categoryOfConcentrationOfShippingHazardAreaNodes.Count > 0)
+            var conditionNode = node.FirstChild.SelectSingleNode("condition", mgr);
+            if (conditionNode != null && conditionNode.HasChildNodes)
             {
-                var categories = new List<string>();
-                foreach (XmlNode categoryOfConcentrationOfShippingHazardAreaNode in categoryOfConcentrationOfShippingHazardAreaNodes)
-                {
-                    if (categoryOfConcentrationOfShippingHazardAreaNode != null && categoryOfConcentrationOfShippingHazardAreaNode.HasChildNodes)
-                    {
-                        categories.Add(categoryOfConcentrationOfShippingHazardAreaNode.FirstChild.InnerText);
-                    }
-                }
-
-                categories.Sort();
-                CategoryOfConcentrationOfShippingHazardArea = categories.ToArray();
+                Condition = conditionNode.FirstChild.InnerText;
             }
 
-            var statusNodes = node.FirstChild.SelectNodes("status", mgr);
-            if (statusNodes != null && statusNodes.Count > 0)
+            var statusNode = node.FirstChild.SelectSingleNode("status", mgr);
+            if (statusNode != null && statusNode.HasChildNodes)
             {
-                var statuses = new List<string>();
-                foreach (XmlNode statusNode in statusNodes)
-                {
-                    if (statusNode != null && statusNode.HasChildNodes)
-                    {
-                        statuses.Add(statusNode.FirstChild.InnerText);
-                    }
-                }
-
-                statuses.Sort();
-                Status = statuses.ToArray();
+                Status = statusNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
@@ -163,6 +141,7 @@ namespace S1xxViewer.Types.Features
                     newLink.FromXml(linkNode, mgr);
                     links.Add(newLink);
                 }
+
                 Links = links.ToArray();
             }
 

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S1xxViewer.Base", "S1xxView
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S1xxViewer.Types", "S1xxViewer.Types\S1xxViewer.Types.csproj", "{8A371A44-FC37-43CD-95E2-D85D1490E1D9}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupS1xxViewer", "SetupS1xxViewer\SetupS1xxViewer.vdproj", "{8E47A5BA-3C30-4FB0-8F4C-4F111AB4D4E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,8 @@ Global
 		{8A371A44-FC37-43CD-95E2-D85D1490E1D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A371A44-FC37-43CD-95E2-D85D1490E1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A371A44-FC37-43CD-95E2-D85D1490E1D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E47A5BA-3C30-4FB0-8F4C-4F111AB4D4E8}.Debug|Any CPU.ActiveCfg = Debug
+		{8E47A5BA-3C30-4FB0-8F4C-4F111AB4D4E8}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

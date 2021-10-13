@@ -133,6 +133,8 @@ namespace S1xxViewer.Types.Features
                         functions.Add(function);
                     }
                 }
+
+                functions.Sort();
                 Function = functions.ToArray();
             }
 
@@ -148,6 +150,8 @@ namespace S1xxViewer.Types.Features
                         statuses.Add(status);
                     }
                 }
+
+                statuses.Sort();
                 Status = statuses.ToArray();
             }
 

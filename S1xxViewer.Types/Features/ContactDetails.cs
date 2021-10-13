@@ -170,6 +170,7 @@ namespace S1xxViewer.Types.Features
                     }
                 }
 
+                channels.Sort();
                 CommunicationChannel = channels.ToArray();
             }
 

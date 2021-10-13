@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace S1xxViewer.Types.Interfaces
+﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IElectronicChart : IChartProduct
+    public interface IElectronicChart : IAbstractChartProduct
     {
+        IProductSpecification ProductSpecification { get; set; }
         string[] DatasetName { get; set; }
-        IReferenceSpecification ProductSpecification { get; set; }
-        string UpdateDate { get; set; }
-        string UpdateNumber { get; set; }
+        string TnpUpdate { get; set; }
+        string TypeOfProductFormat { get; set; }
     }
 }
