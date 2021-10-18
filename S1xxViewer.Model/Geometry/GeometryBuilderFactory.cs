@@ -14,7 +14,7 @@ namespace S1xxViewer.Model.Geometry
         {
             string geometryTypeString;
 
-            if (!node.Name.Contains(true, "ENVELOPE", "CURVE", "POINT", "POLYGON", "SURFACE"))
+            if (!node.Name.Contains(false, "Envelope", "Curve", "Point", "Polygon", "Surface"))
             {
                 geometryTypeString = (node.HasChildNodes ? node.ChildNodes[0].Name : "").LastPart(char.Parse(":"));
             }
