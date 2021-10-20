@@ -26,8 +26,7 @@ namespace S1xxViewer.Model.Geometry
 
                 if (srsNode != null)
                 {
-                    int refSystem;
-                    if (!int.TryParse(srsNode.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out refSystem))
+                    if (!int.TryParse(srsNode.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out int refSystem))
                     {
                         refSystem = 0;
                     }
@@ -56,13 +55,11 @@ namespace S1xxViewer.Model.Geometry
 
                                 for (int i = 0; i < splittedPositionArray.Length; i += 2)
                                 {
-                                    double x;
-                                    double y;
-                                    if (!double.TryParse(splittedPositionArray[i], NumberStyles.Float, new CultureInfo("en-US"), out x))
+                                    if (!double.TryParse(splittedPositionArray[i], NumberStyles.Float, new CultureInfo("en-US"), out double x))
                                     {
                                         x = 0.0;
                                     }
-                                    if (!double.TryParse(splittedPositionArray[i + 1], NumberStyles.Float, new CultureInfo("en-US"), out y))
+                                    if (!double.TryParse(splittedPositionArray[i + 1], NumberStyles.Float, new CultureInfo("en-US"), out double y))
                                     {
                                         y = 0.0;
                                     }

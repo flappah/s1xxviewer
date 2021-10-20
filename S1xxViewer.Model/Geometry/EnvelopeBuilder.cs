@@ -24,8 +24,7 @@ namespace S1xxViewer.Model.Geometry
 
                 if (srsNode != null)
                 {
-                    int refSystem;
-                    if (!int.TryParse(srsNode.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out refSystem))
+                    if (!int.TryParse(srsNode.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out int refSystem))
                     {
                         refSystem = 0;
                     }
@@ -40,25 +39,20 @@ namespace S1xxViewer.Model.Geometry
                     var llPos = lowerLeft.Replace(@"\t", " ").Replace(@"\n", " ").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                     var urPos = upperRight.Replace(@"\t", " ").Replace(@"\n", " ").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-                    double llX;
-                    double llY;
-
-                    if (!double.TryParse(llPos[0], NumberStyles.Float, new CultureInfo("en-US"), out llX))
+                    if (!double.TryParse(llPos[0], NumberStyles.Float, new CultureInfo("en-US"), out double llX))
                     {
                         llX = 0.0;
                     }
-                    if (!double.TryParse(llPos[1], NumberStyles.Float, new CultureInfo("en-US"), out llY))
+                    if (!double.TryParse(llPos[1], NumberStyles.Float, new CultureInfo("en-US"), out double llY))
                     {
                         llY = 0.0;
                     }
 
-                    double urX;
-                    double urY;
-                    if (!double.TryParse(urPos[0], NumberStyles.Float, new CultureInfo("en-US"), out urX))
+                    if (!double.TryParse(urPos[0], NumberStyles.Float, new CultureInfo("en-US"), out double urX))
                     {
                         urX = 0.0;
                     }
-                    if (!double.TryParse(urPos[1], NumberStyles.Float, new CultureInfo("en-US"), out urY))
+                    if (!double.TryParse(urPos[1], NumberStyles.Float, new CultureInfo("en-US"), out double urY))
                     {
                         urY = 0.0;
                     }

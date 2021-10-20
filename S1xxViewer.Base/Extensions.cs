@@ -172,8 +172,7 @@ namespace S1xxViewer.Base
         /// <returns></returns>
         public static float ToFloat(this string item)
         {
-            float convertedValue = 0f;
-            if (!float.TryParse(item, out convertedValue))
+            if (!float.TryParse(item, out float convertedValue))
             {
                 float.TryParse(item.Replace(".", ","), out convertedValue);
             }
@@ -188,8 +187,7 @@ namespace S1xxViewer.Base
         /// <returns></returns>
         public static double ToDouble(this string item)
         {
-            double convertedValue = 0.0;
-            if (!double.TryParse(item, out convertedValue))
+            if (!double.TryParse(item, out double convertedValue))
             {
                 double.TryParse(item.Replace(".", ","), out convertedValue);
             }

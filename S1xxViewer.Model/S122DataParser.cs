@@ -9,8 +9,8 @@ namespace S1xxViewer.Model
 {
     public class S122DataParser : DataParserBase, IS122DataParser
     {
-        private IGeometryBuilderFactory _geometryBuilderFactory;
-        private IFeatureFactory _featureFactory;
+        private readonly IGeometryBuilderFactory _geometryBuilderFactory;
+        private readonly IFeatureFactory _featureFactory;
 
         /// <summary>
         /// For autofac initialization
@@ -29,9 +29,11 @@ namespace S1xxViewer.Model
         /// <returns>IS1xxDataPackage</returns>
         public async override Task<IS1xxDataPackage> ParseAsync(XmlDocument xmlDocument)
         {
-            var dataPackage = new S1xxDataPackage();
-            dataPackage.Type = S1xxTypes.S122;
-            dataPackage.RawData = xmlDocument;
+            var dataPackage = new S1xxDataPackage
+            {
+                Type = S1xxTypes.S122,
+                RawData = xmlDocument
+            };
 
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDocument.NameTable);
             nsmgr.AddNamespace("gml", "http://www.opengis.net/gml/3.2");
@@ -55,8 +57,7 @@ namespace S1xxViewer.Model
                 foreach (XmlNode imemberNode in imemberNodes)
                 {
                     var feature = _featureFactory.FromXml(imemberNode, nsmgr).DeepClone();
-                    var informationFeature = feature as IInformationFeature;
-                    if (informationFeature != null)
+                    if (feature is IInformationFeature informationFeature)
                     {
                         localInfoFeaturesList.Add(informationFeature);
                     }
@@ -75,8 +76,7 @@ namespace S1xxViewer.Model
                 {
                     var feature = _featureFactory.FromXml(memberNode, nsmgr).DeepClone();
 
-                    var geoFeature = feature as IGeoFeature;
-                    if (geoFeature != null && memberNode.HasChildNodes)
+                    if (feature is IGeoFeature geoFeature && memberNode.HasChildNodes)
                     {
                         var geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
                         if (geometryOfMemberNode != null && geometryOfMemberNode.HasChildNodes)
@@ -88,8 +88,7 @@ namespace S1xxViewer.Model
                     }
                     else
                     {
-                        var metaFeature = feature as IMetaFeature;
-                        if (metaFeature != null && memberNode.HasChildNodes)
+                        if (feature is IMetaFeature metaFeature && memberNode.HasChildNodes)
                         {
                             var geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
                             if (geometryOfMemberNode != null && geometryOfMemberNode.HasChildNodes)
@@ -132,9 +131,11 @@ namespace S1xxViewer.Model
         /// <returns>IS1xxDataPackage</returns>
         public override IS1xxDataPackage Parse(XmlDocument xmlDocument)
         {
-            var dataPackage = new S1xxDataPackage();
-            dataPackage.Type = S1xxTypes.S122;
-            dataPackage.RawData = xmlDocument;
+            var dataPackage = new S1xxDataPackage
+            {
+                Type = S1xxTypes.S122,
+                RawData = xmlDocument
+            };
 
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDocument.NameTable);
             nsmgr.AddNamespace("gml", "http://www.opengis.net/gml/3.2");
@@ -156,8 +157,7 @@ namespace S1xxViewer.Model
             foreach (XmlNode imemberNode in imemberNodes)
             {
                 var feature = _featureFactory.FromXml(imemberNode, nsmgr).DeepClone();
-                var informationFeature = feature as IInformationFeature;
-                if (informationFeature != null)
+                if (feature is IInformationFeature informationFeature)
                 {
                     informationFeatures.Add(informationFeature);
                 }
@@ -171,8 +171,7 @@ namespace S1xxViewer.Model
             {
                 var feature = _featureFactory.FromXml(memberNode, nsmgr).DeepClone();
 
-                var geoFeature = feature as IGeoFeature;
-                if (geoFeature != null && memberNode.HasChildNodes)
+                if (feature is IGeoFeature geoFeature && memberNode.HasChildNodes)
                 {
                     var geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
                     if (geometryOfMemberNode != null && geometryOfMemberNode.HasChildNodes)
@@ -184,8 +183,7 @@ namespace S1xxViewer.Model
                 }
                 else
                 {
-                    var metaFeature = feature as IMetaFeature;
-                    if (metaFeature != null && memberNode.HasChildNodes)
+                    if (feature is IMetaFeature metaFeature && memberNode.HasChildNodes)
                     {
                         var geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
                         if (geometryOfMemberNode != null && geometryOfMemberNode.HasChildNodes)

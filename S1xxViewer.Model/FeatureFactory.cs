@@ -34,8 +34,7 @@ namespace S1xxViewer.Model
                 if (locatedFeature != null)
                 {
                     // just to make sure to have a copy of the autofac feature
-                    var clonedFeature = locatedFeature.DeepClone() as IFeature;
-                    if (clonedFeature != null)
+                    if (locatedFeature.DeepClone() is IFeature clonedFeature)
                     {
                         // clear the feature of the original content
                         clonedFeature.Clear();

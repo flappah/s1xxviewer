@@ -2,7 +2,6 @@
 using S1xxViewer.Base;
 using S1xxViewer.Model.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
 
@@ -32,8 +31,7 @@ namespace S1xxViewer.Model.Geometry
 
                 if (srsNode != null)
                 {
-                    int refSystem;
-                    if (!int.TryParse(srsNode.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out refSystem))
+                    if (!int.TryParse(srsNode.Attributes[0].Value.ToString().LastPart(char.Parse(":")), out int refSystem))
                     {
                         refSystem = 0;
                     }
@@ -46,13 +44,11 @@ namespace S1xxViewer.Model.Geometry
                     var splittedPosition = 
                         pointNode.FirstChild.InnerText.Replace("\t", " ").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-                    double x;
-                    double y;
-                    if (!double.TryParse(splittedPosition[0], NumberStyles.Float, new CultureInfo("en-US"), out x))
+                    if (!double.TryParse(splittedPosition[0], NumberStyles.Float, new CultureInfo("en-US"), out double x))
                     {
                         x = 0.0;
                     }
-                    if (!double.TryParse(splittedPosition[1], NumberStyles.Float, new CultureInfo("en-US"), out y))
+                    if (!double.TryParse(splittedPosition[1], NumberStyles.Float, new CultureInfo("en-US"), out double y))
                     {
                         y = 0.0;
                     }
