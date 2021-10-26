@@ -13,13 +13,13 @@ namespace S1xxViewer.Types.Features
         public string CategoryOfRadioStation { get; set; }
         public string EstimatedRangeOffTransmission { get; set; }
         public IOrientation Orientation { get; set; }
-        public IRadioCommunications[] RadioCommunications { get; set; }
+        public IRadioStationCommunicationDescription[] RadioStationCommunicationDescription { get; set; }
         public string Status { get; set; }
 
         /// <summary>
-        /// 
+        ///     Deep clones the object
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IComplexType</returns>
         public override IFeature DeepClone()
         {
             return new RadioStation
@@ -47,9 +47,9 @@ namespace S1xxViewer.Types.Features
                 Orientation = Orientation == null
                     ? new Orientation()
                     : Orientation.DeepClone() as IOrientation,
-                RadioCommunications = RadioCommunications == null
-                    ? new RadioCommunications[0]
-                    : Array.ConvertAll(RadioCommunications, rcd => rcd.DeepClone() as IRadioCommunications),
+                RadioStationCommunicationDescription = RadioStationCommunicationDescription == null
+                    ? new RadioStationCommunicationDescription[0]
+                    : Array.ConvertAll(RadioStationCommunicationDescription, rcd => rcd.DeepClone() as IRadioStationCommunicationDescription),
                 Status = Status,
                 Links = Links == null
                     ? new Link[0]
@@ -57,6 +57,12 @@ namespace S1xxViewer.Types.Features
             };
         }
 
+        /// <summary>
+        ///     Reads the data from an XML dom
+        /// </summary>
+        /// <param name="node">current node to use as a starting point for reading</param>
+        /// <param name="mgr">xml namespace manager</param>
+        /// <returns>IFeature</returns>
         public override IFeature FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             if (node != null && node.HasChildNodes)
@@ -148,20 +154,20 @@ namespace S1xxViewer.Types.Features
                 Orientation.FromXml(orientationNode, mgr);
             }
 
-            var radiocommunicationsNodes = node.FirstChild.SelectNodes("radiocommunications", mgr);
-            if (radiocommunicationsNodes != null && radiocommunicationsNodes.Count > 0)
+            var radioStationCommunicationDescriptionNodes = node.FirstChild.SelectNodes("radioStationCommunicationDescription", mgr);
+            if (radioStationCommunicationDescriptionNodes != null && radioStationCommunicationDescriptionNodes.Count > 0)
             {
-                var rdoComDescriptions = new List<RadioCommunications>();
-                foreach (XmlNode radiocommunicationsNode in radiocommunicationsNodes)
+                var rdoComDescriptions = new List<RadioStationCommunicationDescription>();
+                foreach (XmlNode radioStationCommunicationDescriptionNode in radioStationCommunicationDescriptionNodes)
                 {
-                    if (radiocommunicationsNode != null && radiocommunicationsNode.HasChildNodes)
+                    if (radioStationCommunicationDescriptionNode != null && radioStationCommunicationDescriptionNode.HasChildNodes)
                     {
-                        var rdoComDescription = new RadioCommunications();
-                        rdoComDescription.FromXml(radiocommunicationsNode, mgr);
+                        var rdoComDescription = new RadioStationCommunicationDescription();
+                        rdoComDescription.FromXml(radioStationCommunicationDescriptionNode, mgr);
                         rdoComDescriptions.Add(rdoComDescription);
                     }
                 }
-                RadioCommunications = rdoComDescriptions.ToArray();
+                RadioStationCommunicationDescription = rdoComDescriptions.ToArray();
             }
 
             var statusNode = node.FirstChild.SelectSingleNode("status", mgr);

@@ -7,18 +7,20 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Recommendations : AbstractRxn, IRecommendations, IS122Feature, IS123Feature
+    public class PriceInformation : InformationFeatureBase, IPriceInformation, IS128Feature
     {
+        public IPayment Payment { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new Recommendations
+            return new PriceInformation()
             {
                 FeatureName = FeatureName == null
-                    ? new[] { new FeatureName() }
+                    ? new IFeatureName[] { new FeatureName() }
                     : Array.ConvertAll(FeatureName, fn => fn.DeepClone() as IFeatureName),
                 FixedDateRange = FixedDateRange == null
                     ? new DateRange()
@@ -28,20 +30,13 @@ namespace S1xxViewer.Types.Features
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
                 SourceIndication = SourceIndication == null
-                    ? new SourceIndication[0]
+                    ? new ISourceIndication[0]
                     : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
-                CategoryOfAuthority = CategoryOfAuthority ?? "",
-                Graphic = Graphic == null
-                    ? new Graphic[0]
-                    : Array.ConvertAll(Graphic, g => g.DeepClone() as IGraphic),
-                RxnCode = RxnCode == null
-                    ? new RxnCode[0]
-                    : Array.ConvertAll(RxnCode, r => r.DeepClone() as IRxnCode),
-                TextContent = TextContent == null
-                    ? new TextContent[0]
-                    : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                Payment = Payment == null
+                    ? null
+                    : Payment.DeepClone() as IPayment,
                 Links = Links == null
-                    ? new Link[0]
+                    ? new ILink[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
@@ -54,19 +49,11 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            if (node != null && node.HasChildNodes)
-            {
-                if (node.FirstChild.Attributes.Count > 0)
-                {
-                    Id = node.FirstChild.Attributes["gml:id"].InnerText;
-                }
-            }
+            if (node == null || !node.HasChildNodes) return this;
 
-            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
-            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            if (node.FirstChild.Attributes != null && node.FirstChild.Attributes.Count > 0)
             {
-                FixedDateRange = new DateRange();
-                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
+                Id = node.FirstChild.Attributes["gml:id"].InnerText;
             }
 
             var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
@@ -80,6 +67,13 @@ namespace S1xxViewer.Types.Features
                     dateRanges.Add(newDateRange);
                 }
                 PeriodicDateRange = dateRanges.ToArray();
+            }
+
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
             }
 
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
@@ -111,59 +105,12 @@ namespace S1xxViewer.Types.Features
                 SourceIndication = sourceIndications.ToArray();
             }
 
-            var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
-            if (textContentNodes != null && textContentNodes.Count > 0)
+            var paymentNode = node.FirstChild.SelectSingleNode("payment", mgr);
+            if (paymentNode != null && paymentNode.HasChildNodes)
             {
-                var textContents = new List<TextContent>();
-                foreach (XmlNode textContentNode in textContentNodes)
-                {
-                    if (textContentNode != null && textContentNode.HasChildNodes)
-                    {
-                        var newTextContent = new TextContent();
-                        newTextContent.FromXml(textContentNode, mgr);
-                        textContents.Add(newTextContent);
-                    }
-                }
-
-                TextContent = textContents.ToArray();
-            }
-
-            var categoryOfAuthorityNode = node.FirstChild.SelectSingleNode("categoryOfAuthority", mgr);
-            if (categoryOfAuthorityNode != null && categoryOfAuthorityNode.HasChildNodes)
-            {
-                CategoryOfAuthority = categoryOfAuthorityNode.FirstChild.InnerText;
-            }
-
-            var graphicNodes = node.FirstChild.SelectNodes("graphic", mgr);
-            if (graphicNodes != null && graphicNodes.Count > 0)
-            {
-                var graphics = new List<Graphic>();
-                foreach (XmlNode graphicNode in graphicNodes)
-                {
-                    if (graphicNode != null && graphicNode.HasChildNodes)
-                    {
-                        var newGraphic = new Graphic();
-                        newGraphic.FromXml(graphicNode, mgr);
-                        graphics.Add(newGraphic);
-                    }
-                }
-                Graphic = graphics.ToArray();
-            }
-
-            var rxnCodeNodes = node.FirstChild.SelectNodes("rxnCode");
-            if (rxnCodeNodes != null && rxnCodeNodes.Count > 0)
-            {
-                var rxnCodes = new List<RxnCode>();
-                foreach (XmlNode rxnCodeNode in rxnCodeNodes)
-                {
-                    if (rxnCodeNode != null && rxnCodeNode.HasChildNodes)
-                    {
-                        var newRxnCode = new RxnCode();
-                        newRxnCode.FromXml(rxnCodeNode, mgr);
-                        rxnCodes.Add(newRxnCode);
-                    }
-                }
-                RxnCode = rxnCodes.ToArray();
+                var localPayment = new Payment();
+                localPayment.FromXml(paymentNode, mgr);
+                Payment = localPayment;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

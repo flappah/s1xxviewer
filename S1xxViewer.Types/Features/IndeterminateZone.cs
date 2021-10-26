@@ -7,15 +7,17 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Recommendations : AbstractRxn, IRecommendations, IS122Feature, IS123Feature
+    public class IndeterminateZone : GeoFeatureBase, IIndeterminateZone, IS123Feature
     {
+        public string InformationConfidence { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new Recommendations
+            return new IndeterminateZone
             {
                 FeatureName = FeatureName == null
                     ? new[] { new FeatureName() }
@@ -28,20 +30,15 @@ namespace S1xxViewer.Types.Features
                     ? new DateRange[0]
                     : Array.ConvertAll(PeriodicDateRange, p => p.DeepClone() as IDateRange),
                 SourceIndication = SourceIndication == null
-                    ? new SourceIndication[0]
-                    : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
-                CategoryOfAuthority = CategoryOfAuthority ?? "",
-                Graphic = Graphic == null
-                    ? new Graphic[0]
-                    : Array.ConvertAll(Graphic, g => g.DeepClone() as IGraphic),
-                RxnCode = RxnCode == null
-                    ? new RxnCode[0]
-                    : Array.ConvertAll(RxnCode, r => r.DeepClone() as IRxnCode),
+                    ? new SourceIndication()
+                    : SourceIndication.DeepClone() as ISourceIndication,
                 TextContent = TextContent == null
-                    ? new TextContent[0]
+                    ? new ITextContent[0]
                     : Array.ConvertAll(TextContent, t => t.DeepClone() as ITextContent),
+                Geometry = Geometry,
+                InformationConfidence = InformationConfidence,
                 Links = Links == null
-                    ? new Link[0]
+                    ? new ILink[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
             };
         }
@@ -54,19 +51,11 @@ namespace S1xxViewer.Types.Features
         /// <returns></returns>
         public override IFeature FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            if (node != null && node.HasChildNodes)
-            {
-                if (node.FirstChild.Attributes.Count > 0)
-                {
-                    Id = node.FirstChild.Attributes["gml:id"].InnerText;
-                }
-            }
+            if (node == null || !node.HasChildNodes) return this;
 
-            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
-            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            if (node.FirstChild.Attributes != null && node.FirstChild.Attributes.Count > 0)
             {
-                FixedDateRange = new DateRange();
-                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
+                Id = node.FirstChild.Attributes["gml:id"].InnerText;
             }
 
             var periodicDateRangeNodes = node.FirstChild.SelectNodes("periodicDateRange", mgr);
@@ -82,6 +71,13 @@ namespace S1xxViewer.Types.Features
                 PeriodicDateRange = dateRanges.ToArray();
             }
 
+            var fixedDateRangeNode = node.FirstChild.SelectSingleNode("fixedDateRange", mgr);
+            if (fixedDateRangeNode != null && fixedDateRangeNode.HasChildNodes)
+            {
+                FixedDateRange = new DateRange();
+                FixedDateRange.FromXml(fixedDateRangeNode, mgr);
+            }
+
             var featureNameNodes = node.FirstChild.SelectNodes("featureName", mgr);
             if (featureNameNodes != null && featureNameNodes.Count > 0)
             {
@@ -92,23 +88,15 @@ namespace S1xxViewer.Types.Features
                     newFeatureName.FromXml(featureNameNode, mgr);
                     featureNames.Add(newFeatureName);
                 }
+
                 FeatureName = featureNames.ToArray();
             }
 
-            var sourceIndicationNodes = node.FirstChild.SelectNodes("sourceIndication", mgr);
-            if (sourceIndicationNodes != null && sourceIndicationNodes.Count > 0)
+            var sourceIndication = node.FirstChild.SelectSingleNode("sourceIndication", mgr);
+            if (sourceIndication != null && sourceIndication.HasChildNodes)
             {
-                var sourceIndications = new List<SourceIndication>();
-                foreach (XmlNode sourceIndicationNode in sourceIndicationNodes)
-                {
-                    if (sourceIndicationNode != null && sourceIndicationNode.HasChildNodes)
-                    {
-                        var sourceIndication = new SourceIndication();
-                        sourceIndication.FromXml(sourceIndicationNode, mgr);
-                        sourceIndications.Add(sourceIndication);
-                    }
-                }
-                SourceIndication = sourceIndications.ToArray();
+                SourceIndication = new SourceIndication();
+                SourceIndication.FromXml(sourceIndication, mgr);
             }
 
             var textContentNodes = node.FirstChild.SelectNodes("textContent", mgr);
@@ -119,51 +107,19 @@ namespace S1xxViewer.Types.Features
                 {
                     if (textContentNode != null && textContentNode.HasChildNodes)
                     {
-                        var newTextContent = new TextContent();
-                        newTextContent.FromXml(textContentNode, mgr);
-                        textContents.Add(newTextContent);
+                        var content = new TextContent();
+                        content.FromXml(textContentNode, mgr);
+                        textContents.Add(content);
                     }
                 }
 
                 TextContent = textContents.ToArray();
             }
 
-            var categoryOfAuthorityNode = node.FirstChild.SelectSingleNode("categoryOfAuthority", mgr);
-            if (categoryOfAuthorityNode != null && categoryOfAuthorityNode.HasChildNodes)
+            var informationConfidenceNode = node.FirstChild.SelectSingleNode("informationConfidence", mgr);
+            if (informationConfidenceNode != null && informationConfidenceNode.HasChildNodes)
             {
-                CategoryOfAuthority = categoryOfAuthorityNode.FirstChild.InnerText;
-            }
-
-            var graphicNodes = node.FirstChild.SelectNodes("graphic", mgr);
-            if (graphicNodes != null && graphicNodes.Count > 0)
-            {
-                var graphics = new List<Graphic>();
-                foreach (XmlNode graphicNode in graphicNodes)
-                {
-                    if (graphicNode != null && graphicNode.HasChildNodes)
-                    {
-                        var newGraphic = new Graphic();
-                        newGraphic.FromXml(graphicNode, mgr);
-                        graphics.Add(newGraphic);
-                    }
-                }
-                Graphic = graphics.ToArray();
-            }
-
-            var rxnCodeNodes = node.FirstChild.SelectNodes("rxnCode");
-            if (rxnCodeNodes != null && rxnCodeNodes.Count > 0)
-            {
-                var rxnCodes = new List<RxnCode>();
-                foreach (XmlNode rxnCodeNode in rxnCodeNodes)
-                {
-                    if (rxnCodeNode != null && rxnCodeNode.HasChildNodes)
-                    {
-                        var newRxnCode = new RxnCode();
-                        newRxnCode.FromXml(rxnCodeNode, mgr);
-                        rxnCodes.Add(newRxnCode);
-                    }
-                }
-                RxnCode = rxnCodes.ToArray();
+                InformationConfidence = informationConfidenceNode.FirstChild.InnerText;
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);
@@ -176,6 +132,7 @@ namespace S1xxViewer.Types.Features
                     newLink.FromXml(linkNode, mgr);
                     links.Add(newLink);
                 }
+
                 Links = links.ToArray();
             }
 

@@ -7,13 +7,8 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Restrictions : InformationFeatureBase, IRestrictions, IS122Feature, IS123Feature
+    public class Restrictions : AbstractRxn, IRestrictions, IS122Feature, IS123Feature
     {
-        public string CategoryOfAuthority { get; set; }
-        public IGraphic[] Graphic { get; set; }
-        public IRxnCode[] RxnCode { get; set; }
-        public ITextContent[] TextContent { get; set; }
-
         /// <summary>
         /// 
         /// </summary>

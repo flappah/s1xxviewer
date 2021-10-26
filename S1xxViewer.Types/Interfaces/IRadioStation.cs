@@ -6,7 +6,7 @@
         string CategoryOfRadioStation { get; set; }
         string EstimatedRangeOffTransmission { get; set; }
         IOrientation Orientation { get; set; }
-        IRadioCommunications[] RadioCommunications { get; set; }
+        IRadioStationCommunicationDescription[] RadioStationCommunicationDescription { get; set; }
         string Status { get; set; }
     }
 }

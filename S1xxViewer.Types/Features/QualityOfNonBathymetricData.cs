@@ -31,9 +31,6 @@ namespace S1xxViewer.Types.Features
                 SourceIndication = SourceIndication == null
                     ? new SourceIndication()
                     : SourceIndication.DeepClone() as ISourceIndication,
-                FeatureObjectIdentifier = FeatureObjectIdentifier == null
-                    ? new FeatureObjectIdentifier()
-                    : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,
                 HorizontalDistanceUncertainty = HorizontalDistanceUncertainty == null
                     ? new string[0]
                     : Array.ConvertAll(HorizontalDistanceUncertainty, hdu => hdu),
@@ -44,6 +41,10 @@ namespace S1xxViewer.Types.Features
                 SurveyDateRange = SurveyDateRange == null   
                     ? new SurveyDateRange()
                     : SurveyDateRange.DeepClone() as ISurveyDateRange,
+                Information = Information.DeepClone() as IInformation,
+                FeatureObjectIdentifier = FeatureObjectIdentifier == null
+                    ? new FeatureObjectIdentifier()
+                    : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,
                 Geometry = Geometry,
                 Id = Id,
                 Links = Links == null

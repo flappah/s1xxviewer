@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Types.Interfaces
 {
-    public interface IRestrictions : IAbstractRxN
+    public interface IProductBoundary : IGeoFeature
     {
     }
 }
