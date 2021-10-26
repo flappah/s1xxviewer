@@ -39,9 +39,9 @@ namespace S1xxViewer.Model
             nsmgr.AddNamespace("S123", "http://www.iho.int/S123/gml/1.0");
             nsmgr.AddNamespace("s100", "http://www.iho.int/s100gml/1.0");
             nsmgr.AddNamespace("xlink", "http://www.w3.org/1999/xlink");
-            
+
             // retrieve boundingbox
-            var boundingBoxNodes = xmlDocument.GetElementsByTagName("gml:boundedBy");
+            XmlNodeList boundingBoxNodes = xmlDocument.GetElementsByTagName("gml:boundedBy");
             if (boundingBoxNodes != null && boundingBoxNodes.Count > 0)
             {
                 dataPackage.BoundingBox = _geometryBuilderFactory.FromXml(boundingBoxNodes[0], nsmgr);
@@ -55,7 +55,7 @@ namespace S1xxViewer.Model
 
                 foreach (XmlNode imemberNode in imemberNodes)
                 {
-                    var feature = _featureFactory.FromXml(imemberNode, nsmgr).DeepClone();
+                    IFeature feature = _featureFactory.FromXml(imemberNode, nsmgr).DeepClone();
                     if (feature is IInformationFeature informationFeature)
                     {
                         localInfoFeaturesList.Add(informationFeature);
@@ -73,11 +73,11 @@ namespace S1xxViewer.Model
                 XmlNodeList memberNodes = xmlDocument.GetElementsByTagName("member");
                 foreach (XmlNode memberNode in memberNodes)
                 {
-                    var feature = _featureFactory.FromXml(memberNode, nsmgr).DeepClone();
+                    IFeature feature = _featureFactory.FromXml(memberNode, nsmgr).DeepClone();
 
                     if (feature is IGeoFeature geoFeature && memberNode.HasChildNodes)
                     {
-                        var geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
+                        XmlNode geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
                         if (geometryOfMemberNode != null && geometryOfMemberNode.HasChildNodes)
                         {
                             geoFeature.Geometry = _geometryBuilderFactory.FromXml(geometryOfMemberNode.ChildNodes[0], nsmgr);
@@ -89,7 +89,7 @@ namespace S1xxViewer.Model
                     {
                         if (feature is IMetaFeature metaFeature && memberNode.HasChildNodes)
                         {
-                            var geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
+                            XmlNode geometryOfMemberNode = memberNode.FirstChild.SelectSingleNode("geometry");
                             if (geometryOfMemberNode != null && geometryOfMemberNode.HasChildNodes)
                             {
                                 metaFeature.Geometry = _geometryBuilderFactory.FromXml(geometryOfMemberNode.ChildNodes[0], nsmgr);

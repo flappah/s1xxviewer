@@ -20,9 +20,9 @@ namespace S1xxViewer.Types.Features
         public string TxTrafficList { get; set; }
 
         /// <summary>
-        /// 
+        ///     Deep clones the object
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IComplexType</returns>
         public override IFeature DeepClone()
         {
             return new RadioServiceArea
@@ -62,11 +62,11 @@ namespace S1xxViewer.Types.Features
         }
 
         /// <summary>
-        /// 
+        ///     Reads the data from an XML dom
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="mgr"></param>
-        /// <returns></returns>
+        /// <param name="node">current node to use as a starting point for reading</param>
+        /// <param name="mgr">xml namespace manager</param>
+        /// <returns>IFeature</returns>
         public override IFeature FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
             if (node != null && node.HasChildNodes)

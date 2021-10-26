@@ -7,22 +7,24 @@ namespace S1xxViewer.Types.ComplexTypes
 {
     public class TmIntervalsByDoW : ComplexTypeBase, ITmIntervalsByDoW
     {
-        public string DayOfWeek { get; set; }
-        public string DayOfWeekIsRange { get; set; }
+        public string[] DayOfWeek { get; set; }
+        public string DayOfWeekIsRanges { get; set; }
         public string TimeReference { get; set; }
         public string[] TimeOfDayStart { get; set; }
         public string[] TimeOfDayEnd { get; set; }
 
         /// <summary>
-        /// 
+        ///     Deep clones the object
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IComplexType</returns>
         public override IComplexType DeepClone()
         {
             return new TmIntervalsByDoW
             {
-                DayOfWeek = DayOfWeek,
-                DayOfWeekIsRange = DayOfWeekIsRange,
+                DayOfWeek = DayOfWeek == null
+                    ? new string[0]
+                    : Array.ConvertAll(DayOfWeek, t => t),
+                DayOfWeekIsRanges = DayOfWeekIsRanges,
                 TimeReference = TimeReference,
                 TimeOfDayEnd = TimeOfDayEnd == null
                     ? new string[0]
@@ -34,23 +36,33 @@ namespace S1xxViewer.Types.ComplexTypes
         }
 
         /// <summary>
-        /// 
+        ///     Reads the data from an XML dom
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="mgr"></param>
-        /// <returns></returns>
+        /// <param name="node">current node to use as a starting point for reading</param>
+        /// <param name="mgr">xml namespace manager</param>
+        /// <returns>IFeature</returns>
         public override IComplexType FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            var dayOfWeekNode = node.SelectSingleNode("dayOfWeek");
-            if (dayOfWeekNode != null && dayOfWeekNode.HasChildNodes)
+            var dayOfWeekNodes = node.SelectNodes("dayOfWeek");
+            if (dayOfWeekNodes != null && dayOfWeekNodes.Count > 0)
             {
-                DayOfWeek = dayOfWeekNode.FirstChild.InnerText;
+                var days = new List<string>();
+                foreach (XmlNode dayOfWeekNode in dayOfWeekNodes)
+                {
+                    if (dayOfWeekNode != null && dayOfWeekNode.HasChildNodes)
+                    {
+                        string dayOfWeekText = dayOfWeekNode.FirstChild.InnerText;
+                        days.Add(dayOfWeekText);
+                    }
+                }
+
+                DayOfWeek = days.ToArray();
             }
 
-            var dayOfWeekIsRangeNode = node.SelectSingleNode("dayOfWeekIsRange", mgr);
-            if (dayOfWeekIsRangeNode != null && dayOfWeekIsRangeNode.HasChildNodes)
+            var dayOfWeekIsRangesNode = node.SelectSingleNode("dayOfWeekIsRanges", mgr);
+            if (dayOfWeekIsRangesNode != null && dayOfWeekIsRangesNode.HasChildNodes)
             {
-                DayOfWeekIsRange = dayOfWeekIsRangeNode.FirstChild.InnerText;
+                DayOfWeekIsRanges = dayOfWeekIsRangesNode.FirstChild.InnerText;
             }
 
             var timeReferenceNode = node.SelectSingleNode("timeReference", mgr);
