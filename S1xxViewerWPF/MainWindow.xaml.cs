@@ -110,6 +110,17 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
+        ///     Show options menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OptionsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var newOptionsMenu = new OptionsWindow();
+            newOptionsMenu.Show();
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
