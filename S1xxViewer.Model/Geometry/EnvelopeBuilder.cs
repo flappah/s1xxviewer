@@ -16,7 +16,6 @@ namespace S1xxViewer.Model.Geometry
         /// <returns>ESRI Arc GIS geometry</returns>
         public override Esri.ArcGISRuntime.Geometry.Geometry FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
-            _spatialReferenceSystem = 0;
             if (node != null && node.HasChildNodes)
             {
                 XmlNode srsNode = null;
@@ -37,7 +36,8 @@ namespace S1xxViewer.Model.Geometry
                     }
                     _spatialReferenceSystem = refSystem;
                 }
-                else
+
+                if (_spatialReferenceSystem == 0)
                 {
                     _spatialReferenceSystem = 4326; // if no srsNode is found assume default reference system, WGS 84
                 }
