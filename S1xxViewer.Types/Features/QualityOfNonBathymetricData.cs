@@ -41,7 +41,9 @@ namespace S1xxViewer.Types.Features
                 SurveyDateRange = SurveyDateRange == null   
                     ? new SurveyDateRange()
                     : SurveyDateRange.DeepClone() as ISurveyDateRange,
-                Information = Information.DeepClone() as IInformation,
+                Information = Information == null 
+                    ? null 
+                    : Information.DeepClone() as IInformation,
                 FeatureObjectIdentifier = FeatureObjectIdentifier == null
                     ? new FeatureObjectIdentifier()
                     : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +34,8 @@ namespace S1xxViewerWPF
         {
             InitializeComponent();
             _container = AutofacInitializer.Initialize();
+
+            this.Title += " v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             Task.Factory.StartNew(() =>
             {

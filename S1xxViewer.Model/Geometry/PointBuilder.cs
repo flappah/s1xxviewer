@@ -10,13 +10,14 @@ namespace S1xxViewer.Model.Geometry
     public class PointBuilder : GeometryBuilderBase, IPointBuilder
     {
         /// <summary>
-        /// 
+        ///     Retrieves the geometry from the specified Xml Node
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="mgr"></param>
-        /// <returns></returns>
+        /// <param name="node">node containing a basic geometry</param>
+        /// <param name="mgr">namespace manager</param>
+        /// <returns>ESRI Arc GIS geometry</returns>
         public override Esri.ArcGISRuntime.Geometry.Geometry FromXml(XmlNode node, XmlNamespaceManager mgr)
         {
+            _spatialReferenceSystem = 0;
             if (node != null && node.HasChildNodes)
             {
                 XmlNode srsNode = null;
@@ -36,6 +37,10 @@ namespace S1xxViewer.Model.Geometry
                         refSystem = 0;
                     }
                     _spatialReferenceSystem = refSystem;
+                }
+                else
+                {
+                    _spatialReferenceSystem = 4326; // if no srsNode is found assume default reference system, WGS 84
                 }
 
                 var pointNode = node.FirstChild;
