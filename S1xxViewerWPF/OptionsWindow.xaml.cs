@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,7 +49,47 @@ namespace S1xxViewerWPF
         public OptionsWindow()
         {
             InitializeComponent();
+
+            LoadCRSfile();
             RestoreOptions();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LoadCRSfile()
+        {
+            StreamReader streamReader = null;
+
+            try
+            {
+                streamReader = File.OpenText("crs.csv");
+                while (!streamReader.EndOfStream)
+                {
+                    string line = streamReader.ReadLine();
+                    if (line.Contains(","))
+                    {
+                        string[] splittedLine = line.Split(new[] { ',' });
+
+                        if (splittedLine.Length == 2)
+                        {
+                            var comboBoxItem = new ComboBoxItem
+                            {
+                                Content = $"EPSG:{splittedLine[0]} - {splittedLine[1]}",
+                                Tag = splittedLine[0]
+                            };
+                            _ = comboBoxCRS.Items.Add(comboBoxItem);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (streamReader != null)
+                {
+                    streamReader.Close();
+                }
+            }
         }
 
         /// <summary>
