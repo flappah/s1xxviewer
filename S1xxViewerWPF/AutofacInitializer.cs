@@ -18,14 +18,14 @@ namespace S1xxViewerWPF
         /// <returns></returns>
         public static IContainer Initialize()
         {
-            var allAssemblyNames =
+            List<string> allAssemblyNames =
                 Directory.GetFiles(Directory.GetCurrentDirectory(), "S1xxViewer.*.dll", SearchOption.TopDirectoryOnly).ToList();
 
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyModules(allAssemblyNames.Select(Assembly.LoadFile).ToArray());
 
-            var assemblyName = allAssemblyNames.Find(nm => nm.Contains(".Types.dll"));
-            var typeAssembly = Assembly.LoadFile(assemblyName);
+            string assemblyName = allAssemblyNames.Find(nm => nm.Contains(".Types.dll"));
+            Assembly typeAssembly = Assembly.LoadFile(assemblyName);
 
             List<Type> features =
                 typeAssembly.GetTypes().ToList()

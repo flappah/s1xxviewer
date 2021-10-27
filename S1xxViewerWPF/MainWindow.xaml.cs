@@ -30,6 +30,9 @@ namespace S1xxViewerWPF
         private readonly Autofac.IContainer _container;
         private List<IS1xxDataPackage> _dataPackages = new List<IS1xxDataPackage>();
 
+        /// <summary>
+        ///     Main window constructor for setup and initialization
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -116,7 +119,10 @@ namespace S1xxViewerWPF
         /// <param name="e"></param>
         public void OptionsMenu_Click(object sender, RoutedEventArgs e)
         {
-            var newOptionsMenu = new OptionsWindow();
+            var newOptionsMenu = new OptionsWindow
+            {
+                Container = _container
+            };
             newOptionsMenu.Show();
         }
 

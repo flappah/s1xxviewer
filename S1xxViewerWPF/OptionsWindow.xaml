@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Options" Height="450" Width="800">
     <Grid>
-        <ListView x:Name="listView" Margin="10,23,0,15" HorizontalAlignment="Left" Width="179">
+        <ListView x:Name="listView" Margin="10,23,0,15" HorizontalAlignment="Left" Width="179" SelectedIndex="0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
@@ -18,12 +18,12 @@
         <Button x:Name="buttonClose" Content="Close" Margin="709,0,9.6,15" Click="buttonClose_Click" Height="19" VerticalAlignment="Bottom"/>
         <Grid HorizontalAlignment="Left" Height="348" Margin="202,23,0,0" VerticalAlignment="Top" Width="582">
             <Label x:Name="label" Content="Default CRS" HorizontalAlignment="Left" Margin="20,41,0,0" VerticalAlignment="Top" Width="115"/>
-            <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="140,43,0,0" VerticalAlignment="Top" Width="432">
+            <ComboBox x:Name="comboBoxCRS" HorizontalAlignment="Left" Margin="140,43,0,0" VerticalAlignment="Top" Width="432" SelectionChanged="comboBox_SelectionChanged" IsEnabled="False">
                 <ComboBoxItem Content="EPSG:4326 WGS 84 - WGS84 - World Geodetic System 1984" Tag="4326"/>
                 <ComboBoxItem Content="EPSG:3857 WGS 84 / Pseudo-Mercator - Spherical Mercator" Tag="3857"/>
-                
+
             </ComboBox>
-            <CheckBox x:Name="checkBox" Content="Invert Lat/Lon positions during rendering" HorizontalAlignment="Left" Margin="25,90,0,0" VerticalAlignment="Top" Height="22" Width="527"/>
+            <CheckBox x:Name="checkBoxInvertLatLon" Content="Invert Lat/Lon positions during rendering" HorizontalAlignment="Left" Margin="25,90,0,0" VerticalAlignment="Top" Height="22" Width="527" Checked="checkBox_Checked" Unchecked="checkBox_Unchecked" IsEnabled="False"/>
         </Grid>
 
 
