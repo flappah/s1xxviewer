@@ -99,9 +99,9 @@ namespace S1xxViewerWPF
         {
             if (_optionsStorage != null && _optionsStorage.Count > 0)
             {
-                checkBoxInvertLatLon.IsChecked = _optionsStorage.Retrieve("checkBox") == "true";
+                checkBoxInvertLatLon.IsChecked = _optionsStorage.Retrieve("checkBoxInvertLatLon") == "true";
 
-                string selectedItemTag = _optionsStorage.Retrieve("comboBox");
+                string selectedItemTag = _optionsStorage.Retrieve("comboBoxCRS");
                 foreach (object item in comboBoxCRS.Items)
                 {
                     if (item is ComboBoxItem comboBoxItem)
