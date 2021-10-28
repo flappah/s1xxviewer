@@ -93,6 +93,10 @@
       <Project>{cc835872-bb33-49b7-a07a-4906d52bccdd}</Project>
       <Name>S1xxViewer.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\S1xxViewer.Storage\S1xxViewer.Storage.csproj">
+      <Project>{a1e13714-9b77-49e5-a084-4784ccdd538e}</Project>
+      <Name>S1xxViewer.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\S1xxViewer.Types\S1xxViewer.Types.csproj">
       <Project>{8a371a44-fc37-43cd-95e2-d85d1490e1d9}</Project>
       <Name>S1xxViewer.Types</Name>

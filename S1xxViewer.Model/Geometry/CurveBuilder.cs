@@ -5,11 +5,22 @@ using System;
 using System.Globalization;
 using System.Xml;
 using System.Collections.Generic;
+using S1xxViewer.Storage;
+using S1xxViewer.Storage.Interfaces;
 
 namespace S1xxViewer.Model.Geometry
 {
     public class CurveBuilder : GeometryBuilderBase, ICurveBuilder
     {
+        /// <summary>
+        ///     For injection purposes
+        /// </summary>
+        /// <param name="optionsStorage"></param>
+        public CurveBuilder(IOptionsStorage optionsStorage)
+        {
+            _optionsStorage = optionsStorage;
+        }
+
         /// <summary>
         ///     Retrieves the geometry from the specified Xml Node
         /// </summary>
@@ -41,7 +52,15 @@ namespace S1xxViewer.Model.Geometry
 
                 if (_spatialReferenceSystem == 0)
                 {
-                    _spatialReferenceSystem = 4326; // if no srsNode is found assume default reference system, WGS 84
+                    string defaultCRS = _optionsStorage.Retrieve("comboBoxCRS");
+                    if (int.TryParse(defaultCRS, out int defaultCRSValue))
+                    {
+                        _spatialReferenceSystem = defaultCRSValue; // if no srsNode is found assume default reference systema
+                    }
+                    else
+                    {
+                        _spatialReferenceSystem = 4326; // since most S1xx standards assume WGS84 is default, use this is the uber default CRS
+                    }
                 }
 
                 var segmentNodes = node.FirstChild.SelectNodes("gml:segments", mgr);

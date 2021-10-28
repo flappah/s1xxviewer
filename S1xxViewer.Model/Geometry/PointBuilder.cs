@@ -1,6 +1,7 @@
 ﻿using Esri.ArcGISRuntime.Geometry;
 using S1xxViewer.Base;
 using S1xxViewer.Model.Interfaces;
+using S1xxViewer.Storage.Interfaces;
 using System;
 using System.Globalization;
 using System.Xml;
@@ -9,6 +10,15 @@ namespace S1xxViewer.Model.Geometry
 {
     public class PointBuilder : GeometryBuilderBase, IPointBuilder
     {
+        /// <summary>
+        ///     For injection purposes
+        /// </summary>
+        /// <param name="optionsStorage"></param>
+        public PointBuilder(IOptionsStorage optionsStorage)
+        {
+            _optionsStorage = optionsStorage;
+        }
+
         /// <summary>
         ///     Retrieves the geometry from the specified Xml Node
         /// </summary>
@@ -40,7 +50,15 @@ namespace S1xxViewer.Model.Geometry
 
                 if (_spatialReferenceSystem == 0)
                 {
-                    _spatialReferenceSystem = 4326; // if no srsNode is found assume default reference system, WGS 84
+                    string defaultCRS = _optionsStorage.Retrieve("comboBoxCRS");
+                    if (int.TryParse(defaultCRS, out int defaultCRSValue))
+                    {
+                        _spatialReferenceSystem = defaultCRSValue; // if no srsNode is found assume default reference systema
+                    }
+                    else
+                    {
+                        _spatialReferenceSystem = 4326; // since most S1xx standards assume WGS84 is default, use this is the uber default CRS
+                    }
                 }
 
                 var pointNode = node.FirstChild;
