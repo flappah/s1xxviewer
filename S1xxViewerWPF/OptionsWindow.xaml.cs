@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +22,9 @@ namespace S1xxViewerWPF
     /// Interaction logic for OptionsWindow.xaml
     /// </summary>
     public partial class OptionsWindow : Window
-    {        
+    {
+        private SynchronizationContext _syncContext;
+
         /// <summary>
         ///     For retrieving IoC objects.
         /// </summary>
@@ -48,9 +51,13 @@ namespace S1xxViewerWPF
         public OptionsWindow()
         {
             InitializeComponent();
+            _syncContext = SynchronizationContext.Current;
 
-            LoadCRSfile();
-            RestoreOptions();
+            _ = Task.Run(() =>
+            {
+                LoadCRSfile();
+                RestoreOptions();
+            }).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -72,12 +79,18 @@ namespace S1xxViewerWPF
 
                         if (splittedLine.Length == 2)
                         {
-                            var comboBoxItem = new ComboBoxItem
+                            _syncContext.Send(o =>
                             {
-                                Content = $"EPSG:{splittedLine[0]} - {splittedLine[1]}",
-                                Tag = splittedLine[0]
-                            };
-                            _ = comboBoxCRS.Items.Add(comboBoxItem);
+                                var item = (string[])o;
+
+                                var comboBoxItem = new ComboBoxItem
+                                {
+                                    Content = $"EPSG:{item[0]} - {item[1]}",
+                                    Tag = item[0]
+                                };
+
+                                _ = comboBoxCRS.Items.Add(comboBoxItem);
+                            }, splittedLine);
                         }
                     }
                 }
@@ -98,20 +111,24 @@ namespace S1xxViewerWPF
         {
             if (_optionsStorage != null && _optionsStorage.Count > 0)
             {
-                checkBoxInvertLatLon.IsChecked = _optionsStorage.Retrieve("checkBoxInvertLatLon") == "true";
-
-                string selectedItemTag = _optionsStorage.Retrieve("comboBoxCRS");
-                foreach (object item in comboBoxCRS.Items)
+                _syncContext.Post(o =>
                 {
-                    if (item is ComboBoxItem comboBoxItem)
+                    var optionsStorage = (IOptionsStorage)o;
+                    checkBoxInvertLatLon.IsChecked = _optionsStorage.Retrieve("checkBoxInvertLatLon") == "true";
+
+                    string selectedItemTag = _optionsStorage.Retrieve("comboBoxCRS");
+                    foreach (object item in comboBoxCRS.Items)
                     {
-                        if (comboBoxItem.Tag.ToString().Equals(selectedItemTag))
+                        if (item is ComboBoxItem comboBoxItem)
                         {
-                            comboBoxCRS.SelectedItem = comboBoxItem;
-                            break;
+                            if (comboBoxItem.Tag.ToString().Equals(selectedItemTag))
+                            {
+                                comboBoxCRS.SelectedItem = comboBoxItem;
+                                break;
+                            }
                         }
                     }
-                }
+                }, _optionsStorage);
             }
         }
 
