@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("S1xxViewerWPF")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Royal Netherlands Hydrographic Service")]
+[assembly: AssemblyCompany("Netherlands Hydrographic Service")]
 [assembly: AssemblyProduct("S1xxViewerWPF")]
-[assembly: AssemblyCopyright("Copyright © Netherlands Hydrographic Service 2021")]
+[assembly: AssemblyCopyright("Copyright © Netherlands Hydrographic Service, 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("S1xxViewer.Base")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Netherlands Hydrographic Service")]
 [assembly: AssemblyProduct("S1xxViewer.Base")]
-[assembly: AssemblyCopyright("Copyright © Netherlands Hydrographic Service 2021")]
+[assembly: AssemblyCopyright("Copyright © Netherlands Hydrographic Service, 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

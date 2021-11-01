@@ -12,7 +12,7 @@ namespace S1xxViewer.Storage
         {
             if (_persistentDictionary == null)
             {
-                _persistentDictionary = new PersistentDictionary<string, string>("Options");
+                _persistentDictionary = new PersistentDictionary<string, string>(System.IO.Path.GetTempPath() + @"\S1xxViewer\RecentFilesStorage");
             }
         }
 
