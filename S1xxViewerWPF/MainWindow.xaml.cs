@@ -16,6 +16,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +31,7 @@ namespace S1xxViewerWPF
     {
         private readonly Autofac.IContainer _container;
         private List<IS1xxDataPackage> _dataPackages = new List<IS1xxDataPackage>();
+        private SynchronizationContext _syncContext;
 
         /// <summary>
         ///     Main window constructor for setup and initialization
@@ -38,28 +40,29 @@ namespace S1xxViewerWPF
         {
             InitializeComponent();
             _container = AutofacInitializer.Initialize();
+            _syncContext = SynchronizationContext.Current;
 
             this.Title += " v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            Task.Factory.StartNew(() =>
-            {
-                var fileNames = RetrieveRecentFiles();
-                int i = 1;
-                foreach (var fileName in fileNames)
-                {
-                    Application.Current.Dispatcher.Invoke((Action)delegate
-                    {
-                        var newMenuItem = new MenuItem
-                        {
-                            Name = $"MenuItem{i++}",
-                            Header = fileName
-                        };
-                        newMenuItem.Click += AutoOpen_Click;
+            _ = Task.Factory.StartNew(() =>
+              {
+                  var fileNames = RetrieveRecentFiles();
+                  int i = 1;
+                  foreach (var fileName in fileNames)
+                  {
+                      Application.Current.Dispatcher.Invoke((Action)delegate
+                      {
+                          var newMenuItem = new MenuItem
+                          {
+                              Name = $"MenuItem{i++}",
+                              Header = fileName
+                          };
+                          newMenuItem.Click += AutoOpen_Click;
 
-                        RecentFilesMenuItem.Items.Add(newMenuItem);
-                    });
-                }
-            });
+                          RecentFilesMenuItem.Items.Add(newMenuItem);
+                      });
+                  }
+              });
         }
 
         #region Menu Handlers
@@ -160,7 +163,7 @@ namespace S1xxViewerWPF
         #region UI logic
 
         /// <summary>
-        /// Loads the specified ENC file
+        ///     Loads the specified ENC file
         /// </summary>
         /// <param name="fileName">fileName</param>
         private async void LoadENCFile(string fileName)
@@ -194,7 +197,7 @@ namespace S1xxViewerWPF
 
             if (nonEncLayers.Any())
             {
-                foreach (var nonEncLayer in nonEncLayers)
+                foreach (Layer nonEncLayer in nonEncLayers)
                 {
                     MyMapView.Map.OperationalLayers.Add(nonEncLayer);
                 }
@@ -208,7 +211,7 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// Loads the specified GML file
+        ///     Loads the specified GML file
         /// </summary>
         /// <param name="fileName">fileName</param>
         private async void LoadGMLFile(string fileName)
@@ -232,9 +235,13 @@ namespace S1xxViewerWPF
                 xmlDoc.Load(fileName);
                 SaveRecentFile(fileName);
 
-                var dataParser = _container.Resolve<IDataPackageParser>();
-                IS1xxDataPackage dataPackage = await dataParser.ParseAsync(xmlDoc);
-                CreateFeatureCollection(dataPackage);
+                IDataPackageParser dataParser = _container.Resolve<IDataPackageParser>();
+                IS1xxDataPackage dataPackage = await dataParser.ParseAsync(xmlDoc).ConfigureAwait(false);
+
+                _syncContext.Post(new SendOrPostCallback(o =>
+                {
+                    CreateFeatureCollection((IS1xxDataPackage) o);
+                }), dataPackage);
 
                 _dataPackages.Add(dataPackage);
             }

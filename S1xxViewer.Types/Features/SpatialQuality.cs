@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class SpatialQuality : InformationFeatureBase, ISpatialQuality, IS122Feature
+    public class SpatialQuality : InformationFeatureBase, ISpatialQuality, IS122Feature, IS127Feature
     {
         public string CategoryOfTemporalVariation { get; set; }
         public string QualityOfHorizontalMeasurement { get; set; }

@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class Regulations : AbstractRxn, IRegulations, IS122Feature, IS123Feature
+    public class Regulations : AbstractRxn, IRegulations, IS122Feature, IS123Feature, IS127Feature
     {
         /// <summary>
         /// 

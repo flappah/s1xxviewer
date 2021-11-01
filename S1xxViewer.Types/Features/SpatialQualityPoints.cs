@@ -7,20 +7,14 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ShipReport : InformationFeatureBase, IShipReport, IS122Feature, IS127Feature
-    {
-        public string[] CategoryOfShipReport { get; set; }
-        public string ImoFormatForReporting { get; set; }
-        public INoticeTime[] NoticeTime { get; set; }
-        public ITextContent TextContent { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+    public class SpatialQualityPoints : SpatialQuality, ISpatialQualityPoints, IS127Feature
+    {/// <summary>
+     /// 
+     /// </summary>
+     /// <returns></returns>
         public override IFeature DeepClone()
         {
-            return new ShipReport
+            return new SpatialQualityPoints
             {
                 FeatureName = FeatureName == null
                     ? new[] { new FeatureName() }
@@ -35,16 +29,11 @@ namespace S1xxViewer.Types.Features
                 SourceIndication = SourceIndication == null
                     ? new SourceIndication[0]
                     : Array.ConvertAll(SourceIndication, s => s.DeepClone() as ISourceIndication),
-                CategoryOfShipReport = CategoryOfShipReport == null
-                    ? new string[0]
-                    : Array.ConvertAll(CategoryOfShipReport, s => s),
-                ImoFormatForReporting = ImoFormatForReporting,
-                NoticeTime = NoticeTime == null
-                    ? new NoticeTime[0]
-                    : Array.ConvertAll(NoticeTime, nt => nt.DeepClone() as INoticeTime),
-                TextContent = TextContent == null
-                    ? new TextContent()
-                    : TextContent.DeepClone() as ITextContent,
+                CategoryOfTemporalVariation = CategoryOfTemporalVariation,
+                QualityOfHorizontalMeasurement = QualityOfHorizontalMeasurement,
+                HorizontalPositionalUncertainty = HorizontalPositionalUncertainty == null
+                    ? new HorizontalPositionalUncertainty()
+                    : HorizontalPositionalUncertainty.DeepClone() as IHorizontalPositionalUncertainty,
                 Links = Links == null
                     ? new Link[0]
                     : Array.ConvertAll(Links, l => l.DeepClone() as ILink)
@@ -116,47 +105,23 @@ namespace S1xxViewer.Types.Features
                 SourceIndication = sourceIndications.ToArray();
             }
 
-            var categoryOfShipReportNodes = node.FirstChild.SelectNodes("categoryOfShipReport");
-            if (categoryOfShipReportNodes != null && categoryOfShipReportNodes.Count > 0)
+            var categoryOfTemporalVariationNode = node.FirstChild.SelectSingleNode("categoryOfTemporalVariation", mgr);
+            if (categoryOfTemporalVariationNode != null && categoryOfTemporalVariationNode.HasChildNodes)
             {
-                var categories = new List<string>();
-                foreach(XmlNode categoryOfShipReportNode in categoryOfShipReportNodes)
-                {
-                    if (categoryOfShipReportNode != null && categoryOfShipReportNode.HasChildNodes)
-                    {
-                        categories.Add(categoryOfShipReportNode.FirstChild.InnerText);
-                    }
-                }
-                CategoryOfShipReport = categories.ToArray();
+                CategoryOfTemporalVariation = categoryOfTemporalVariationNode.FirstChild.InnerText;
             }
 
-            var imoFormatForReportingNode = node.FirstChild.SelectSingleNode("imoFormatForReporting", mgr);
-            if (imoFormatForReportingNode != null && imoFormatForReportingNode.HasChildNodes)
+            var qualityOfHorizontalMeasurementNode = node.FirstChild.SelectSingleNode("qualityOfHorizontalMeasurement", mgr);
+            if (qualityOfHorizontalMeasurementNode != null && qualityOfHorizontalMeasurementNode.HasChildNodes)
             {
-                ImoFormatForReporting = imoFormatForReportingNode.FirstChild.InnerText;
+                QualityOfHorizontalMeasurement = qualityOfHorizontalMeasurementNode.FirstChild.InnerText;
             }
 
-            var noticeTimeNodes = node.FirstChild.SelectNodes("noticeTime");
-            if (noticeTimeNodes != null && noticeTimeNodes.Count > 0)
+            var horizontalPositionalUncertaintyNode = node.FirstChild.SelectSingleNode("horizontalPositionalUncertainty", mgr);
+            if (horizontalPositionalUncertaintyNode != null && horizontalPositionalUncertaintyNode.HasChildNodes)
             {
-                var noticeTimes = new List<NoticeTime>();
-                foreach (XmlNode noticeTimeNode in noticeTimeNodes)
-                {
-                    if (noticeTimeNode != null && noticeTimeNode.HasChildNodes)
-                    {
-                        var newNoticeTime = new NoticeTime();
-                        newNoticeTime.FromXml(noticeTimeNode, mgr);
-                        noticeTimes.Add(newNoticeTime);
-                    }
-                }
-                NoticeTime = noticeTimes.ToArray();
-            }
-
-            var textContentNode = node.FirstChild.SelectSingleNode("textContent", mgr);
-            if (textContentNode != null && textContentNode.HasChildNodes)
-            {
-                TextContent = new TextContent();
-                TextContent.FromXml(textContentNode, mgr);
+                HorizontalPositionalUncertainty = new HorizontalPositionalUncertainty();
+                HorizontalPositionalUncertainty.FromXml(horizontalPositionalUncertaintyNode, mgr);
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

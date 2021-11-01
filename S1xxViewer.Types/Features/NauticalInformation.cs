@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class NauticalInformation : AbstractRxn, INauticalInformation, IS122Feature
+    public class NauticalInformation : AbstractRxn, INauticalInformation, IS122Feature, IS127Feature
     {
         /// <summary>
         /// 

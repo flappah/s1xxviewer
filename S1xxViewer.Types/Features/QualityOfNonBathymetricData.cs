@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class QualityOfNonBathymetricData : MetaFeatureBase, IQualityOfNonBathymetricData, IS122Feature, IS123Feature
+    public class QualityOfNonBathymetricData : MetaFeatureBase, IQualityOfNonBathymetricData, IS122Feature, IS123Feature, IS127Feature
     {
         public string CategoryOfTemporalVariation { get; set; }
         public string DataAssessment { get; set; }

@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class DataCoverage : MetaFeatureBase, IDataCoverage, IS122Feature, IS123Feature
+    public class DataCoverage : MetaFeatureBase, IDataCoverage, IS122Feature, IS123Feature, IS127Feature
     {
         public string MaximumDisplayScale { get; set; }
         public string MinimumDisplayScale { get; set; }

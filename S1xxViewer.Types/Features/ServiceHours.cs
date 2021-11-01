@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class ServiceHours : InformationFeatureBase, IServiceHours, IS122Feature, IS123Feature
+    public class ServiceHours : InformationFeatureBase, IServiceHours, IS122Feature, IS123Feature, IS127Feature
     {
         public IScheduleByDoW[] ScheduleByDoW { get; set; }
         public IInformation[] Information { get; set; }

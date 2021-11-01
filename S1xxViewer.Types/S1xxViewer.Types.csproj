@@ -86,6 +86,7 @@
     <Compile Include="Features\RadioServiceAreaAggregate.cs" />
     <Compile Include="Features\ReportableServiceArea.cs" />
     <Compile Include="Features\ShipReportingServiceArea.cs" />
+    <Compile Include="Features\SpatialQualityPoints.cs" />
     <Compile Include="Features\SupervisedArea.cs" />
     <Compile Include="Interfaces\IAbstractChartProduct.cs" />
     <Compile Include="Interfaces\IAbstractRxN.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Interfaces\IReportableServiceArea.cs" />
     <Compile Include="Interfaces\IServiceSpecification.cs" />
     <Compile Include="Interfaces\IShipReportingServiceArea.cs" />
+    <Compile Include="Interfaces\ISpatialQualityPoints.cs" />
     <Compile Include="Interfaces\ISupervisedArea.cs" />
     <Compile Include="Interfaces\ISupportFile.cs" />
     <Compile Include="Interfaces\ISupportFileSpecification.cs" />
