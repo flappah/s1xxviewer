@@ -271,7 +271,6 @@ namespace S1xxViewerWPF
 
             if (!recentFiles.ToList().Contains(fileName))
             {
-
                 List<string> recentFilesList = recentFiles.ToList();
                 recentFilesList.Add(fileName);
                 recentFiles = recentFilesList.ToArray();
@@ -540,7 +539,7 @@ namespace S1xxViewerWPF
                                             if (feature != null)
                                             {
                                                 DataTable featureAttributesDataTable = feature.GetData();
-                                                string key = (feature is IGeoFeature ? ((IGeoFeature)feature).FeatureName.First()?.Name : feature.Id.ToString()) ?? "No named feature";
+                                                string key = (feature is IGeoFeature ? ((IGeoFeature)feature).FeatureName.First()?.Name : feature.Id.ToString()) ?? $"No named feature with Id '{feature.Id}'";
 
                                                 if (results.ContainsKey(key))
                                                 {
@@ -566,13 +565,13 @@ namespace S1xxViewerWPF
 
                     var parentTreeNode = new TreeViewItem
                     {
-                        Header = $"Selected feature{(results.Count == 1 ? "" : "s")}",
+                        Header = $"Selected {results.Count} feature{(results.Count == 1 ? "" : "s")}",
                         Tag = null,
                         IsExpanded = true
                     };
                     treeView.Items.Add(parentTreeNode);
 
-                    foreach (var result in results)
+                    foreach (KeyValuePair<string, DataTable> result in results)
                     {
                         TreeViewItem treeNode = new TreeViewItem();
                         treeNode.MouseUp += TreeviewItem_Click;
