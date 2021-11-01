@@ -55,8 +55,12 @@
   <ItemGroup>
     <Compile Include="HandlerModule.cs" />
     <Compile Include="Interfaces\IOptionsStorage.cs" />
+    <Compile Include="Interfaces\IRecentFilesStorage.cs" />
+    <Compile Include="Interfaces\IStorage.cs" />
     <Compile Include="OptionsStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecentFilesStorage.cs" />
+    <Compile Include="StorageBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -63,6 +63,12 @@ namespace S1xxViewer.Model.Geometry
                 }
             }
 
+            string invertLatLonString = _optionsStorage.Retrieve("checkBoxInvertLatLon");
+            if (!bool.TryParse(invertLatLonString, out bool invertLatLon))
+            {
+                invertLatLon = false;
+            }
+
             var segments = new List<List<MapPoint>>();
             if (node.HasChildNodes && node.FirstChild.HasChildNodes)
             {
@@ -105,7 +111,14 @@ namespace S1xxViewer.Model.Geometry
                                                     y = 0.0;
                                                 }
 
-                                                exteriorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                                if (invertLatLon)
+                                                {
+                                                    exteriorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
+                                                }
+                                                else
+                                                {
+                                                    exteriorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                                }
                                             }
                                         }
                                     }
@@ -144,7 +157,14 @@ namespace S1xxViewer.Model.Geometry
                                                     y = 0.0;
                                                 }
 
-                                                interiorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                                if (invertLatLon)
+                                                {
+                                                    interiorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
+                                                }
+                                                else
+                                                {
+                                                    interiorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                                }
                                             }
                                         }
                                     }

@@ -27,8 +27,7 @@ namespace S1xxViewerWPF
         /// </summary>
         public Autofac.IContainer Container
         {
-            get
-            { return _container; }
+            get => _container;
             set
             {
                 _container = value;

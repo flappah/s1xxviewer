@@ -60,6 +60,12 @@ namespace S1xxViewer.Model.Geometry
                     }
                 }
 
+                string invertLatLonString = _optionsStorage.Retrieve("checkBoxInvertLatLon");
+                if (!bool.TryParse(invertLatLonString, out bool invertLatLon))
+                {
+                    invertLatLon = false;
+                }
+
                 if (node.ChildNodes[0].ChildNodes.Count == 2)
                 {
                     var lowerLeft = node.ChildNodes[0].ChildNodes[0].InnerText;
@@ -86,8 +92,19 @@ namespace S1xxViewer.Model.Geometry
                         urY = 0.0;
                     }
 
-                    var createdEnvelope = 
-                        new Esri.ArcGISRuntime.Geometry.Envelope(llY, llX, urY, urX, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
+                    Esri.ArcGISRuntime.Geometry.Envelope createdEnvelope;
+
+                    if (invertLatLon)
+                    {
+                        createdEnvelope =
+                            new Esri.ArcGISRuntime.Geometry.Envelope(llX, llY, urX, urY, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
+                    }
+                    else
+                    {
+                        createdEnvelope =
+                            new Esri.ArcGISRuntime.Geometry.Envelope(llY, llX, urY, urX, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
+                    }
+
                     return createdEnvelope;
                 }
             }

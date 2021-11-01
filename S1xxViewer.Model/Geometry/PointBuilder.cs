@@ -61,10 +61,16 @@ namespace S1xxViewer.Model.Geometry
                     }
                 }
 
+                string invertLatLonString = _optionsStorage.Retrieve("checkBoxInvertLatLon");
+                if (!bool.TryParse(invertLatLonString, out bool invertLatLon))
+                {
+                    invertLatLon = false;
+                }
+
                 var pointNode = node.FirstChild;
                 if (pointNode != null && pointNode.HasChildNodes && pointNode.FirstChild.Name.ToUpper().Contains("POS"))
                 {
-                    var splittedPosition = 
+                    var splittedPosition =
                         pointNode.FirstChild.InnerText.Replace("\t", " ").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
                     if (!double.TryParse(splittedPosition[0], NumberStyles.Float, new CultureInfo("en-US"), out double x))
@@ -76,7 +82,14 @@ namespace S1xxViewer.Model.Geometry
                         y = 0.0;
                     }
 
-                    return new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem));
+                    if (invertLatLon)
+                    {
+                        return new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem));
+                    }
+                    else
+                    {
+                        return new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem));
+                    }
                 }
             }
 

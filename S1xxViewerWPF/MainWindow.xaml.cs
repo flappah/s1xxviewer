@@ -8,6 +8,7 @@ using Esri.ArcGISRuntime.UI.Controls;
 using Microsoft.Win32;
 using S1xxViewer.Base;
 using S1xxViewer.Model.Interfaces;
+using S1xxViewer.Storage.Interfaces;
 using S1xxViewer.Types.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -244,69 +245,68 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// Retrieve recent file from recentfiles.txt
+        ///     Retrieve recent file from recentfiles.txt
         /// </summary>
         /// <returns>string[]</returns>
         private string[] RetrieveRecentFiles()
         {
-            var tempPath = Path.GetTempPath();
-            var recentFileFileName = $@"{tempPath}\recentfiles.txt";
+            var recentFilesStorage = _container.Resolve<IRecentFilesStorage>();
+            var recentFiles = recentFilesStorage.Retrieve("recentfiles");
 
-            if (File.Exists(recentFileFileName))
+            if (!String.IsNullOrEmpty(recentFiles))
             {
-                string[] fileContent = File.ReadAllLines(recentFileFileName);
-                return fileContent;
+                return recentFiles.Split(new[] { ',' });
             }
 
             return new string[0];
         }
 
         /// <summary>
-        /// Save entry to the recent files
+        ///     Adds a filename to the recent files collection and returns the collection
+        /// </summary>
+        /// <param name="fileName">fileName</param>
+        private string[] AddRecentFile(string fileName)
+        {
+            string[] recentFiles = RetrieveRecentFiles();
+
+            if (!recentFiles.ToList().Contains(fileName))
+            {
+
+                List<string> recentFilesList = recentFiles.ToList();
+                recentFilesList.Add(fileName);
+                recentFiles = recentFilesList.ToArray();
+
+                var recentFilesStorage = _container.Resolve<IRecentFilesStorage>();
+                recentFilesStorage.Store("recentfiles", String.Join(",", recentFiles));
+            }
+
+            return recentFiles;
+        }
+
+        /// <summary>
+        ///     Save entry to the recent files
         /// </summary>
         /// <param name="fileName"></param>
         private void SaveRecentFile(string fileName)
         {
-            var tempPath = Path.GetTempPath();
-            var fileContent = new string[0];
+            string[] recentFiles = AddRecentFile(fileName);
 
-            var recentFileFileName = $@"{tempPath}\recentfiles.txt";
-            if (File.Exists(recentFileFileName))
+            RecentFilesMenuItem.Items.Clear();
+            int i = 1;
+            foreach (var newFileName in recentFiles)
             {
-                fileContent = File.ReadAllLines(recentFileFileName);
-            }
-
-            lock (this)
-            {
-                if (!fileContent.ToList().Contains(fileName))
+                var newMenuItem = new MenuItem
                 {
-                    var newFileNames = new List<string>() { fileName };
-                    for (int j = 0; j < (fileContent.Length > 4 ? 4 : fileContent.Length); j++)
-                    {
-                        newFileNames.Add(fileContent[j]);
-                    }
-
-                    File.Delete(recentFileFileName);
-                    File.WriteAllLines(recentFileFileName, newFileNames);
-
-                    RecentFilesMenuItem.Items.Clear();
-                    int i = 1;
-                    foreach (var newFileName in newFileNames)
-                    {
-                        var newMenuItem = new MenuItem
-                        {
-                            Name = $"MenuItem{i++}",
-                            Header = newFileName
-                        };
-                        newMenuItem.Click += AutoOpen_Click;
-                        RecentFilesMenuItem.Items.Add(newMenuItem);
-                    }
-                }
+                    Name = $"MenuItem{i++}",
+                    Header = newFileName
+                };
+                newMenuItem.Click += AutoOpen_Click;
+                RecentFilesMenuItem.Items.Add(newMenuItem);
             }
         }
 
         /// <summary>
-        /// Finds the specified feature in the S1xx datapackage
+        ///     Finds the specified feature in the S1xx datapackage
         /// </summary>
         /// <param name="featureId">Id value of the feature</param>
         /// <returns>IFeature</returns>
@@ -347,7 +347,7 @@ namespace S1xxViewerWPF
         #region Methods that have connections to ArcGIS
 
         /// <summary>
-        /// Creation a feature collection for rendering on the map
+        ///     Creation a feature collection for rendering on the map
         /// </summary>
         /// <param name="dataPackage">S1xx dataPackage</param>
         private async void CreateFeatureCollection (IS1xxDataPackage dataPackage)
@@ -484,7 +484,7 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// If the mapview is tapped
+        ///     If the mapview is tapped
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -592,7 +592,7 @@ namespace S1xxViewerWPF
         }
 
         /// <summary>
-        /// Creates the renderer for features on the map
+        ///     Creates the renderer for features on the map
         /// </summary>
         /// <param name="rendererType"></param>
         /// <returns></returns>

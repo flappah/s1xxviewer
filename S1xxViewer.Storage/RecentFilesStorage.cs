@@ -3,12 +3,12 @@ using S1xxViewer.Storage.Interfaces;
 
 namespace S1xxViewer.Storage
 {
-    public class OptionsStorage : StorageBase, IOptionsStorage
+    public class RecentFilesStorage : StorageBase, IRecentFilesStorage
     {
         /// <summary>
         /// 
         /// </summary>
-        public OptionsStorage()
+        public RecentFilesStorage()
         {
             if (_persistentDictionary == null)
             {

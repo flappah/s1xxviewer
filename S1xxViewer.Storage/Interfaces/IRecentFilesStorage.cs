@@ -1,6 +1,6 @@
 ﻿namespace S1xxViewer.Storage.Interfaces
 {
-    public interface IOptionsStorage : IStorage
+    public interface IRecentFilesStorage : IStorage
     {
     }
 }

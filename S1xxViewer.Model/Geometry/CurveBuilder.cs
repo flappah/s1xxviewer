@@ -52,15 +52,21 @@ namespace S1xxViewer.Model.Geometry
 
                 if (_spatialReferenceSystem == 0)
                 {
-                    string defaultCRS = _optionsStorage.Retrieve("comboBoxCRS");
-                    if (int.TryParse(defaultCRS, out int defaultCRSValue))
+                    string defaultCRSString = _optionsStorage.Retrieve("comboBoxCRS");
+                    if (int.TryParse(defaultCRSString, out int defaultCRS))
                     {
-                        _spatialReferenceSystem = defaultCRSValue; // if no srsNode is found assume default reference systema
+                        _spatialReferenceSystem = defaultCRS; // if no srsNode is found assume default reference systema
                     }
                     else
                     {
                         _spatialReferenceSystem = 4326; // since most S1xx standards assume WGS84 is default, use this is the uber default CRS
                     }
+                }
+
+                string invertLatLonString = _optionsStorage.Retrieve("checkBoxInvertLatLon");
+                if (!bool.TryParse(invertLatLonString, out bool invertLatLon))
+                {
+                    invertLatLon = false;
                 }
 
                 var segmentNodes = node.FirstChild.SelectNodes("gml:segments", mgr);
@@ -94,7 +100,14 @@ namespace S1xxViewer.Model.Geometry
                                         y = 0.0;
                                     }
 
-                                    curveMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                    if (invertLatLon)
+                                    {
+                                        curveMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
+                                    }
+                                    else
+                                    {
+                                        curveMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                    }
                                 }
                             }
                         }

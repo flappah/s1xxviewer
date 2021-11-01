@@ -62,6 +62,12 @@ namespace S1xxViewer.Model.Geometry
                     }
                 }
 
+                string invertLatLonString = _optionsStorage.Retrieve("checkBoxInvertLatLon");
+                if (!bool.TryParse(invertLatLonString, out bool invertLatLon))
+                {
+                    invertLatLon = false;
+                }
+
                 // parse the exterior linearring
 
                 var segments = new List<List<MapPoint>>();
@@ -95,7 +101,14 @@ namespace S1xxViewer.Model.Geometry
                                         y = 0.0;
                                     }
 
-                                    exteriorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                    if (invertLatLon)
+                                    {
+                                        exteriorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
+                                    }
+                                    else
+                                    {
+                                        exteriorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                    }
                                 }
                             }
                         }
@@ -121,7 +134,7 @@ namespace S1xxViewer.Model.Geometry
                                     .Replace("\r", " ")
                                     .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-                            if (((double)splittedPositionArray.Length / 2.0) == Math.Abs(splittedPositionArray.Length / 2.0))
+                            if ((splittedPositionArray.Length / 2.0) == Math.Abs(splittedPositionArray.Length / 2.0))
                             {
                                 for (int i = 0; i < splittedPositionArray.Length; i += 2)
                                 {
@@ -134,7 +147,14 @@ namespace S1xxViewer.Model.Geometry
                                         y = 0.0;
                                     }
 
-                                    interiorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                    if (invertLatLon)
+                                    {
+                                        interiorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
+                                    }
+                                    else
+                                    {
+                                        interiorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                    }
                                 }
                             }
                         }
