@@ -16,7 +16,7 @@ namespace S1xxViewer.Types.Features
         public IHorizontalPositionalUncertainty HorizontalPositionalUncertainty { get; set; }
         public string DirectionUncertainty { get; set; }
         public ISurveyDateRange SurveyDateRange { get; set; }
-        public IInformation Information { get; set; }
+        public IInformation[] Information { get; set; }
 
         /// <summary>
         /// 
@@ -42,8 +42,8 @@ namespace S1xxViewer.Types.Features
                     ? new SurveyDateRange()
                     : SurveyDateRange.DeepClone() as ISurveyDateRange,
                 Information = Information == null 
-                    ? null 
-                    : Information.DeepClone() as IInformation,
+                    ? new Information[0] 
+                    : Array.ConvertAll(Information, i => i.DeepClone() as IInformation),
                 FeatureObjectIdentifier = FeatureObjectIdentifier == null
                     ? new FeatureObjectIdentifier()
                     : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,
@@ -130,11 +130,20 @@ namespace S1xxViewer.Types.Features
                     SurveyDateRange.FromXml(surveyDateRangeNode, mgr);
                 }
 
-                var informationNode = node.FirstChild.SelectSingleNode("information", mgr);
-                if (informationNode != null && informationNode.HasChildNodes)
+                var informationNodes = node.FirstChild.SelectNodes("information", mgr);
+                if (informationNodes != null && informationNodes.Count > 0)
                 {
-                    Information = new Information();
-                    Information.FromXml(informationNode, mgr);
+                    var informations = new List<Information>();
+                    foreach (XmlNode informationNode in informationNodes)
+                    {
+                        if (informationNode != null && informationNode.HasChildNodes)
+                        {
+                            var newInformation = new Information();
+                            newInformation.FromXml(informationNode, mgr);
+                            informations.Add(newInformation);
+                        }
+                    }
+                    Information = informations.ToArray();
                 }
             }
 

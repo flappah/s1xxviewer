@@ -10,6 +10,6 @@
 
         string CategoryOfTemporalVariation { get; set; }
         string DataAssessment { get; set; }
-        IInformation Information { get; set; }
+        IInformation[] Information { get; set; }
     }
 }
