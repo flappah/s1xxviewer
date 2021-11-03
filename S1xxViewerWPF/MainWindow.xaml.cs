@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using S1xxViewer.Base;
 using S1xxViewer.Model.Interfaces;
 using S1xxViewer.Storage.Interfaces;
+using S1xxViewer.Types;
 using S1xxViewer.Types.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -238,12 +239,19 @@ namespace S1xxViewerWPF
                 IDataPackageParser dataParser = _container.Resolve<IDataPackageParser>();
                 IS1xxDataPackage dataPackage = await dataParser.ParseAsync(xmlDoc).ConfigureAwait(false);
 
-                _syncContext.Post(new SendOrPostCallback(o =>
+                if (dataPackage.Type == S1xxTypes.Null)
                 {
-                    CreateFeatureCollection((IS1xxDataPackage) o);
-                }), dataPackage);
+                    MessageBox.Show($"File '{fileName}' currently can't be rendered. No DataParser is able to render the information present in the file!");
+                }
+                else
+                {
+                    _syncContext.Post(new SendOrPostCallback(o =>
+                    {
+                        CreateFeatureCollection((IS1xxDataPackage)o);
+                    }), dataPackage);
 
-                _dataPackages.Add(dataPackage);
+                    _dataPackages.Add(dataPackage);
+                }
             }
             catch(Exception ex)
             {

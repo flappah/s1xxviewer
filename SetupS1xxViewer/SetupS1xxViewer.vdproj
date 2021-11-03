@@ -256,6 +256,12 @@
         "Entry"
         {
         "MsmKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
+        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
         "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2622,7 +2628,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Base, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Base, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_1F956E4EB93823C6B2EA1CC8E4F26911"
@@ -4450,7 +4456,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Model, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Model, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_8361E42938856DD112338D5F22652C62"
@@ -4921,7 +4927,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Storage, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Storage, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A32CF82ED1C9605D6F19E8C9EA357BAD"
@@ -4992,7 +4998,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Types, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Types, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A6CC54D03876DC0B2AC87F45210E04BD"
@@ -7118,15 +7124,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:S1xx Viewer"
-        "ProductCode" = "8:{1623EE48-4805-4321-99B4-B71412330FF5}"
-        "PackageCode" = "8:{ADB89793-A2EE-410E-B4FA-22DDCF865083}"
+        "ProductCode" = "8:{71DE6C56-B32E-45F5-AB49-CAEE44618E6A}"
+        "PackageCode" = "8:{EABE6D7E-EAC9-4ED6-BBBE-82087E85AAD5}"
         "UpgradeCode" = "8:{1BE61459-7569-40E2-B077-16D35B56923A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.2"
+        "ProductVersion" = "8:1.0.3"
         "Manufacturer" = "8:Royal Netherlands Hydrographic Service"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
