@@ -3,9 +3,6 @@ using S1xxViewer.Types.Interfaces;
 using S1xxViewer.Types.Links;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace S1xxViewer.Types.Features
@@ -63,6 +60,22 @@ namespace S1xxViewer.Types.Features
             if (categoryOfTemporalVariation != null)
             {
                 CategoryOfTemporalVariation = categoryOfTemporalVariation.InnerText;
+            }
+
+            var informationNodes = node.FirstChild.SelectNodes("information", mgr);
+            if (informationNodes != null && informationNodes.Count > 0)
+            {
+                var informations = new List<Information>();
+                foreach (XmlNode informationNode in informationNodes)
+                {
+                    if (informationNode != null && informationNode.HasChildNodes)
+                    {
+                        var newInformation = new Information();
+                        newInformation.FromXml(informationNode, mgr);
+                        informations.Add(newInformation);
+                    }
+                }
+                Information = informations.ToArray();
             }
 
             var linkNodes = node.FirstChild.SelectNodes("*[boolean(@xlink:href)]", mgr);

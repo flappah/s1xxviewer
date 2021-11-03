@@ -7,16 +7,14 @@ using System.Xml;
 
 namespace S1xxViewer.Types.Features
 {
-    public class QualityOfNonBathymetricData : MetaFeatureBase, IQualityOfNonBathymetricData, IS122Feature, IS123Feature, IS127Feature
+    public class QualityOfNonBathymetricData : QualityOfTemporalVariation, IQualityOfNonBathymetricData, IS122Feature, IS123Feature, IS127Feature
     {
-        public string CategoryOfTemporalVariation { get; set; }
         public string DataAssessment { get; set; }
         public ISourceIndication SourceIndication { get; set; }
         public string[] HorizontalDistanceUncertainty { get; set; }
         public IHorizontalPositionalUncertainty HorizontalPositionalUncertainty { get; set; }
         public string DirectionUncertainty { get; set; }
         public ISurveyDateRange SurveyDateRange { get; set; }
-        public IInformation[] Information { get; set; }
 
         /// <summary>
         /// 
@@ -26,7 +24,13 @@ namespace S1xxViewer.Types.Features
         {
             return new QualityOfNonBathymetricData
             {
+                Information = Information == null
+                    ? new Information[0]
+                    : Array.ConvertAll(Information, i => i.DeepClone() as IInformation),
                 CategoryOfTemporalVariation = CategoryOfTemporalVariation,
+                FeatureObjectIdentifier = FeatureObjectIdentifier == null
+                    ? new FeatureObjectIdentifier()
+                    : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,
                 DataAssessment = DataAssessment,
                 SourceIndication = SourceIndication == null
                     ? new SourceIndication()
@@ -41,12 +45,6 @@ namespace S1xxViewer.Types.Features
                 SurveyDateRange = SurveyDateRange == null   
                     ? new SurveyDateRange()
                     : SurveyDateRange.DeepClone() as ISurveyDateRange,
-                Information = Information == null 
-                    ? new Information[0] 
-                    : Array.ConvertAll(Information, i => i.DeepClone() as IInformation),
-                FeatureObjectIdentifier = FeatureObjectIdentifier == null
-                    ? new FeatureObjectIdentifier()
-                    : FeatureObjectIdentifier.DeepClone() as IFeatureObjectIdentifier,
                 Geometry = Geometry,
                 Id = Id,
                 Links = Links == null
@@ -75,12 +73,6 @@ namespace S1xxViewer.Types.Features
                 {
                     FeatureObjectIdentifier = new FeatureObjectIdentifier();
                     FeatureObjectIdentifier.FromXml(featureObjectIdentifierNode, mgr);
-                }
-
-                var categoryOfTemporalVariation = node.FirstChild.SelectSingleNode("categoryOfTemporalVariation", mgr);
-                if (categoryOfTemporalVariation != null)
-                {
-                    CategoryOfTemporalVariation = categoryOfTemporalVariation.InnerText;
                 }
 
                 var dataAssessment = node.FirstChild.SelectSingleNode("dataAssessment", mgr);
@@ -128,6 +120,12 @@ namespace S1xxViewer.Types.Features
                 {
                     SurveyDateRange = new SurveyDateRange();
                     SurveyDateRange.FromXml(surveyDateRangeNode, mgr);
+                }
+
+                var categoryOfTemporalVariation = node.FirstChild.SelectSingleNode("categoryOfTemporalVariation", mgr);
+                if (categoryOfTemporalVariation != null)
+                {
+                    CategoryOfTemporalVariation = categoryOfTemporalVariation.InnerText;
                 }
 
                 var informationNodes = node.FirstChild.SelectNodes("information", mgr);
