@@ -77,8 +77,8 @@ namespace S1xxViewer.Types
                                 if (obj.LinkedFeature != null)
                                 {
                                     // links are only evaluated to ONE nested level deep! 
-                                    // TODO: make it recursive so multiple levels can be used. Remember that 
-                                    //       some features are linked to each other (Authority vs ContactDetails for example)
+                                    // TODO: make it recursive so multiple levels can be used. Consider circular
+                                    //       relations (if any exist).
                                     var linkedFeatureData = obj.LinkedFeature.GetData();
                                     foreach (DataRow linkedRow in linkedFeatureData.Rows)
                                     {
