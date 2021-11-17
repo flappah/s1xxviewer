@@ -29,7 +29,7 @@ namespace S1xxViewer.Types
         }
 
         /// <summary>
-        /// Returns the properties of the current object in a dictionary of strings
+        ///     Returns the properties of the current object in a DataTable
         /// </summary>
         /// <returns>Dictionary<string, string></returns>
         public DataTable GetData()
@@ -76,6 +76,9 @@ namespace S1xxViewer.Types
                             {
                                 if (obj.LinkedFeature != null)
                                 {
+                                    // links are only evaluated to ONE nested level deep! 
+                                    // TODO: make it recursive so multiple levels can be used. Remember that 
+                                    //       some features are linked to each other (Authority vs ContactDetails for example)
                                     var linkedFeatureData = obj.LinkedFeature.GetData();
                                     foreach (DataRow linkedRow in linkedFeatureData.Rows)
                                     {
