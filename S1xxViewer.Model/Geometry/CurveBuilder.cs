@@ -102,11 +102,11 @@ namespace S1xxViewer.Model.Geometry
 
                                     if (invertLatLon)
                                     {
-                                        curveMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
+                                        curveMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
                                     }
                                     else
                                     {
-                                        curveMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                        curveMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
                                     }
                                 }
                             }

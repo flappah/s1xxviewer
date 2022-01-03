@@ -84,11 +84,11 @@ namespace S1xxViewer.Model.Geometry
 
                     if (invertLatLon)
                     {
-                        return new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem));
+                        return new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem));
                     }
                     else
                     {
-                        return new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem));
+                        return new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem));
                     }
                 }
             }

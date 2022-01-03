@@ -97,12 +97,12 @@ namespace S1xxViewer.Model.Geometry
                     if (invertLatLon)
                     {
                         createdEnvelope =
-                            new Esri.ArcGISRuntime.Geometry.Envelope(llX, llY, urX, urY, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
+                            new Esri.ArcGISRuntime.Geometry.Envelope(llY, llX, urY, urX, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
                     }
                     else
                     {
                         createdEnvelope =
-                            new Esri.ArcGISRuntime.Geometry.Envelope(llY, llX, urY, urX, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
+                            new Esri.ArcGISRuntime.Geometry.Envelope(llX, llY, urX, urY, new Esri.ArcGISRuntime.Geometry.SpatialReference(_spatialReferenceSystem));
                     }
 
                     return createdEnvelope;
