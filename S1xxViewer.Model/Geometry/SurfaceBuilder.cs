@@ -113,11 +113,11 @@ namespace S1xxViewer.Model.Geometry
 
                                                 if (invertLatLon)
                                                 {
-                                                    exteriorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
+                                                    exteriorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
                                                 }
                                                 else
                                                 {
-                                                    exteriorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                                    exteriorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
                                                 }
                                             }
                                         }
@@ -159,11 +159,11 @@ namespace S1xxViewer.Model.Geometry
 
                                                 if (invertLatLon)
                                                 {
-                                                    interiorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
+                                                    interiorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
                                                 }
                                                 else
                                                 {
-                                                    interiorMapPoints.Add(new MapPoint(y, x, new SpatialReference(_spatialReferenceSystem)));
+                                                    interiorMapPoints.Add(new MapPoint(x, y, new SpatialReference(_spatialReferenceSystem)));
                                                 }
                                             }
                                         }
