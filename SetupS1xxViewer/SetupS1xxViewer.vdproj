@@ -2628,7 +2628,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Base, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Base, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_1F956E4EB93823C6B2EA1CC8E4F26911"
@@ -4456,7 +4456,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Model, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Model, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_8361E42938856DD112338D5F22652C62"
@@ -4927,7 +4927,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Storage, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Storage, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A32CF82ED1C9605D6F19E8C9EA357BAD"
@@ -4998,7 +4998,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Types, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Types, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A6CC54D03876DC0B2AC87F45210E04BD"
@@ -7124,15 +7124,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:S1xx Viewer"
-        "ProductCode" = "8:{71DE6C56-B32E-45F5-AB49-CAEE44618E6A}"
-        "PackageCode" = "8:{EABE6D7E-EAC9-4ED6-BBBE-82087E85AAD5}"
+        "ProductCode" = "8:{7F2E6ED4-5A8A-40C9-B095-710002B29A8F}"
+        "PackageCode" = "8:{7236499E-E8FE-4EA1-8573-1E5BCEC4ED0C}"
         "UpgradeCode" = "8:{1BE61459-7569-40E2-B077-16D35B56923A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.3"
+        "ProductVersion" = "8:1.0.4"
         "Manufacturer" = "8:Royal Netherlands Hydrographic Service"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
