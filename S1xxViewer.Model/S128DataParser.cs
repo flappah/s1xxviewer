@@ -13,7 +13,7 @@ namespace S1xxViewer.Model
         private readonly IFeatureFactory _featureFactory;
 
         /// <summary>
-        /// For autofac initialization
+        ///     For autofac initialization
         /// </summary>
         public S128DataParser(IGeometryBuilderFactory geometryBuilderFactory, IFeatureFactory featureFactory)
         {
@@ -22,7 +22,7 @@ namespace S1xxViewer.Model
         }
 
         /// <summary>
-        /// Parses specified XMLDocument
+        ///     Parses specified XMLDocument
         /// </summary>
         /// <param name="xmlDocument">XmlDocument</param>
         /// <returns>IS1xxDataPackage</returns>
@@ -124,7 +124,7 @@ namespace S1xxViewer.Model
         }
 
         /// <summary>
-        /// Parses specified XMLDocument
+        ///     Parses specified XMLDocument
         /// </summary>
         /// <param name="xmlDocument">XmlDocument</param>
         /// <returns>IS1xxDataPackage</returns>

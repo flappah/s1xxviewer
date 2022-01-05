@@ -29,19 +29,26 @@
                 </MenuItem>
             </Menu>
         </StackPanel>
-        <esri:MapView x:Name="MyMapView" Margin="0,21,0,191.5">
-            <esri:Map>
-                <esri:Map.Basemap>
-                    <esri:Basemap Name="Basemap">
-                        <esri:ArcGISTiledLayer Name="World Topographic"
-                                               Source="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
-                    </esri:Basemap>
-                </esri:Map.Basemap>
-            </esri:Map>
-        </esri:MapView>
         <DockPanel>
-            <TreeView x:Name="treeView" DockPanel.Dock="Left" HorizontalAlignment="Left" Height="190" Width="250" VerticalAlignment="Bottom" />
-            <DataGrid x:Name="dataGrid" DockPanel.Dock="Right" HorizontalAlignment="Stretch" Height="190" Margin="0,0,0,0" VerticalAlignment="Bottom" />
+            <StatusBar DockPanel.Dock="Bottom" x:Name="statusBar" HorizontalAlignment="Stretch" Height="27" VerticalAlignment="Bottom" />
+            <DockPanel DockPanel.Dock="Bottom">
+                <GroupBox Header="Feature Selection">
+                    <TreeView x:Name="treeViewFeatures" DockPanel.Dock="Left" Height="202" HorizontalAlignment="Left" Width="270" Margin="2,0,0,0"/>
+                </GroupBox>
+                <GroupBox Header="Feature Properties">
+                    <DataGrid x:Name="dataGridFeatureProperties" DockPanel.Dock="Left" HorizontalAlignment="Stretch" Height="202" Margin="2,0,2,0" ColumnHeaderHeight="21" />
+                </GroupBox>
+            </DockPanel>
+            <esri:MapView x:Name="myMapView" Margin="0,21,0,4" DockPanel.Dock="Top">
+                <esri:Map>
+                    <esri:Map.Basemap>
+                        <esri:Basemap Name="Basemap">
+                            <esri:ArcGISTiledLayer Name="World Topographic"
+                                               Source="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
+                        </esri:Basemap>
+                    </esri:Map.Basemap>
+                </esri:Map>
+            </esri:MapView>
         </DockPanel>
     </Grid>
 </Window>

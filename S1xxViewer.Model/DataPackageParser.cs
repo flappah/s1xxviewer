@@ -11,12 +11,12 @@ namespace S1xxViewer.Model
     public class DataPackageParser : IDataPackageParser
     {     
         /// <summary>
-        /// Uses Autofac to insert all existing dataparsers in this property.
+        ///     Uses Autofac to insert all existing dataparsers in this property.
         /// </summary>
         public IDataParser[] DataParsers { get; set; }
 
         /// <summary>
-        /// Parses XMLDocument, determines S1xx type and starts the corresponding dataparser to determine content
+        ///     Parses XMLDocument, determines S1xx type and starts the corresponding dataparser to determine content
         /// </summary>
         /// <param name="xmlDocument">XmlDocument</param>
         /// <returns>IS1xxDataPackage</returns>
@@ -35,7 +35,7 @@ namespace S1xxViewer.Model
                 return new NullDataParser().Parse(xmlDocument);
             }
 
-            var locatedDataParser =
+            IDataParser locatedDataParser =
                 DataParsers.ToList().Find(tp => tp.GetType().Name.Contains(s12xType + "DataParser"));
 
             if (locatedDataParser != null)
@@ -47,7 +47,7 @@ namespace S1xxViewer.Model
         }
 
         /// <summary>
-        /// Parses XMLDocument, determines S1xx type and starts the corresponding dataparser to determine content
+        ///     Parses XMLDocument, determines S1xx type and starts the corresponding dataparser to determine content
         /// </summary>
         /// <param name="xmlDocument">XmlDocument</param>
         /// <returns>IS1xxDataPackage</returns>

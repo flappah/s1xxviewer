@@ -112,9 +112,9 @@ namespace S1xxViewerWPF
         public void ResetLayers_Click(object sender, RoutedEventArgs e)
         {
             _dataPackages.Clear();
-            dataGrid.ItemsSource = null;
-            treeView.Items.Clear();
-            MyMapView.Map.OperationalLayers.Clear();
+            dataGridFeatureProperties.ItemsSource = null;
+            treeViewFeatures.Items.Clear();
+            myMapView.Map.OperationalLayers.Clear();
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace S1xxViewerWPF
             var itemDataTable = ((TreeViewItem)sender).Tag as DataTable;
             if (itemDataTable != null)
             {
-                dataGrid.ItemsSource = itemDataTable.AsDataView();
+                dataGridFeatureProperties.ItemsSource = itemDataTable.AsDataView();
             }
         }
 
@@ -170,8 +170,8 @@ namespace S1xxViewerWPF
         private async void LoadENCFile(string fileName)
         {
             List<Layer> nonEncLayers =
-                MyMapView.Map.OperationalLayers.ToList().FindAll(tp => !tp.GetType().ToString().Contains("EncLayer"));
-            MyMapView.Map.OperationalLayers.Clear();
+                myMapView.Map.OperationalLayers.ToList().FindAll(tp => !tp.GetType().ToString().Contains("EncLayer"));
+            myMapView.Map.OperationalLayers.Clear();
 
             var myEncExchangeSet = new EncExchangeSet(fileName);
             // Wait for the exchange set to load
@@ -187,7 +187,7 @@ namespace S1xxViewerWPF
                 EncLayer myEncLayer = new EncLayer(new EncCell(myEncDataset));
 
                 // Add the layer to the map
-                MyMapView.Map.OperationalLayers.Add(myEncLayer);
+                myMapView.Map.OperationalLayers.Add(myEncLayer);
 
                 // Wait for the layer to load
                 await myEncLayer.LoadAsync();
@@ -200,7 +200,7 @@ namespace S1xxViewerWPF
             {
                 foreach (Layer nonEncLayer in nonEncLayers)
                 {
-                    MyMapView.Map.OperationalLayers.Add(nonEncLayer);
+                    myMapView.Map.OperationalLayers.Add(nonEncLayer);
                 }
             }
 
@@ -208,7 +208,7 @@ namespace S1xxViewerWPF
             Envelope fullExtent = GeometryEngine.CombineExtents(dataSetExtents);
 
             // Set the viewpoint
-            MyMapView.SetViewpoint(new Viewpoint(fullExtent));
+            myMapView.SetViewpoint(new Viewpoint(fullExtent));
         }
 
         /// <summary>
@@ -219,15 +219,15 @@ namespace S1xxViewerWPF
         {
             Title = $"S1xx Viewer ({fileName.LastPart(@"\")})";
             _dataPackages.Clear();
-            dataGrid.ItemsSource = null;
-            treeView.Items.Clear();
+            dataGridFeatureProperties.ItemsSource = null;
+            treeViewFeatures.Items.Clear();
 
-            Layer encLayer = MyMapView.Map.OperationalLayers.ToList().Find(tp => tp.GetType().ToString().Contains("EncLayer"));
-            MyMapView.Map.OperationalLayers.Clear();
+            Layer encLayer = myMapView.Map.OperationalLayers.ToList().Find(tp => tp.GetType().ToString().Contains("EncLayer"));
+            myMapView.Map.OperationalLayers.Clear();
 
             if (encLayer != null)
             {
-                MyMapView.Map.OperationalLayers.Add(encLayer);
+                myMapView.Map.OperationalLayers.Add(encLayer);
             }
 
             try
@@ -250,12 +250,50 @@ namespace S1xxViewerWPF
                         CreateFeatureCollection((IS1xxDataPackage)o);
                     }), dataPackage);
 
+                    _syncContext.Post(new SendOrPostCallback(o =>
+                    {
+                        ShowMetaFeatures((IS1xxDataPackage)o);
+                    }), dataPackage);
+
                     _dataPackages.Add(dataPackage);
                 }
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///     Extract the meta features from the data package and shows it in the treeview
+        /// </summary>
+        /// <param name="dataPackage">dataPackage</param>
+        private void ShowMetaFeatures(IS1xxDataPackage dataPackage)
+        {
+            IMetaFeature[] metaFeatures = dataPackage.MetaFeatures;
+
+            if (metaFeatures.Length > 0)
+            {
+                treeViewFeatures.Items.Clear();
+
+                var parentTreeNode = new TreeViewItem
+                {
+                    Header = $"Found {metaFeatures.Length} meta-feature{(metaFeatures.Length == 1 ? "" : "s")}",
+                    Tag = "meta",
+                    IsExpanded = true
+                };
+                treeViewFeatures.Items.Add(parentTreeNode);
+
+                // insert meta features
+                foreach (IMetaFeature metaFeature in metaFeatures)
+                {
+                    TreeViewItem treeNode = new TreeViewItem();
+                    treeNode.MouseUp += TreeviewItem_Click;
+                    treeNode.Header = metaFeature.ToString().LastPart(".");
+                    treeNode.Tag = metaFeature.GetData();
+
+                    parentTreeNode.Items.Add(treeNode);
+                }
             }
         }
 
@@ -404,45 +442,55 @@ namespace S1xxViewerWPF
             polyFields.Add(idField);
             polyFields.Add(nameField);
 
-            List<Field> pointFields = new List<Field>();
-            pointFields.Add(idField);
-            pointFields.Add(nameField);
+            List<Field> pointFields = new List<Field>
+            {
+                idField,
+                nameField
+            };
 
-            List<Field> lineFields = new List<Field>();
-            lineFields.Add(idField);
-            lineFields.Add(nameField);
+            List<Field> lineFields = new List<Field>
+            {
+                idField,
+                nameField
+            };
 
-            FeatureCollectionTable polysTable = new FeatureCollectionTable(polyFields, GeometryType.Polygon, SpatialReferences.Wgs84);
-            polysTable.Renderer = CreateRenderer(GeometryType.Polygon);
-            polysTable.DisplayName = "Polygons";
+            FeatureCollectionTable polysTable = new FeatureCollectionTable(polyFields, GeometryType.Polygon, SpatialReferences.Wgs84)
+            {
+                Renderer = CreateRenderer(GeometryType.Polygon),
+                DisplayName = "Polygons"
+            };
 
-            FeatureCollectionTable linesTable = new FeatureCollectionTable(lineFields, GeometryType.Polyline, SpatialReferences.Wgs84);
-            linesTable.Renderer = CreateRenderer(GeometryType.Polyline);
-            linesTable.DisplayName = "Lines";
+            FeatureCollectionTable linesTable = new FeatureCollectionTable(lineFields, GeometryType.Polyline, SpatialReferences.Wgs84)
+            {
+                Renderer = CreateRenderer(GeometryType.Polyline),
+                DisplayName = "Lines"
+            };
 
-            FeatureCollectionTable pointTable = new FeatureCollectionTable(pointFields, GeometryType.Point, SpatialReferences.Wgs84);
-            pointTable.Renderer = CreateRenderer(GeometryType.Point);
-            pointTable.DisplayName = "Points";
+            FeatureCollectionTable pointTable = new FeatureCollectionTable(pointFields, GeometryType.Point, SpatialReferences.Wgs84)
+            {
+                Renderer = CreateRenderer(GeometryType.Point),
+                DisplayName = "Points"
+            };
 
             foreach (IFeature feature in dataPackage.GeoFeatures)
             {
-                if (feature is IGeoFeature)
+                if (feature is IGeoFeature geoFeature)
                 {
-                    if (((IGeoFeature)feature).Geometry is Esri.ArcGISRuntime.Geometry.MapPoint)
+                    if (geoFeature.Geometry is Esri.ArcGISRuntime.Geometry.MapPoint)
                     {
                         Feature pointFeature = pointTable.CreateFeature();
                         pointFeature.SetAttributeValue(idField, feature.Id);
-                        pointFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Name);
-                        pointFeature.Geometry = ((IGeoFeature)feature).Geometry;
+                        pointFeature.SetAttributeValue(nameField, geoFeature.FeatureName?.First()?.Name);
+                        pointFeature.Geometry = geoFeature.Geometry;
 
                         await pointTable.AddFeatureAsync(pointFeature);
                     }
-                    else if (((IGeoFeature)feature).Geometry is Esri.ArcGISRuntime.Geometry.Polyline)
+                    else if (geoFeature.Geometry is Esri.ArcGISRuntime.Geometry.Polyline)
                     {
                         Feature lineFeature = linesTable.CreateFeature();
                         lineFeature.SetAttributeValue(idField, feature.Id);
-                        lineFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Name);
-                        lineFeature.Geometry = ((IGeoFeature)feature).Geometry;
+                        lineFeature.SetAttributeValue(nameField, geoFeature.FeatureName?.First()?.Name);
+                        lineFeature.Geometry = geoFeature.Geometry;
 
                         await linesTable.AddFeatureAsync(lineFeature);
                     }
@@ -450,8 +498,8 @@ namespace S1xxViewerWPF
                     { 
                         Feature polyFeature = polysTable.CreateFeature();
                         polyFeature.SetAttributeValue(idField, feature.Id);
-                        polyFeature.SetAttributeValue(nameField, ((IGeoFeature)feature).FeatureName?.First()?.Name);
-                        polyFeature.Geometry = ((IGeoFeature)feature).Geometry;
+                        polyFeature.SetAttributeValue(nameField, geoFeature.FeatureName?.First()?.Name);
+                        polyFeature.Geometry = geoFeature.Geometry;
 
                         await polysTable.AddFeatureAsync(polyFeature);
                     }
@@ -486,15 +534,15 @@ namespace S1xxViewerWPF
                         layer.LabelDefinitions.Add(idLabelDefinition);
                         layer.LabelsEnabled = true;
 
-                        MyMapView.SetViewpointAsync(new Viewpoint(layer.FullExtent));
+                        myMapView.SetViewpointAsync(new Viewpoint(layer.FullExtent));
                     }
                 }
                 catch (Exception) { }
             });
 
             // Add the layer to the Map's Operational Layers collection
-            MyMapView.Map.OperationalLayers.Add(collectionLayer);
-            MyMapView.GeoViewTapped += OnMapViewTapped;
+            myMapView.Map.OperationalLayers.Add(collectionLayer);
+            myMapView.GeoViewTapped += OnMapViewTapped;
         }
 
         /// <summary>
@@ -517,13 +565,13 @@ namespace S1xxViewerWPF
                 // Identify a  group layer using MapView, passing in the layer, the tap point, tolerance, types to return, and max results.
 
                 var results = new Dictionary<string, DataTable>();
-                foreach (Layer operationalLayer in MyMapView.Map.OperationalLayers)
+                foreach (Layer operationalLayer in myMapView.Map.OperationalLayers)
                 {
                     var collectionLayer = operationalLayer as FeatureCollectionLayer;
                     if (collectionLayer != null)
                     {
                         IdentifyLayerResult groupLayerResult =
-                            await MyMapView.IdentifyLayerAsync(collectionLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResults);
+                            await myMapView.IdentifyLayerAsync(collectionLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResults);
 
                         if (groupLayerResult.SublayerResults.Count > 0)
                         {
@@ -554,7 +602,9 @@ namespace S1xxViewerWPF
                                             if (feature != null)
                                             {
                                                 DataTable featureAttributesDataTable = feature.GetData();
-                                                string key = (feature is IGeoFeature ? ((IGeoFeature)feature).FeatureName.First()?.Name : feature.Id.ToString()) ?? $"No named feature with Id '{feature.Id}'";
+                                                string key = (feature is IGeoFeature geoFeature ? 
+                                                    $"{geoFeature.GetType().ToString().LastPart(".")} ({geoFeature.FeatureName.First()?.Name})" : 
+                                                    feature.Id.ToString()) ?? $"No named feature with Id '{feature.Id}'";
 
                                                 if (results.ContainsKey(key))
                                                 {
@@ -575,23 +625,47 @@ namespace S1xxViewerWPF
 
                 if (results != null && results.Count > 0)
                 {
-                    dataGrid.ItemsSource = results.First().Value.AsDataView();
-                    treeView.Items.Clear();
+                    dataGridFeatureProperties.ItemsSource = results.First().Value.AsDataView();
 
+                    if (treeViewFeatures.Items.Count > 0)
+                    {
+                        // make a local copy of the treeviewitems
+                        TreeViewItem[] tvItemArray = new TreeViewItem[treeViewFeatures.Items.Count];
+                        treeViewFeatures.Items.CopyTo(tvItemArray, 0);
+                        List<TreeViewItem> tvItemList = tvItemArray.ToList();
+
+                        // remove all non-meta features
+                        foreach(TreeViewItem item in treeViewFeatures.Items)
+                        {
+                            if (item.Tag.Equals("meta") == false)
+                            {
+                                tvItemList.Remove(item);
+                            }
+                        }
+
+                        // and restore treeview with meta features
+                        treeViewFeatures.Items.Clear();
+                        foreach(TreeViewItem item in tvItemList)
+                        {
+                            treeViewFeatures.Items.Add(item);
+                        }
+                    }
+
+                    // add geo features
                     var parentTreeNode = new TreeViewItem
                     {
-                        Header = $"Selected {results.Count} feature{(results.Count == 1 ? "" : "s")}",
-                        Tag = null,
+                        Header = $"Selected {results.Count} geo-feature{(results.Count == 1 ? "" : "s")}",
+                        Tag = "feature_count",
                         IsExpanded = true
                     };
-                    treeView.Items.Add(parentTreeNode);
+                    treeViewFeatures.Items.Add(parentTreeNode);
 
                     foreach (KeyValuePair<string, DataTable> result in results)
                     {
                         TreeViewItem treeNode = new TreeViewItem();
                         treeNode.MouseUp += TreeviewItem_Click;
                         treeNode.Header = result.Key;
-                        treeNode.Tag = result.Value;                        
+                        treeNode.Tag = result.Value;
 
                         parentTreeNode.Items.Add(treeNode);
                     }
@@ -601,7 +675,7 @@ namespace S1xxViewerWPF
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Sample error", ex.ToString());
+                MessageBox.Show($"Feature selection error ({ex.Message})" , ex.ToString());
             }
         }
 
