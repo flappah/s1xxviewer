@@ -87,7 +87,7 @@ namespace S1xxViewer.Model.Geometry
                                         .Replace("\t", " ")
                                         .Replace("\n", " ")
                                         .Replace("\r", " ")
-                                        .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                                        .Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries);
 
                                 for (int i = 0; i < splittedPositionArray.Length; i += 2)
                                 {

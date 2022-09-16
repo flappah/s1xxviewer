@@ -96,7 +96,7 @@ namespace S1xxViewer.Model.Geometry
                                                 .Replace("\t", " ")
                                                 .Replace("\n", " ")
                                                 .Replace("\r", " ")
-                                                .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                                                .Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries);
 
                                         if (((double)splittedPositionArray.Length / 2.0) == Math.Abs(splittedPositionArray.Length / 2.0))
                                         {
@@ -142,7 +142,7 @@ namespace S1xxViewer.Model.Geometry
                                                 .Replace("\t", " ")
                                                 .Replace("\n", " ")
                                                 .Replace("\r", " ")
-                                                .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                                                .Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries);
 
                                         if (((double)splittedPositionArray.Length / 2.0) == Math.Abs(splittedPositionArray.Length / 2.0))
                                         {

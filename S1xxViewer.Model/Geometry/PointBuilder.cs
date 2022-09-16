@@ -71,7 +71,7 @@ namespace S1xxViewer.Model.Geometry
                 if (pointNode != null && pointNode.HasChildNodes && pointNode.FirstChild.Name.ToUpper().Contains("POS"))
                 {
                     var splittedPosition =
-                        pointNode.FirstChild.InnerText.Replace("\t", " ").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                        pointNode.FirstChild.InnerText.Replace("\t", " ").Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries);
 
                     if (!double.TryParse(splittedPosition[0], NumberStyles.Float, new CultureInfo("en-US"), out double x))
                     {

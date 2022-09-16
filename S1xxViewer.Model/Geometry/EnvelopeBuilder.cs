@@ -71,8 +71,8 @@ namespace S1xxViewer.Model.Geometry
                     var lowerLeft = node.ChildNodes[0].ChildNodes[0].InnerText;
                     var upperRight = node.ChildNodes[0].ChildNodes[1].InnerText;
 
-                    var llPos = lowerLeft.Replace(@"\t", " ").Replace(@"\n", " ").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                    var urPos = upperRight.Replace(@"\t", " ").Replace(@"\n", " ").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                    var llPos = lowerLeft.Replace(@"\t", " ").Replace(@"\n", " ").Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries);
+                    var urPos = upperRight.Replace(@"\t", " ").Replace(@"\n", " ").Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries);
 
                     if (!double.TryParse(llPos[0], NumberStyles.Float, new CultureInfo("en-US"), out double llX))
                     {

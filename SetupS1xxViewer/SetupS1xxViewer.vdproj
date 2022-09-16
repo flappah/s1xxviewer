@@ -82,7 +82,7 @@
         "Entry"
         {
         "MsmKey" = "8:_0A4BE89777BC8C102A909CA0522DC4F9"
-        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -94,19 +94,7 @@
         "Entry"
         {
         "MsmKey" = "8:_0A4BE89777BC8C102A909CA0522DC4F9"
-        "OwnerKey" = "8:_446A7735C82D48279D8F996AFAD54A4E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0A4BE89777BC8C102A909CA0522DC4F9"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0A4BE89777BC8C102A909CA0522DC4F9"
-        "OwnerKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
+        "OwnerKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -117,20 +105,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_0DC6B990482DA5C26D2E5F9C4FAFA3E9"
-        "OwnerKey" = "8:_31C27B8F5DC3CD0F8A28F1E033FEBA68"
+        "MsmKey" = "8:_0A4BE89777BC8C102A909CA0522DC4F9"
+        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_0DC6B990482DA5C26D2E5F9C4FAFA3E9"
-        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0DC6B990482DA5C26D2E5F9C4FAFA3E9"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "MsmKey" = "8:_0A4BE89777BC8C102A909CA0522DC4F9"
+        "OwnerKey" = "8:_446A7735C82D48279D8F996AFAD54A4E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -255,36 +237,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
-        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
-        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
-        "OwnerKey" = "8:_A6CC54D03876DC0B2AC87F45210E04BD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
-        "OwnerKey" = "8:_8361E42938856DD112338D5F22652C62"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_21314ED4D45841C1AAA423397AB22860"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -303,50 +255,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
-        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
+        "MsmKey" = "8:_26226461C1647C4FB8CCF26D43351F3E"
+        "OwnerKey" = "8:_FA93A0B293D8CD6E9B4051562BD542D1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
+        "MsmKey" = "8:_26226461C1647C4FB8CCF26D43351F3E"
         "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
-        "OwnerKey" = "8:_446A7735C82D48279D8F996AFAD54A4E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
-        "OwnerKey" = "8:_A6CC54D03876DC0B2AC87F45210E04BD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
-        "OwnerKey" = "8:_A32CF82ED1C9605D6F19E8C9EA357BAD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
-        "OwnerKey" = "8:_8361E42938856DD112338D5F22652C62"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
+        "MsmKey" = "8:_26226461C1647C4FB8CCF26D43351F3E"
         "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
-        "OwnerKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
+        "MsmKey" = "8:_26226461C1647C4FB8CCF26D43351F3E"
+        "OwnerKey" = "8:_EB09E5DF6F1195485E8994F95B42B629"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -401,54 +329,6 @@
         {
         "MsmKey" = "8:_30D83410A43F5298DF883AB67D8F940B"
         "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31A459D8673695449D881A36E3C34036"
-        "OwnerKey" = "8:_552D9C5F31E0FFD096BABE19C47F1438"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31A459D8673695449D881A36E3C34036"
-        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31A459D8673695449D881A36E3C34036"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31A459D8673695449D881A36E3C34036"
-        "OwnerKey" = "8:_31C27B8F5DC3CD0F8A28F1E033FEBA68"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31A459D8673695449D881A36E3C34036"
-        "OwnerKey" = "8:_0DC6B990482DA5C26D2E5F9C4FAFA3E9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31C27B8F5DC3CD0F8A28F1E033FEBA68"
-        "OwnerKey" = "8:_A32CF82ED1C9605D6F19E8C9EA357BAD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31C27B8F5DC3CD0F8A28F1E033FEBA68"
-        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31C27B8F5DC3CD0F8A28F1E033FEBA68"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -651,30 +531,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_552D9C5F31E0FFD096BABE19C47F1438"
-        "OwnerKey" = "8:_31C27B8F5DC3CD0F8A28F1E033FEBA68"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_552D9C5F31E0FFD096BABE19C47F1438"
-        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_552D9C5F31E0FFD096BABE19C47F1438"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_552D9C5F31E0FFD096BABE19C47F1438"
-        "OwnerKey" = "8:_0DC6B990482DA5C26D2E5F9C4FAFA3E9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_57C3510D33464EA5B9ABA760D633F6F6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -825,6 +681,36 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6F7F625662C110D7B00D34F4232E5969"
+        "OwnerKey" = "8:_26226461C1647C4FB8CCF26D43351F3E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6F7F625662C110D7B00D34F4232E5969"
+        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6F7F625662C110D7B00D34F4232E5969"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6F7F625662C110D7B00D34F4232E5969"
+        "OwnerKey" = "8:_FA93A0B293D8CD6E9B4051562BD542D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6F7F625662C110D7B00D34F4232E5969"
+        "OwnerKey" = "8:_EB09E5DF6F1195485E8994F95B42B629"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_70E635317B2F4E9288529D99D6007F88"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -845,6 +731,54 @@
         {
         "MsmKey" = "8:_760C77A2768B49D791847293B56357B8"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
+        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
+        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
+        "OwnerKey" = "8:_446A7735C82D48279D8F996AFAD54A4E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
+        "OwnerKey" = "8:_DBFF138B56C48025EF441E144949179D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
+        "OwnerKey" = "8:_BAC02D9D533FBFF555537D93A23848BB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
+        "OwnerKey" = "8:_BE134BF686352635B37A039CB2C61337"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
+        "OwnerKey" = "8:_B6689B5DA882505C985C1941144B15AB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -923,12 +857,6 @@
         {
         "MsmKey" = "8:_827BE11A0F2D4730814A58DDC0C03207"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8361E42938856DD112338D5F22652C62"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1065,24 +993,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A32CF82ED1C9605D6F19E8C9EA357BAD"
-        "OwnerKey" = "8:_8361E42938856DD112338D5F22652C62"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A32CF82ED1C9605D6F19E8C9EA357BAD"
-        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A32CF82ED1C9605D6F19E8C9EA357BAD"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A53B724FD08F413ABE53DA0AAAABE327"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1091,24 +1001,6 @@
         {
         "MsmKey" = "8:_A5A0BA2A784944229440AD8D9C77CDC0"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A6CC54D03876DC0B2AC87F45210E04BD"
-        "OwnerKey" = "8:_8361E42938856DD112338D5F22652C62"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A6CC54D03876DC0B2AC87F45210E04BD"
-        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A6CC54D03876DC0B2AC87F45210E04BD"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1227,6 +1119,54 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_B6689B5DA882505C985C1941144B15AB"
+        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B6689B5DA882505C985C1941144B15AB"
+        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B6689B5DA882505C985C1941144B15AB"
+        "OwnerKey" = "8:_DBFF138B56C48025EF441E144949179D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B6689B5DA882505C985C1941144B15AB"
+        "OwnerKey" = "8:_BE134BF686352635B37A039CB2C61337"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B6689B5DA882505C985C1941144B15AB"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BAC02D9D533FBFF555537D93A23848BB"
+        "OwnerKey" = "8:_BE134BF686352635B37A039CB2C61337"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BAC02D9D533FBFF555537D93A23848BB"
+        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BAC02D9D533FBFF555537D93A23848BB"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_BB1918773F494C359CF145090D8C9669"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1247,6 +1187,12 @@
         {
         "MsmKey" = "8:_BD1757E37AA549A8B5A3AD2E011D228B"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BE134BF686352635B37A039CB2C61337"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1449,6 +1395,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DBFF138B56C48025EF441E144949179D"
+        "OwnerKey" = "8:_BE134BF686352635B37A039CB2C61337"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DBFF138B56C48025EF441E144949179D"
+        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DBFF138B56C48025EF441E144949179D"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DC6A266A09CE401CA3FD0FA2D1419D80"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1599,6 +1563,60 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EB09E5DF6F1195485E8994F95B42B629"
+        "OwnerKey" = "8:_FA93A0B293D8CD6E9B4051562BD542D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EB09E5DF6F1195485E8994F95B42B629"
+        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EB09E5DF6F1195485E8994F95B42B629"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
+        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
+        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
+        "OwnerKey" = "8:_DBFF138B56C48025EF441E144949179D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
+        "OwnerKey" = "8:_BE134BF686352635B37A039CB2C61337"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
+        "OwnerKey" = "8:_A6F469AA7BE627F2AB8753D65C1E3D01"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_ECC98E64444E4459811544B6A5C43159"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1678,7 +1696,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F318BB765717D09496C918F9A07608DE"
-        "OwnerKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
+        "OwnerKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1713,38 +1731,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
-        "OwnerKey" = "8:_17F7A8874CB046BB830977F42C6A7EAD"
+        "MsmKey" = "8:_FA93A0B293D8CD6E9B4051562BD542D1"
+        "OwnerKey" = "8:_BAC02D9D533FBFF555537D93A23848BB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
+        "MsmKey" = "8:_FA93A0B293D8CD6E9B4051562BD542D1"
         "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
-        "OwnerKey" = "8:_A6CC54D03876DC0B2AC87F45210E04BD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
-        "OwnerKey" = "8:_8361E42938856DD112338D5F22652C62"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
+        "MsmKey" = "8:_FA93A0B293D8CD6E9B4051562BD542D1"
         "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
-        "OwnerKey" = "8:_A6F469AA7BE627F2AB8753D65C1E3D01"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1756,43 +1756,37 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_446A7735C82D48279D8F996AFAD54A4E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
+        "OwnerKey" = "8:_BC2383B618214A93B3F14B0A1C28BF76"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8361E42938856DD112338D5F22652C62"
+        "OwnerKey" = "8:_BE134BF686352635B37A039CB2C61337"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A6CC54D03876DC0B2AC87F45210E04BD"
+        "OwnerKey" = "8:_DBFF138B56C48025EF441E144949179D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A32CF82ED1C9605D6F19E8C9EA357BAD"
+        "OwnerKey" = "8:_BAC02D9D533FBFF555537D93A23848BB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_31A459D8673695449D881A36E3C34036"
+        "OwnerKey" = "8:_6F7F625662C110D7B00D34F4232E5969"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1840,25 +1834,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1F956E4EB93823C6B2EA1CC8E4F26911"
+        "OwnerKey" = "8:_B6689B5DA882505C985C1941144B15AB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FCD7A60A15EC3380E362A8FC6056C082"
+        "OwnerKey" = "8:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_25B31866EFB96BF8CF767E26E6C3AB85"
+        "OwnerKey" = "8:_7787CCF2A6943EBF25FF9213467EDE8F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F318BB765717D09496C918F9A07608DE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4096877D41664C24A3CBAB5553404EE9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1926,10 +1926,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
                     }
                 }
             }
@@ -2196,37 +2196,6 @@
                     }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0DC6B990482DA5C26D2E5F9C4FAFA3E9"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Esent.Isam, Version=1.9.4.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_0DC6B990482DA5C26D2E5F9C4FAFA3E9"
-                    {
-                    "Name" = "8:Esent.Isam.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Esent.Isam.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
@@ -2624,37 +2593,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1F956E4EB93823C6B2EA1CC8E4F26911"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Base, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_1F956E4EB93823C6B2EA1CC8E4F26911"
-                    {
-                    "Name" = "8:S1xxViewer.Base.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:S1xxViewer.Base.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_21314ED4D45841C1AAA423397AB22860"
             {
             "SourcePath" = "8:..\\S1xxViewerWPF\\bin\\Debug\\ArcGISRuntime100.5\\resources\\shaders\\atmosphere_textured_vs.cso"
@@ -2715,20 +2653,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_25B31866EFB96BF8CF767E26E6C3AB85"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_26226461C1647C4FB8CCF26D43351F3E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Autofac, Version=4.9.3.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Esent.Interop, Version=1.9.4.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_25B31866EFB96BF8CF767E26E6C3AB85"
+                    "_26226461C1647C4FB8CCF26D43351F3E"
                     {
-                    "Name" = "8:Autofac.dll"
+                    "Name" = "8:Esent.Interop.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Autofac.dll"
+            "SourcePath" = "8:Esent.Interop.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
@@ -2900,68 +2838,6 @@
                     }
                 }
             "SourcePath" = "8:System.Runtime.Serialization.Xml.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_31A459D8673695449D881A36E3C34036"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_31A459D8673695449D881A36E3C34036"
-                    {
-                    "Name" = "8:netstandard.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:netstandard.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_31C27B8F5DC3CD0F8A28F1E033FEBA68"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Esent.Collections, Version=1.9.4.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_31C27B8F5DC3CD0F8A28F1E033FEBA68"
-                    {
-                    "Name" = "8:Esent.Collections.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Esent.Collections.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
@@ -3590,37 +3466,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_552D9C5F31E0FFD096BABE19C47F1438"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Esent.Interop, Version=1.9.4.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_552D9C5F31E0FFD096BABE19C47F1438"
-                    {
-                    "Name" = "8:Esent.Interop.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Esent.Interop.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_57C3510D33464EA5B9ABA760D633F6F6"
             {
             "SourcePath" = "8:..\\S1xxViewerWPF\\bin\\Debug\\ArcGISRuntime100.5\\resources\\shaders\\tex_quad_vs.cso"
@@ -4121,6 +3966,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6F7F625662C110D7B00D34F4232E5969"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_6F7F625662C110D7B00D34F4232E5969"
+                    {
+                    "Name" = "8:netstandard.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:netstandard.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_70E635317B2F4E9288529D99D6007F88"
             {
             "SourcePath" = "8:..\\S1xxViewerWPF\\bin\\Debug\\ArcGISRuntime100.5\\resources\\shaders\\seq_render_sdf_point_pick_ps.cso"
@@ -4199,6 +4075,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7787CCF2A6943EBF25FF9213467EDE8F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Autofac, Version=4.9.3.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7787CCF2A6943EBF25FF9213467EDE8F"
+                    {
+                    "Name" = "8:Autofac.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Autofac.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_77AF9662238F4BD2BD8BA095BF4C480A"
@@ -4450,37 +4357,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8361E42938856DD112338D5F22652C62"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Model, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_8361E42938856DD112338D5F22652C62"
-                    {
-                    "Name" = "8:S1xxViewer.Model.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:S1xxViewer.Model.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8485B0640E644568944C81FABB6470B1"
@@ -4923,37 +4799,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A32CF82ED1C9605D6F19E8C9EA357BAD"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Storage, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_A32CF82ED1C9605D6F19E8C9EA357BAD"
-                    {
-                    "Name" = "8:S1xxViewer.Storage.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:S1xxViewer.Storage.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A53B724FD08F413ABE53DA0AAAABE327"
             {
             "SourcePath" = "8:..\\S1xxViewerWPF\\bin\\Debug\\ArcGISRuntime100.5\\resources\\shaders\\vector_tiles_sdf_vs.cso"
@@ -4992,37 +4837,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A6CC54D03876DC0B2AC87F45210E04BD"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:S1xxViewer.Types, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_A6CC54D03876DC0B2AC87F45210E04BD"
-                    {
-                    "Name" = "8:S1xxViewer.Types.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:S1xxViewer.Types.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A6F469AA7BE627F2AB8753D65C1E3D01"
@@ -5416,6 +5230,68 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B6689B5DA882505C985C1941144B15AB"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Base, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_B6689B5DA882505C985C1941144B15AB"
+                    {
+                    "Name" = "8:S1xxViewer.Base.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:S1xxViewer.Base.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BAC02D9D533FBFF555537D93A23848BB"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Storage, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_BAC02D9D533FBFF555537D93A23848BB"
+                    {
+                    "Name" = "8:S1xxViewer.Storage.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:S1xxViewer.Storage.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BB1918773F494C359CF145090D8C9669"
             {
             "SourcePath" = "8:..\\S1xxViewerWPF\\bin\\Debug\\ArcGISRuntime100.5\\resources\\shaders\\tile_ground_overlay_draw_ps.cso"
@@ -5474,6 +5350,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BE134BF686352635B37A039CB2C61337"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Model, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_BE134BF686352635B37A039CB2C61337"
+                    {
+                    "Name" = "8:S1xxViewer.Model.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:S1xxViewer.Model.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BE15CD09EEF9466AA6198471C19E12FC"
@@ -6107,6 +6014,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DBFF138B56C48025EF441E144949179D"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:S1xxViewer.Types, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_DBFF138B56C48025EF441E144949179D"
+                    {
+                    "Name" = "8:S1xxViewer.Types.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:S1xxViewer.Types.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DC6A266A09CE401CA3FD0FA2D1419D80"
             {
             "SourcePath" = "8:..\\S1xxViewerWPF\\bin\\Debug\\ArcGISRuntime100.5\\resources\\shaders\\screen_overlay_ps.cso"
@@ -6598,6 +6536,68 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EB09E5DF6F1195485E8994F95B42B629"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Esent.Isam, Version=1.9.4.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_EB09E5DF6F1195485E8994F95B42B629"
+                    {
+                    "Name" = "8:Esent.Isam.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Esent.Isam.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ECBFBE5D94A0442AF9FABC70C39F7E3F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Esri.ArcGISRuntime, Version=100.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_ECBFBE5D94A0442AF9FABC70C39F7E3F"
+                    {
+                    "Name" = "8:Esri.ArcGISRuntime.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Esri.ArcGISRuntime.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ECC98E64444E4459811544B6A5C43159"
             {
             "SourcePath" = "8:..\\S1xxViewerWPF\\bin\\Debug\\ArcGISRuntime100.5\\resources\\shaders\\vector_tiles_line_ps.cso"
@@ -6929,20 +6929,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FCD7A60A15EC3380E362A8FC6056C082"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FA93A0B293D8CD6E9B4051562BD542D1"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Esri.ArcGISRuntime, Version=100.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Esent.Collections, Version=1.9.4.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_FCD7A60A15EC3380E362A8FC6056C082"
+                    "_FA93A0B293D8CD6E9B4051562BD542D1"
                     {
-                    "Name" = "8:Esri.ArcGISRuntime.dll"
+                    "Name" = "8:Esent.Collections.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Esri.ArcGISRuntime.dll"
+            "SourcePath" = "8:Esent.Collections.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
@@ -7124,15 +7124,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:S1xx Viewer"
-        "ProductCode" = "8:{039D6C7F-C301-41A9-826A-54B10AD66310}"
-        "PackageCode" = "8:{941D2BCD-F09E-40F8-BC03-199D96D3B8F3}"
+        "ProductCode" = "8:{E0E480E3-3C85-4A80-A515-CAB74BE597B5}"
+        "PackageCode" = "8:{393B3694-A4E4-4526-9054-CA81D0DA146F}"
         "UpgradeCode" = "8:{1BE61459-7569-40E2-B077-16D35B56923A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.5"
+        "ProductVersion" = "8:1.0.6"
         "Manufacturer" = "8:Royal Netherlands Hydrographic Service"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -7674,7 +7674,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_17F7A8874CB046BB830977F42C6A7EAD"
             {
-            "SourcePath" = "8:..\\S1xxViewer.Types\\obj\\Debug\\S1xxViewer.Types.dll"
+            "SourcePath" = "8:..\\S1xxViewer.Types\\obj\\Release\\S1xxViewer.Types.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
@@ -7702,7 +7702,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4096877D41664C24A3CBAB5553404EE9"
             {
-            "SourcePath" = "8:..\\S1xxViewerWPF\\obj\\Debug\\S1xxViewerWPF.exe"
+            "SourcePath" = "8:..\\S1xxViewerWPF\\obj\\Release\\S1xxViewerWPF.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
@@ -7730,7 +7730,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_446A7735C82D48279D8F996AFAD54A4E"
             {
-            "SourcePath" = "8:..\\S1xxViewer.Base\\obj\\Debug\\S1xxViewer.Base.dll"
+            "SourcePath" = "8:..\\S1xxViewer.Base\\obj\\Release\\S1xxViewer.Base.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
@@ -7758,7 +7758,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BC2383B618214A93B3F14B0A1C28BF76"
             {
-            "SourcePath" = "8:..\\S1xxViewer.Model\\obj\\Debug\\S1xxViewer.Model.dll"
+            "SourcePath" = "8:..\\S1xxViewer.Model\\obj\\Release\\S1xxViewer.Model.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_124161ACD44F445E92F6281C0DCA9BB0"
