@@ -222,7 +222,7 @@ namespace S1xxViewer.Model
             throw new System.NotImplementedException();
         }
 
-        public override Task<IS1xxDataPackage> Parse(long hdf5FileId)
+        public override IS1xxDataPackage Parse(long hdf5FileId)
         {
             throw new System.NotImplementedException();
         }

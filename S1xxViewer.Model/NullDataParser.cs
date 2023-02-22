@@ -25,6 +25,11 @@ namespace S1xxViewer.Model
             };
         }
 
+        public override IS1xxDataPackage Parse(long hdf5FileId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -40,6 +45,11 @@ namespace S1xxViewer.Model
                 MetaFeatures = new IMetaFeature[0],
                 InformationFeatures = new IInformationFeature[0]
             };
+        }
+
+        public override Task<IS1xxDataPackage> ParseAsync(long hdf5FileId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

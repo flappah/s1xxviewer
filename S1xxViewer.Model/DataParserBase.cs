@@ -36,7 +36,7 @@ namespace S1xxViewer.Model
         /// </summary>
         /// <param name="hdf5FileId">HDF5 file-id</param>
         /// <returns>IS1xxDataPackage</returns>
-        public abstract Task<IS1xxDataPackage> Parse(long hdf5FileId);
+        public abstract IS1xxDataPackage Parse(long hdf5FileId);
 
         /// <summary>
         /// Resolves specified links by looking in the specified lists for the requested ID's

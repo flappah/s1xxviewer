@@ -60,7 +60,7 @@ namespace S1xxViewer.Model
             {
                 foreach (XmlNode node in datasetDicoveryNodes)
                 {
-                    XmlNode metaDataNode = null;
+                    XmlNode metaDataNode;
                     if (node.FirstChild.Name.Contains("DatasetDiscoveryMetadata"))
                     {
                         metaDataNode = node.FirstChild;

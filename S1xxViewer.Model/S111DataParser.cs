@@ -38,7 +38,7 @@ namespace S1xxViewer.Model
         /// </summary>
         /// <param name="hdf5FileId">HDF5 file-id</param>
         /// <returns>IS1xxDataPackage</returns>
-        public override Task<IS1xxDataPackage> Parse(long hdf5FileId)
+        public override IS1xxDataPackage Parse(long hdf5FileId)
         {
             throw new NotImplementedException();
         }

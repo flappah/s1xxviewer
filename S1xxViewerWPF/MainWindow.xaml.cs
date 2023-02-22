@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using HDF5DotNet;
 
 namespace S1xxViewerWPF
 {
@@ -292,10 +293,11 @@ namespace S1xxViewerWPF
             }
 
             try
-            {
+            {                
+                //var H5FileId = HDF5DotNet.H5F.open(fileName, H5F.OpenMode.ACC_RDONLY);
 
 
-
+                //HDF5DotNet.H5F.close(H5FileId);
             }
             catch (Exception ex)
             {
