@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>S1xxViewer.Model</RootNamespace>
     <AssemblyName>S1xxViewer.Model</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
@@ -54,11 +54,13 @@
     <Compile Include="DataLoader.cs" />
     <Compile Include="DataPackageParser.cs" />
     <Compile Include="DataParserBase.cs" />
+    <Compile Include="ExchangesetLoader.cs" />
     <Compile Include="FeatureFactory.cs" />
     <Compile Include="Geometry\CurveBuilder.cs" />
     <Compile Include="Geometry\EnvelopeBuilder.cs" />
     <Compile Include="Geometry\GeometryBuilderFactory.cs" />
     <Compile Include="Geometry\GeometryBuilderBase.cs" />
+    <Compile Include="Interfaces\IExchangesetLoader.cs" />
     <Compile Include="Interfaces\ICurveBuilder.cs" />
     <Compile Include="Interfaces\IPointBuilder.cs" />
     <Compile Include="Geometry\PointBuilder.cs" />

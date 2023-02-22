@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using S1xxViewer.Base.Interfaces;
 using System.Xml;
-using S1xxViewer.Base.Interfaces;
 
 namespace S1xxViewer.Model
 {
@@ -14,7 +8,7 @@ namespace S1xxViewer.Model
         private readonly IInjectableXmlDocument _injectableXmlDocument;
 
         /// <summary>
-        /// For autofac initialization
+        ///     For autofac initialization
         /// </summary>
         public DataLoader(IInjectableXmlDocument injectableXmlDocument)
         {

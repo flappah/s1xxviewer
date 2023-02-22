@@ -85,15 +85,27 @@ namespace S1xxViewerWPF
         /// <param name="e"></param>
         public void AppOpen_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "XML/GML files (*.xml;*.gml)|*.xml;*.gml|ENC files (*.000)|*.031|All files (*.*)|*.*";
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "XML/GML files (*.xml;*.gml)|*.xml;*.gml|ENC files (*.000)|*.031|All files (*.*)|*.*",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+
             if (openFileDialog.ShowDialog() == true)
             {
+                var currentFolder = openFileDialog.FileName.Substring(0, openFileDialog.FileName.LastIndexOf(@"\"));
+                if (String.IsNullOrEmpty(currentFolder) == false)
+                {
+                    Directory.SetCurrentDirectory(currentFolder);
+                }
+
                 var fileName = openFileDialog.FileName;
 
-                if (fileName.ToLower().Contains(".xml") || fileName.ToLower().Contains(".gml"))
+                if (fileName.ToUpper().Contains("CATALOG") && fileName.ToUpper().Contains(".XML"))
+                {
+                    LoadExchangeSet(fileName);
+                }
+                else if (fileName.ToUpper().Contains(".XML") || fileName.ToUpper().Contains(".GML"))
                 {
                     LoadGMLFile(fileName);
                 }
@@ -209,6 +221,30 @@ namespace S1xxViewerWPF
 
             // Set the viewpoint
             myMapView.SetViewpoint(new Viewpoint(fullExtent));
+        }
+
+        /// <summary>
+        ///     Loads the specified exchange set XML file
+        /// </summary>
+        /// <param name="fileName"></param>
+        private async void LoadExchangeSet(string fileName)
+        {
+            var exchangeSetLoader = _container.Resolve<IExchangesetLoader>();
+            var xmlDocument = exchangeSetLoader.Load(fileName);
+            (var productStandard, var productFileNames) = exchangeSetLoader.Parse(xmlDocument);
+
+            if (productStandard.ToUpper().In("S-104", "S-111"))
+            {
+
+            }
+            else if (productFileNames.Count > 1)
+            {
+
+            }
+            else
+            {
+                LoadGMLFile(productFileNames[0]);
+            }
         }
 
         /// <summary>
