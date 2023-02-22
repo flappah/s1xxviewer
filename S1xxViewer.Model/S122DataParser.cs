@@ -19,8 +19,7 @@ namespace S1xxViewer.Model
         {
             _geometryBuilderFactory = geometryBuilderFactory;
             _featureFactory = featureFactory;
-        }
-                
+        }                
 
         /// <summary>
         ///     Parses specified XMLDocument
@@ -216,6 +215,16 @@ namespace S1xxViewer.Model
             dataPackage.MetaFeatures = metaFeatures.ToArray();
             dataPackage.InformationFeatures = informationFeatures.ToArray();
             return dataPackage;
+        }
+
+        public override Task<IS1xxDataPackage> ParseAsync(long hdf5FileId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override Task<IS1xxDataPackage> Parse(long hdf5FileId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -235,15 +235,71 @@ namespace S1xxViewerWPF
 
             if (productStandard.ToUpper().In("S-104", "S-111"))
             {
+                string selectedFileName = string.Empty;
+                if (productFileNames.Count > 1)
+                {
+                    var selectDatasetWindow = new SelectDatasetWindow();
+                    selectDatasetWindow.dataGrid.ItemsSource = exchangeSetLoader.DatasetInfoItems;
+                    selectDatasetWindow.ShowDialog();
 
+                    selectedFileName = selectDatasetWindow.SelectedFilename;
+                }
+                else if (productFileNames.Count == 1)
+                {
+                    selectedFileName = productFileNames[0];
+                }
+
+                if (String.IsNullOrEmpty(selectedFileName) == false)
+                {
+                    LoadHDF5File(selectedFileName);
+                }
             }
             else if (productFileNames.Count > 1)
             {
+                var selectDatasetWindow = new SelectDatasetWindow();
+                selectDatasetWindow.dataGrid.ItemsSource = exchangeSetLoader.DatasetInfoItems;
+                selectDatasetWindow.ShowDialog();
 
+                var selectedFileName = selectDatasetWindow.SelectedFilename;
+                if (String.IsNullOrEmpty(selectedFileName) == false)
+                {
+                    LoadGMLFile(selectedFileName);
+                }
             }
-            else
+            else if (productFileNames.Count == 1)
             {
                 LoadGMLFile(productFileNames[0]);
+            }
+        }
+
+        /// <summary>
+        ///     Loads the specified HDF5 file
+        /// </summary>
+        /// <param name="fileName"></param>
+        private async void LoadHDF5File(string fileName)
+        {
+            Title = $"S1xx Viewer ({fileName.LastPart(@"\")})";
+            _dataPackages.Clear();
+            dataGridFeatureProperties.ItemsSource = null;
+            treeViewFeatures.Items.Clear();
+
+            Layer encLayer = myMapView.Map.OperationalLayers.ToList().Find(tp => tp.GetType().ToString().Contains("EncLayer"));
+            myMapView.Map.OperationalLayers.Clear();
+
+            if (encLayer != null)
+            {
+                myMapView.Map.OperationalLayers.Add(encLayer);
+            }
+
+            try
+            {
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

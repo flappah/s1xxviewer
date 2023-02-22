@@ -1,5 +1,6 @@
 ﻿using S1xxViewer.Base.Interfaces;
 using S1xxViewer.Model.Interfaces;
+using S1xxViewer.Types;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -12,7 +13,9 @@ namespace S1xxViewer.Model
         /// <summary>
         ///     Publicly accessible XmlDocument that contains the exchangeset
         /// </summary>
-        public XmlDocument ExchangesetXml { get; set; }
+        public XmlDocument ExchangesetXml { get; set; } = null;
+
+        public List<DatasetInfo> DatasetInfoItems { get; set; } = new List<DatasetInfo>();
 
         /// <summary>
         ///     For autofac initialization
@@ -26,7 +29,7 @@ namespace S1xxViewer.Model
         ///     Loads the specified filename and returns an initialized XmlDocument
         /// </summary>
         /// <param name="fileName"></param>
-        /// <returns></returns>
+        /// <returns>XmlDocument</returns>
         public virtual XmlDocument Load(string fileName)
         {
             ExchangesetXml = _injectableXmlDocument.Load(fileName);
@@ -37,7 +40,7 @@ namespace S1xxViewer.Model
         ///     Parses the specified XmlDocument and retrieves the standard and filename the exchangeset refers to
         /// </summary>
         /// <param name="xmlDoc"></param>
-        /// <returns></returns>
+        /// <returns>(string, List<string>)</returns>
         public virtual (string, List<string>) Parse(XmlDocument xmlDocument)
         {
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDocument.NameTable);
@@ -55,7 +58,7 @@ namespace S1xxViewer.Model
             var productFileNames = new List<string>();
             if (datasetDicoveryNodes != null && datasetDicoveryNodes.Count > 0)
             {
-                foreach(XmlNode node in datasetDicoveryNodes)
+                foreach (XmlNode node in datasetDicoveryNodes)
                 {
                     XmlNode metaDataNode = null;
                     if (node.FirstChild.Name.Contains("DatasetDiscoveryMetadata"))
@@ -66,7 +69,7 @@ namespace S1xxViewer.Model
                     {
                         metaDataNode = node;
                     }
-                    
+
                     var fileName = string.Empty;
                     var fileNameNode = metaDataNode.SelectSingleNode("S100XC:fileName", nsmgr);
                     if (fileNameNode != null)
@@ -74,23 +77,51 @@ namespace S1xxViewer.Model
                         fileName = fileNameNode.InnerText;
                     }
 
+                    string productFileName;
                     var filePathNode = metaDataNode.SelectSingleNode("S100XC:filePath", nsmgr);
                     if (filePathNode != null) // V4 compliancy
                     {
-                        productFileNames.Add($@"{filePathNode.InnerText.Replace("/", @"\")}\{fileName}");
+                        productFileName = $@"{filePathNode.InnerText.Replace("/", @"\")}\{fileName}";
                     }
                     else // V5 compliancy assumes static folder called DATASET_FILES and a known ProducerCode
                     {
                         var producerCodeNode = metaDataNode.SelectSingleNode("S100XC:producerCode", nsmgr);
                         if (producerCodeNode != null)
                         {
-                            productFileNames.Add($@"DATASET_FILES\{producerCodeNode.InnerText.PadRight(4, char.Parse("0"))}\{fileName}");
+                            productFileName = $@"DATASET_FILES\{producerCodeNode.InnerText.PadRight(4, char.Parse("0"))}\{fileName}";
                         }
                         else
                         {
-                            productFileNames.Add(fileName);
+                            productFileName = fileName;
                         }
                     }
+                    productFileNames.Add(productFileName);
+
+                    var temporalExtentNode = metaDataNode.SelectSingleNode("S100XC:temporalExtent", nsmgr);
+                    string timeInstantBegin = string.Empty;
+                    string timeInstantEnd = string.Empty;
+                    if (temporalExtentNode != null)
+                    {
+                        var timeInstantBeginNode = temporalExtentNode.SelectSingleNode("S100XC:timeInstantBegin", nsmgr);
+                        if (timeInstantBeginNode != null)
+                        {
+                            timeInstantBegin = timeInstantBeginNode.InnerText;
+                        }
+
+                        var timeInstantEndNode = temporalExtentNode.SelectSingleNode("S100XC:timeInstantEnd", nsmgr);
+                        if (timeInstantEndNode != null)
+                        {
+                            timeInstantEnd = timeInstantEndNode.InnerText;
+                        }
+                    }
+                    else
+                    {
+                        temporalExtentNode = metaDataNode.SelectSingleNode("temporalExtent");
+
+                    }
+
+                    var datasetInfoItem = new DatasetInfo() { DateTimeEnd = timeInstantEnd, DateTimeStart = timeInstantBegin, FileName = productFileName };
+                    DatasetInfoItems.Add(datasetInfoItem);
                 }
 
                 return (productStandard, productFileNames);
@@ -98,6 +129,5 @@ namespace S1xxViewer.Model
 
             return (string.Empty, new List<string>());
         }
-
     }
 }

@@ -10,11 +10,18 @@ namespace S1xxViewer.Model
     public abstract class DataParserBase : IDataParser
     {
         /// <summary>
-        /// Parses specified XMLDocument. Async version
+        ///     Parses specified XMLDocument. Async version
         /// </summary>
         /// <param name="xmlDocument">XmlDocument</param>
         /// <returns>IS1xxDataPackage</returns>
         public abstract Task<IS1xxDataPackage> ParseAsync(XmlDocument xmlDocument);
+
+        /// <summary>
+        ///     Parses specified XMLDocument. Async version
+        /// </summary>
+        /// <param name="hdf5FileId">HDF5 file-id</param>
+        /// <returns>IS1xxDataPackage</returns>
+        public abstract Task<IS1xxDataPackage> ParseAsync(long hdf5FileId);
 
         /// <summary>
         /// Parses specified XMLDocument. 
@@ -23,6 +30,13 @@ namespace S1xxViewer.Model
         /// <returns>IS1xxDataPackage</returns>
 
         public abstract IS1xxDataPackage Parse(XmlDocument xmlDocument);
+
+        /// <summary>
+        ///     Parses specified XMLDocument. Async version
+        /// </summary>
+        /// <param name="hdf5FileId">HDF5 file-id</param>
+        /// <returns>IS1xxDataPackage</returns>
+        public abstract Task<IS1xxDataPackage> Parse(long hdf5FileId);
 
         /// <summary>
         /// Resolves specified links by looking in the specified lists for the requested ID's

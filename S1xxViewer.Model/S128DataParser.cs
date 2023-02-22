@@ -216,5 +216,15 @@ namespace S1xxViewer.Model
             dataPackage.InformationFeatures = informationFeatures.ToArray();
             return dataPackage;
         }
+
+        public override Task<IS1xxDataPackage> ParseAsync(long hdf5FileId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override Task<IS1xxDataPackage> Parse(long hdf5FileId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

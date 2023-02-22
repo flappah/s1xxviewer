@@ -67,6 +67,7 @@
     <Compile Include="ComplexTypes\ServiceSpecification.cs" />
     <Compile Include="ComplexTypes\SupportFile.cs" />
     <Compile Include="ComplexTypes\SupportFileSpecification.cs" />
+    <Compile Include="DatasetInfo.cs" />
     <Compile Include="Features\AbstractChartProduct.cs" />
     <Compile Include="Features\AbstractRxn.cs" />
     <Compile Include="Features\CatalogueElements.cs" />
